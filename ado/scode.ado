@@ -45,12 +45,12 @@ program define stateiso
 	  qui replace iso_`sname' = "DH" if inlist(`sname',"dadranagarhaveli")
 	  qui replace iso_`sname' = "DL" if inlist(`sname',"delhi")
 	  qui replace iso_`sname' = "GA" if inlist(`sname',"goadamandiu","goa")
-	  qui replace iso_`sname' = "GJ" if inlist(`sname',"gujarat")
+	  qui replace iso_`sname' = "GJ" if inlist(`sname',"gujarat", "saurashtra", "kutch")
 	  qui replace iso_`sname' = "HP" if inlist(`sname',"bilaspur","himachalpradesh")
 	  qui replace iso_`sname' = "HR" if inlist(`sname',"haryana")
 	  qui replace iso_`sname' = "JK" if inlist(`sname',"jammukashmir")
 	  qui replace iso_`sname' = "KA" if inlist(`sname',"karnataka","mysore","coorg")
-	  qui replace iso_`sname' = "KL" if inlist(`sname',"kerala")
+	  qui replace iso_`sname' = "KL" if inlist(`sname',"kerala", "travancorecochin")
 	  qui replace iso_`sname' = "LA" if inlist(`sname',"ladakh")
 	  qui replace iso_`sname' = "LD" if inlist(`sname',"laccadiveminicoyamindiviislands","lakshadweep")
 	  qui replace iso_`sname' = "TN" if inlist(`sname',"madras","tamilnadu")
@@ -342,7 +342,7 @@ local sname2001 `1'
 	qui replace scode_`sname2001' = "30" if `sname2001' == "goa"
 	qui replace scode_`sname2001' = "31" if `sname2001' == "lakshadweep"
 	qui replace scode_`sname2001' = "32" if `sname2001' == "kerala"
-	qui replace scode_`sname2001' = "33" if `sname2001' == "tamil nadu"
+	qui replace scode_`sname2001' = "33" if `sname2001' == "tamilnadu"
 	qui replace scode_`sname2001' = "34" if `sname2001' == "pondicherry"
 	qui replace scode_`sname2001' = "35" if `sname2001' == "andamannicobarislands"
 
@@ -365,7 +365,7 @@ local sname2011 `1'
 	qui replace scode_`sname2011' = "02" if `sname2011' == "himachalpradesh"
 	qui replace scode_`sname2011' = "03" if `sname2011' == "punjab"
 	qui replace scode_`sname2011' = "04" if `sname2011' == "chandigarh"
-	qui replace scode_`sname2011' = "05" if `sname2011' == "uttaranchal"
+	qui replace scode_`sname2011' = "05" if `sname2011' == "uttarakhand"
 	qui replace scode_`sname2011' = "06" if `sname2011' == "haryana"
 	qui replace scode_`sname2011' = "07" if `sname2011' == "delhi"
 	qui replace scode_`sname2011' = "08" if `sname2011' == "rajasthan"
@@ -381,7 +381,7 @@ local sname2011 `1'
 	qui replace scode_`sname2011' = "18" if `sname2011' == "assam"
 	qui replace scode_`sname2011' = "19" if `sname2011' == "westbengal"
 	qui replace scode_`sname2011' = "20" if `sname2011' == "jharkhand"
-	qui replace scode_`sname2011' = "21" if `sname2011' == "orissa"
+	qui replace scode_`sname2011' = "21" if `sname2011' == "odisha"
 	qui replace scode_`sname2011' = "22" if `sname2011' == "chhattisgarh"
 	qui replace scode_`sname2011' = "23" if `sname2011' == "madhyapradesh"
 	qui replace scode_`sname2011' = "24" if `sname2011' == "gujarat"
@@ -393,7 +393,7 @@ local sname2011 `1'
 	qui replace scode_`sname2011' = "30" if `sname2011' == "goa"
 	qui replace scode_`sname2011' = "31" if `sname2011' == "lakshadweep"
 	qui replace scode_`sname2011' = "32" if `sname2011' == "kerala"
-	qui replace scode_`sname2011' = "33" if `sname2011' == "tamil nadu"
+	qui replace scode_`sname2011' = "33" if `sname2011' == "tamilnadu"
 	qui replace scode_`sname2011' = "34" if `sname2011' == "pondicherry"
 	qui replace scode_`sname2011' = "35" if `sname2011' == "andamannicobarislands"
 

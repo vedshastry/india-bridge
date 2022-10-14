@@ -18,4 +18,9 @@ All state and district codes are in sync with the administrative atlas (inside t
 
 	Running `help indiabridge` in Stata will pop-up a dialog with syntax and examples for use.
 
-Last updated: Feb 01, 2022
+## To-do
+  - Extend functionality to accept a vector of years as input and assign the
+    appropriate identifier
+  - Add compatibility with the [Local Government Directory, India (LGD)][https://lgdirectory.gov.in/]
+
+Last updated: Oct 14 '22

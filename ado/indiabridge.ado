@@ -38,23 +38,38 @@ program define indiabridge
 		* for each district variable,
 		di as text "Applying (`year') identification on districts: `district'"
 		foreach dv in `district'{
-			* store isocode from above
-			local iso iso_`sv'
-			* run district programs for the given year
-			ibrdist, y(`year') d(`dv') i(iso_`sv')
-			* concatenate state & district identifiers to generate unique identifier
-				if `year' != 2011{
-				qui replace dcode_`dv' = scode_`sv' + dcode_`dv'
+				* store isocode from above
+				local iso iso_`sv'
+				* run district programs for the given year
+				ibrdist, y(`year') d(`dv') i(iso_`sv')
+				* concatenate state & district identifiers to generate unique identifier
+					if `year' != 2011{
+					qui replace dcode_`dv' = scode_`sv' + dcode_`dv'
+				* labels
+					label var `dv' "`year' census district name"
+					label var dcode_`dv' "`year' census district identifier"
 			}
 
+			* labels
+			label var `sv' "`year' census state name"
+			label var scode_`sv' "`year' census state identifier"
+			label var iso_`sv' "ISO code for state"
+			label var ut_`sv' "`year' union territory status"
+
+			* display progress
 			di as text _dup(99) "-"
 			di as text "State identifiers assigned in variables: iso_`sv' scode_`sv' ut_`sv'"
 			di as text _dup(99) "-"
 			di as text "District codes assigned in variable: dcode_`dv'"
+			qui count if strlen(dcode_`dv') != 4
+			di as text _dup(99) "-"
+			di as text "`r(N)' districts did not get a 4 digit identifier"
+			di as text _dup(99) "-"
 		}
 	}
 
 di as text _dup(99) "_"
+
 * end indiabridge
 end
 

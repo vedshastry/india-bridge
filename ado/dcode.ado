@@ -39,6 +39,7 @@ local iso1951 `2'
 
     * ajmer
     qui replace dcode_`dname1951' = "01" if `iso1951' == "RJ" & inlist(`dname1951', "ajmer")
+    qui replace dcode_`dname1951' = "02" if `iso1951' == "RJ" & inlist(`dname1951', "ganganagar")
 
 *===============================================================================
 
@@ -131,7 +132,7 @@ local iso1951 `2'
 
 *===============================================================================
     * dadra nagar haveli
-    qui replace dcode_`dname1951' = "01" if `iso1951' == "DN" & inlist(`dname1951', "dadranagarhaveli")
+    qui replace dcode_`dname1951' = "01" if `iso1951' == "DH" & inlist(`dname1951', "dadranagarhaveli")
 
 *===============================================================================
 
@@ -141,29 +142,29 @@ local iso1951 `2'
 *===============================================================================
 
     * goa daman diu
-    qui replace dcode_`dname1951' = "01" if `iso1951' == "DG" & inlist(`dname1951', "daman")
-    qui replace dcode_`dname1951' = "02" if `iso1951' == "DG" & inlist(`dname1951', "diu")
-    qui replace dcode_`dname1951' = "03" if `iso1951' == "DG" & inlist(`dname1951', "goa")
+    qui replace dcode_`dname1951' = "01" if `iso1951' == "GA" & inlist(`dname1951', "daman")
+    qui replace dcode_`dname1951' = "02" if `iso1951' == "GA" & inlist(`dname1951', "diu")
+    qui replace dcode_`dname1951' = "03" if `iso1951' == "GA" & inlist(`dname1951', "goa")
 
 *===============================================================================
 
     * hyderabad
-    qui replace dcode_`dname1951' = "01" if `iso1951' == "AP" & inlist(`dname1951', "aurangabad")
-    qui replace dcode_`dname1951' = "02" if `iso1951' == "AP" & inlist(`dname1951', "bhir")
-    qui replace dcode_`dname1951' = "03" if `iso1951' == "AP" & inlist(`dname1951', "parbhani")
-    qui replace dcode_`dname1951' = "04" if `iso1951' == "AP" & inlist(`dname1951', "osmanabad")
-    qui replace dcode_`dname1951' = "05" if `iso1951' == "AP" & inlist(`dname1951', "bidar")
-    qui replace dcode_`dname1951' = "06" if `iso1951' == "AP" & inlist(`dname1951', "nanded")
-    qui replace dcode_`dname1951' = "07" if `iso1951' == "AP" & inlist(`dname1951', "adilabad")
-    qui replace dcode_`dname1951' = "08" if `iso1951' == "AP" & inlist(`dname1951', "nizamabad")
-    qui replace dcode_`dname1951' = "09" if `iso1951' == "AP" & inlist(`dname1951', "karimnagar")
-    qui replace dcode_`dname1951' = "10" if `iso1951' == "AP" & inlist(`dname1951', "medak")
-    qui replace dcode_`dname1951' = "11" if `iso1951' == "AP" & inlist(`dname1951', "hyderabad")
-    qui replace dcode_`dname1951' = "12" if `iso1951' == "AP" & inlist(`dname1951', "gulbarga")
-    qui replace dcode_`dname1951' = "13" if `iso1951' == "AP" & inlist(`dname1951', "raichur")
-    qui replace dcode_`dname1951' = "14" if `iso1951' == "AP" & inlist(`dname1951', "mahbubnagar")
-    qui replace dcode_`dname1951' = "15" if `iso1951' == "AP" & inlist(`dname1951', "nalgonda")
-    qui replace dcode_`dname1951' = "16" if `iso1951' == "AP" & inlist(`dname1951', "warangal")
+    qui replace dcode_`dname1951' = "01" if `iso1951' == "TG" & inlist(`dname1951', "aurangabad")
+    qui replace dcode_`dname1951' = "02" if `iso1951' == "TG" & inlist(`dname1951', "bhir")
+    qui replace dcode_`dname1951' = "03" if `iso1951' == "TG" & inlist(`dname1951', "parbhani")
+    qui replace dcode_`dname1951' = "04" if `iso1951' == "TG" & inlist(`dname1951', "osmanabad")
+    qui replace dcode_`dname1951' = "05" if `iso1951' == "TG" & inlist(`dname1951', "bidar")
+    qui replace dcode_`dname1951' = "06" if `iso1951' == "TG" & inlist(`dname1951', "nanded")
+    qui replace dcode_`dname1951' = "07" if `iso1951' == "TG" & inlist(`dname1951', "adilabad")
+    qui replace dcode_`dname1951' = "08" if `iso1951' == "TG" & inlist(`dname1951', "nizamabad")
+    qui replace dcode_`dname1951' = "09" if `iso1951' == "TG" & inlist(`dname1951', "karimnagar")
+    qui replace dcode_`dname1951' = "10" if `iso1951' == "TG" & inlist(`dname1951', "medak")
+    qui replace dcode_`dname1951' = "11" if `iso1951' == "TG" & inlist(`dname1951', "hyderabad")
+    qui replace dcode_`dname1951' = "12" if `iso1951' == "TG" & inlist(`dname1951', "gulbarga")
+    qui replace dcode_`dname1951' = "13" if `iso1951' == "TG" & inlist(`dname1951', "raichur")
+    qui replace dcode_`dname1951' = "14" if `iso1951' == "TG" & inlist(`dname1951', "mahbubnagar")
+    qui replace dcode_`dname1951' = "15" if `iso1951' == "TG" & inlist(`dname1951', "nalgonda")
+    qui replace dcode_`dname1951' = "16" if `iso1951' == "TG" & inlist(`dname1951', "warangal")
 
 *===============================================================================
 
@@ -306,16 +307,16 @@ local iso1951 `2'
 *===============================================================================
 
     * nagaland
-    qui replace dcode_`dname1951' = "01" if `iso1951' == "AS" & inlist(`dname1951', "kohima", "nagahills")
-    qui replace dcode_`dname1951' = "02" if `iso1951' == "AS" & inlist(`dname1951', "tuensang")
+    qui replace dcode_`dname1951' = "16" if `iso1951' == "AS" & inlist(`dname1951', "kohima", "nagahills")
+    qui replace dcode_`dname1951' = "17" if `iso1951' == "AS" & inlist(`dname1951', "tuensang")
 
 *===============================================================================
 
     * arunachal pradesh
-    qui replace dcode_`dname1951' = "01" if `iso1951' == "AS" & inlist(`dname1951', "kameng", "baliparafrontiertract")
-    qui replace dcode_`dname1951' = "02" if `iso1951' == "AS" & inlist(`dname1951', "lohit", "mishmihills")
-    qui replace dcode_`dname1951' = "03" if `iso1951' == "AS" & inlist(`dname1951', "siang", "aborhills")
-    qui replace dcode_`dname1951' = "04" if `iso1951' == "AS" & inlist(`dname1951', "tirap", "tirapfrontiertract")
+    qui replace dcode_`dname1951' = "12" if `iso1951' == "AS" & inlist(`dname1951', "kameng", "baliparafrontiertract")
+    qui replace dcode_`dname1951' = "13" if `iso1951' == "AS" & inlist(`dname1951', "lohit", "mishmihills")
+    qui replace dcode_`dname1951' = "14" if `iso1951' == "AS" & inlist(`dname1951', "siang", "aborhills")
+    qui replace dcode_`dname1951' = "15" if `iso1951' == "AS" & inlist(`dname1951', "tirap", "tirapfrontiertract")
 
 *===============================================================================
 
@@ -584,7 +585,7 @@ Mikir Hills district was renamed as Karbi Anglong district on 14 October 1976. h
 *===============================================================================
 
     * dadra nagar haveli
-    qui replace dcode_`dname1961' = "01" if `iso1961' == "DN" & inlist(`dname1961', "dadranagarhaveli", "dadraandnagarhaveli")
+    qui replace dcode_`dname1961' = "01" if `iso1961' == "DH" & inlist(`dname1961', "dadranagarhaveli", "dadraandnagarhaveli")
 
 *===============================================================================
 
@@ -594,9 +595,9 @@ Mikir Hills district was renamed as Karbi Anglong district on 14 October 1976. h
 *===============================================================================
 
     * goa daman diu
-    qui replace dcode_`dname1961' = "01" if `iso1961' == "DG" & inlist(`dname1961', "goa")
-    qui replace dcode_`dname1961' = "02" if `iso1961' == "DG" & inlist(`dname1961', "daman")
-    qui replace dcode_`dname1961' = "03" if `iso1961' == "DG" & inlist(`dname1961', "diu")
+    qui replace dcode_`dname1961' = "01" if `iso1961' == "GA" & inlist(`dname1961', "goa")
+    qui replace dcode_`dname1961' = "02" if `iso1961' == "GA" & inlist(`dname1961', "daman")
+    qui replace dcode_`dname1961' = "03" if `iso1961' == "GA" & inlist(`dname1961', "diu")
 
 *===============================================================================
 
@@ -1066,7 +1067,7 @@ local iso1971 `2'
 *===============================================================================
 
     * dadra nagar haveli
-    replace dcode_`dname1971' = "01" if `iso1971' == "DN" & inlist(`dname1971', "dadranagarhaveli")
+    replace dcode_`dname1971' = "01" if `iso1971' == "DH" & inlist(`dname1971', "dadranagarhaveli")
 
 *===============================================================================
 
@@ -1076,9 +1077,9 @@ local iso1971 `2'
 *===============================================================================
 
     * goa daman diu
-    replace dcode_`dname1971' = "01" if `iso1971' == "DG" & inlist(`dname1971', "daman")
-    replace dcode_`dname1971' = "02" if `iso1971' == "DG" & inlist(`dname1971', "diu")
-    replace dcode_`dname1971' = "03" if `iso1971' == "DG" & inlist(`dname1971', "goa")
+    replace dcode_`dname1971' = "01" if `iso1971' == "GA" & inlist(`dname1971', "daman")
+    replace dcode_`dname1971' = "02" if `iso1971' == "GA" & inlist(`dname1971', "diu")
+    replace dcode_`dname1971' = "03" if `iso1971' == "GA" & inlist(`dname1971', "goa")
 
 *===============================================================================
 
@@ -1583,7 +1584,7 @@ local iso1981 `2'
 *===============================================================================
 
     * dadra nagar haveli
-    replace dcode_`dname1981' = "01" if `iso1981' == "DN" & inlist(`dname1981', "dadranagarhaveli")
+    replace dcode_`dname1981' = "01" if inlist(`iso1981',"DH","GA") & inlist(`dname1981', "dadranagarhaveli")
 
 *===============================================================================
 
@@ -1593,9 +1594,9 @@ local iso1981 `2'
 *===============================================================================
 
     * goa daman diu
-    replace dcode_`dname1981' = "01" if `iso1981' == "DG" & inlist(`dname1981', "daman")
-    replace dcode_`dname1981' = "02" if `iso1981' == "DG" & inlist(`dname1981', "diu")
-    replace dcode_`dname1981' = "03" if `iso1981' == "DG" & inlist(`dname1981', "goa")
+    replace dcode_`dname1981' = "01" if inlist(`iso1981',"DG","GA") & inlist(`dname1981', "daman")
+    replace dcode_`dname1981' = "02" if inlist(`iso1981',"DG","GA") & inlist(`dname1981', "diu")
+    replace dcode_`dname1981' = "03" if inlist(`iso1981',"DG","GA") & inlist(`dname1981', "goa")
 
 *===============================================================================
 
@@ -1646,7 +1647,7 @@ local iso1981 `2'
     replace dcode_`dname1981' = "05" if `iso1981' == "HP" & inlist(`dname1981', "bilaspur")
     replace dcode_`dname1981' = "06" if `iso1981' == "HP" & inlist(`dname1981', "mandi")
     replace dcode_`dname1981' = "07" if `iso1981' == "HP" & inlist(`dname1981', "kullu", "kulu")
-    replace dcode_`dname1981' = "08" if `iso1981' == "HP" & inlist(`dname1981', "lahaulspiti", "lahulspiti", "lahul&spiti", "lahaul&spiti", "lahul and spiti")
+    replace dcode_`dname1981' = "08" if `iso1981' == "HP" & inlist(`dname1981', "lahaulspiti", "lahulspiti", "lahul&spiti", "lahaul&spiti", "lahul and spiti","lahulandspiti")
     replace dcode_`dname1981' = "09" if `iso1981' == "HP" & inlist(`dname1981', "shimla")
     replace dcode_`dname1981' = "10" if `iso1981' == "HP" & inlist(`dname1981', "solan")
     replace dcode_`dname1981' = "11" if `iso1981' == "HP" & inlist(`dname1981', "sirmur", "sirmaur")
@@ -2158,7 +2159,7 @@ local iso1991 `2'
 *===============================================================================
 
     * dadra nagar haveli
-    replace dcode_`dname1991' = "01" if `iso1991' == "DN" & inlist(`dname1991', "dadranagarhaveli")
+    replace dcode_`dname1991' = "01" if `iso1991' == "DH" & inlist(`dname1991', "dadranagarhaveli")
 
 *===============================================================================
 
@@ -3211,8 +3212,8 @@ local iso2001 `2'
 *===============================================================================
 
     * dadara and nagar haveli
-    qui replace dcode_`dname2001' = "01" if `iso2001' == "DN" & inlist(`dname2001', "dadara and nagar haveli", "dadara & nagar haveli", "dadara and nagar havelli", "dadara & nagar havelli", "dadra and nagar haveli")
-    qui replace dcode_`dname2001' = "01" if `iso2001' == "DN" & inlist(`dname2001', "dadra & nagar haveli", "dadranagarhaveli", "d&n haveli", "d and n haveli", "dadra/nagar haveli", "dadra&nagarhaveli")
+    qui replace dcode_`dname2001' = "01" if `iso2001' == "DH" & inlist(`dname2001', "dadara and nagar haveli", "dadara & nagar haveli", "dadara and nagar havelli", "dadara & nagar havelli", "dadra and nagar haveli")
+    qui replace dcode_`dname2001' = "01" if `iso2001' == "DH" & inlist(`dname2001', "dadra & nagar haveli", "dadranagarhaveli", "d&n haveli", "d and n haveli", "dadra/nagar haveli", "dadra&nagarhaveli")
 
 *===============================================================================
 
@@ -4002,7 +4003,7 @@ local iso2011 `2'
 *===============================================================================
 
   * dadra & nagar haveli
-    qui replace dcode_`dname2011' = "496" if `iso2011' == "DN" & inlist(`dname2011', "dadra&nagarhaveli")
+    qui replace dcode_`dname2011' = "496" if `iso2011' == "DH" & inlist(`dname2011', "dadranagarhaveli")
 
 *===============================================================================
 

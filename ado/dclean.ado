@@ -36,13 +36,12 @@ local iso1951 `2'
 
     * ajmer
     qui replace `dname1951' = "ajmer" if `iso1951' == "RJ" & inlist(`dname1951', "ajmer")
+    qui replace `dname1951' = "ganganagar" if `iso1951' == "RJ" & inlist(`dname1951', "ganganagar")
 
 *===============================================================================
 
     * andaman nicobar islands
     qui replace `dname1951' = "andamannicobarislands" if `iso1951' == "AN" & inlist(`dname1951', "andamannicobarislands")
-
-    qui replace `dname1951' = "khammam" if `iso1951' == "AP" & inlist(`dname1951', "khammam")
 
 *===============================================================================
 
@@ -115,18 +114,18 @@ local iso1951 `2'
     qui replace `dname1951' = "poona" if `iso1951' == "MH" & inlist(`dname1951', "poona")
     qui replace `dname1951' = "ahmadnagar" if `iso1951' == "MH" & inlist(`dname1951', "ahmednagar", "ahmadnagar")
     qui replace `dname1951' = "sholapur" if `iso1951' == "MH" & inlist(`dname1951', "sholapur")
-    qui replace `dname1951' = "sataranorth" if `iso1951' == "MH" & inlist(`dname1951', "sataranorth")
+    qui replace `dname1951' = "sataranorth" if `iso1951' == "MH" & inlist(`dname1951', "sataranorth", "northsatara")
     qui replace `dname1951' = "ratnagiri" if `iso1951' == "MH" & inlist(`dname1951', "ratnagiri")
     qui replace `dname1951' = "kolhapur" if `iso1951' == "MH" & inlist(`dname1951', "kolhapur")
     qui replace `dname1951' = "satarasouth" if `iso1951' == "MH" & inlist(`dname1951', "satarasouth")
-    qui replace `dname1951' = "bijapur" if `iso1951' == "MH" & inlist(`dname1951', "bijapur")
+    qui replace `dname1951' = "bijapur" if `iso1951' == "MH" & inlist(`dname1951', "bijapur", "bijpura")
     qui replace `dname1951' = "belgaum" if `iso1951' == "MH" & inlist(`dname1951', "belgaon", "belgaum")
     qui replace `dname1951' = "dharwar" if `iso1951' == "MH" & inlist(`dname1951', "dharwad", "dharwar")
     qui replace `dname1951' = "kanara" if `iso1951' == "MH" & inlist(`dname1951', "kanara")
 
 *===============================================================================
     * coorg
-    qui replace `dname1951' = "coorg" if `iso1951' == "KA" & inlist(`dname1951', "coorg")
+    qui replace `dname1951' = "coorg" if `iso1951' == "KA" & inlist(`dname1951', "coorg", "goorgordodagu")
 
 *===============================================================================
     * dadra nagar haveli
@@ -147,22 +146,22 @@ local iso1951 `2'
 *===============================================================================
 
     * hyderabad
-    qui replace `dname1951' = "aurangabad" if `iso1951' == "AP" & inlist(`dname1951', "aurangabad")
-    qui replace `dname1951' = "bhir" if `iso1951' == "AP" & inlist(`dname1951', "bhir")
-    qui replace `dname1951' = "parbhani" if `iso1951' == "AP" & inlist(`dname1951', "parbhani")
-    qui replace `dname1951' = "osmanabad" if `iso1951' == "AP" & inlist(`dname1951', "osmanabad")
-    qui replace `dname1951' = "bidar" if `iso1951' == "AP" & inlist(`dname1951', "bidar")
-    qui replace `dname1951' = "nanded" if `iso1951' == "AP" & inlist(`dname1951', "nanded")
-    qui replace `dname1951' = "adilabad" if `iso1951' == "AP" & inlist(`dname1951', "adilabad")
-    qui replace `dname1951' = "nizamabad" if `iso1951' == "AP" & inlist(`dname1951', "nizamabad")
-    qui replace `dname1951' = "karimnagar" if `iso1951' == "AP" & inlist(`dname1951', "karimnagar")
-    qui replace `dname1951' = "medak" if `iso1951' == "AP" & inlist(`dname1951', "medak")
-    qui replace `dname1951' = "hyderabad" if `iso1951' == "AP" & inlist(`dname1951', "hyderabad")
-    qui replace `dname1951' = "gulbarga" if `iso1951' == "AP" & inlist(`dname1951', "gulbarga")
-    qui replace `dname1951' = "raichur" if `iso1951' == "AP" & inlist(`dname1951', "raichur")
-    qui replace `dname1951' = "mahbubnagar" if `iso1951' == "AP" & inlist(`dname1951', "mahbubnagar")
-    qui replace `dname1951' = "nalgonda" if `iso1951' == "AP" & inlist(`dname1951', "nalgonda")
-    qui replace `dname1951' = "warangal" if `iso1951' == "AP" & inlist(`dname1951', "warangal")
+    qui replace `dname1951' = "aurangabad" if `iso1951' == "TG" & inlist(`dname1951', "aurangabad")
+    qui replace `dname1951' = "bhir" if `iso1951' == "TG" & inlist(`dname1951', "bhir")
+    qui replace `dname1951' = "parbhani" if `iso1951' == "TG" & inlist(`dname1951', "parbhani")
+    qui replace `dname1951' = "osmanabad" if `iso1951' == "TG" & inlist(`dname1951', "osmanabad")
+    qui replace `dname1951' = "bidar" if `iso1951' == "TG" & inlist(`dname1951', "bidar")
+    qui replace `dname1951' = "nanded" if `iso1951' == "TG" & inlist(`dname1951', "nanded")
+    qui replace `dname1951' = "adilabad" if `iso1951' == "TG" & inlist(`dname1951', "adilabad")
+    qui replace `dname1951' = "nizamabad" if `iso1951' == "TG" & inlist(`dname1951', "nizamabad")
+    qui replace `dname1951' = "karimnagar" if `iso1951' == "TG" & inlist(`dname1951', "karimnagar")
+    qui replace `dname1951' = "medak" if `iso1951' == "TG" & inlist(`dname1951', "medak")
+    qui replace `dname1951' = "hyderabad" if `iso1951' == "TG" & inlist(`dname1951', "hyderabad")
+    qui replace `dname1951' = "gulbarga" if `iso1951' == "TG" & inlist(`dname1951', "gulbarga")
+    qui replace `dname1951' = "raichur" if `iso1951' == "TG" & inlist(`dname1951', "raichur")
+    qui replace `dname1951' = "mahbubnagar" if `iso1951' == "TG" & inlist(`dname1951', "mahbubnagar")
+    qui replace `dname1951' = "nalgonda" if `iso1951' == "TG" & inlist(`dname1951', "nalgonda")
+    qui replace `dname1951' = "warangal" if `iso1951' == "TG" & inlist(`dname1951', "warangal")
 
 *===============================================================================
 
@@ -219,7 +218,7 @@ local iso1951 `2'
     qui replace `dname1951' = "yeotmal" if `iso1951' == "MP" & inlist(`dname1951', "yeotmal","yeotma")
     qui replace `dname1951' = "akola" if `iso1951' == "MP" & inlist(`dname1951', "akola")
     qui replace `dname1951' = "amravati" if `iso1951' == "MP" & inlist(`dname1951', "amravati")
-    qui replace `dname1951' = "buldhana" if `iso1951' == "MP" & inlist(`dname1951', "buldhana")
+    qui replace `dname1951' = "buldhana" if `iso1951' == "MP" & inlist(`dname1951', "buldhana", "buldana")
 
 *===============================================================================
 
@@ -246,7 +245,7 @@ local iso1951 `2'
     * vindhya pradesh
     qui replace `dname1951' = "datia" if `iso1951' == "MP" & inlist(`dname1951', "datia")
     qui replace `dname1951' = "tikamgarh" if `iso1951' == "MP" & inlist(`dname1951', "tikamgarh")
-    qui replace `dname1951' = "chhatarpur" if `iso1951' == "MP" & inlist(`dname1951', "chhatarpur")
+    qui replace `dname1951' = "chhatarpur" if `iso1951' == "MP" & inlist(`dname1951', "chhatarpur", "chhtarpur")
     qui replace `dname1951' = "panna" if `iso1951' == "MP" & inlist(`dname1951', "panna")
     qui replace `dname1951' = "satna" if `iso1951' == "MP" & inlist(`dname1951', "satna")
     qui replace `dname1951' = "rewa" if `iso1951' == "MP" & inlist(`dname1951', "rewa")
@@ -266,7 +265,7 @@ local iso1951 `2'
     qui replace `dname1951' = "chittoor" if `iso1951' == "TN" & inlist(`dname1951', "chittoor")
     qui replace `dname1951' = "cuddapah" if `iso1951' == "TN" & inlist(`dname1951', "cuddapah")
     qui replace `dname1951' = "anantapur" if `iso1951' == "TN" & inlist(`dname1951', "anantapur")
-    qui replace `dname1951' = "kurnool" if `iso1951' == "TN" & inlist(`dname1951', "kurnool")
+    qui replace `dname1951' = "kurnool" if `iso1951' == "TN" & inlist(`dname1951', "kurnool","anantapurandkurnool")
     qui replace `dname1951' = "bellary" if `iso1951' == "TN" & inlist(`dname1951', "bellary")
     qui replace `dname1951' = "chingleput" if `iso1951' == "TN" & inlist(`dname1951', "chingleput")
     qui replace `dname1951' = "northarcot" if `iso1951' == "TN" & inlist(`dname1951', "northarcot")
@@ -368,7 +367,7 @@ local iso1951 `2'
     qui replace `dname1951' = "gurdaspur" if `iso1951' == "PB" & inlist(`dname1951', "gurdaspur")
     qui replace `dname1951' = "hoshiarpur" if `iso1951' == "PB" & inlist(`dname1951', "hoshiarpur")
     qui replace `dname1951' = "amritsar" if `iso1951' == "PB" & inlist(`dname1951', "amritsar")
-    qui replace `dname1951' = "ferozepur" if `iso1951' == "PB" & inlist(`dname1951', "ferozepur")
+    qui replace `dname1951' = "ferozepur" if `iso1951' == "PB" & inlist(`dname1951', "ferozepur", "ferozepore")
     qui replace `dname1951' = "hissar" if `iso1951' == "PB" & inlist(`dname1951', "hissar")
     qui replace `dname1951' = "rohtak" if `iso1951' == "PB" & inlist(`dname1951', "rohtak")
     qui replace `dname1951' = "gurgaon" if `iso1951' == "PB" & inlist(`dname1951', "gurgaon")
@@ -413,7 +412,7 @@ local iso1951 `2'
     qui replace `dname1951' = "gohilwad" if `iso1951' == "GJ" & inlist(`dname1951', "gohilwad")
     qui replace `dname1951' = "halar" if `iso1951' == "GJ" & inlist(`dname1951', "halar")
     qui replace `dname1951' = "sorath" if `iso1951' == "GJ" & inlist(`dname1951', "sorath")
-    qui replace `dname1951' = "centralsaurashtra" if `iso1951' == "GJ" & inlist(`dname1951', "centralsaurashtra")
+    qui replace `dname1951' = "centralsaurashtra" if `iso1951' == "GJ" & inlist(`dname1951', "centralsaurashtra", "madhyasaurashtra")
     qui replace `dname1951' = "zalawad" if `iso1951' == "GJ" & inlist(`dname1951', "zalawad")
 
 *===============================================================================
@@ -438,10 +437,10 @@ local iso1951 `2'
     qui replace `dname1951' = "muzaffarnagar" if `iso1951' == "UP" & inlist(`dname1951', "muzaffarnagar")
     qui replace `dname1951' = "bijnor" if `iso1951' == "UP" & inlist(`dname1951', "bijnor")
     qui replace `dname1951' = "moradabad" if `iso1951' == "UP" & inlist(`dname1951', "moradabad")
-    qui replace `dname1951' = "budaun" if `iso1951' == "UP" & inlist(`dname1951', "budaun")
+    qui replace `dname1951' = "budaun" if `iso1951' == "UP" & inlist(`dname1951', "budaun", "buduan")
     qui replace `dname1951' = "rampur" if `iso1951' == "UP" & inlist(`dname1951', "rampur")
     qui replace `dname1951' = "bareilly" if `iso1951' == "UP" & inlist(`dname1951', "bareilly")
-    qui replace `dname1951' = "pilibhit" if `iso1951' == "UP" & inlist(`dname1951', "pilibhit")
+    qui replace `dname1951' = "pilibhit" if `iso1951' == "UP" & inlist(`dname1951', "pilibhit", "pilibhlt")
     qui replace `dname1951' = "shahjahanpur" if `iso1951' == "UP" & inlist(`dname1951', "shahjahanpur")
     qui replace `dname1951' = "meerut" if `iso1951' == "UP" & inlist(`dname1951', "meerut")
     qui replace `dname1951' = "bulandshahr" if `iso1951' == "UP" & inlist(`dname1951', "bulandshahr")
@@ -450,7 +449,7 @@ local iso1951 `2'
     qui replace `dname1951' = "agra" if `iso1951' == "UP" & inlist(`dname1951', "agra")
     qui replace `dname1951' = "etah" if `iso1951' == "UP" & inlist(`dname1951', "etah")
     qui replace `dname1951' = "mainpuri" if `iso1951' == "UP" & inlist(`dname1951', "mainpuri")
-    qui replace `dname1951' = "farrukhabad" if `iso1951' == "UP" & inlist(`dname1951', "farrukhabad")
+    qui replace `dname1951' = "farrukhabad" if `iso1951' == "UP" & inlist(`dname1951', "farrukhabad", "farukhabad")
     qui replace `dname1951' = "etawah" if `iso1951' == "UP" & inlist(`dname1951', "etawah")
     qui replace `dname1951' = "hardoi" if `iso1951' == "UP" & inlist(`dname1951', "hardoi")
     qui replace `dname1951' = "kheri" if `iso1951' == "UP" & inlist(`dname1951', "kheri", "kherl")
@@ -644,8 +643,8 @@ local iso1961 `2'
 
     * kerala
     qui replace `dname1961' = "alleppey" if `iso1961' == "KL" & inlist(`dname1961', "alleppey")
-    qui replace `dname1961' = "cannanore" if `iso1961' == "KL" & inlist(`dname1961', "cannanore")
-    qui replace `dname1961' = "ernakulam" if `iso1961' == "KL" & inlist(`dname1961', "ernakulam")
+    qui replace `dname1961' = "cannanore" if `iso1961' == "KL" & inlist(`dname1961', "cannanore", "cannanorekozhikode")
+    qui replace `dname1961' = "ernakulam" if `iso1961' == "KL" & inlist(`dname1961', "ernakulam", "ernakulamkottayam")
     qui replace `dname1961' = "kottayam" if `iso1961' == "KL" & inlist(`dname1961', "kottayam")
     qui replace `dname1961' = "kozhikode" if `iso1961' == "KL" & inlist(`dname1961', "kozhikode")
     qui replace `dname1961' = "palghat" if `iso1961' == "KL" & inlist(`dname1961', "palghat")
@@ -767,7 +766,7 @@ local iso1961 `2'
     qui replace `dname1961' = "bijapur" if `iso1961' == "KA" & inlist(`dname1961', "bijapur")
     qui replace `dname1961' = "chikmagalur" if `iso1961' == "KA" & inlist(`dname1961', "chikmagalur")
     qui replace `dname1961' = "chitradurga" if `iso1961' == "KA" & inlist(`dname1961', "chitradurga")
-    qui replace `dname1961' = "coorg" if `iso1961' == "KA" & inlist(`dname1961', "coorg")
+    qui replace `dname1961' = "coorg" if `iso1961' == "KA" & inlist(`dname1961', "coorg","goorgordodagu")
     qui replace `dname1961' = "dharwar" if `iso1961' == "KA" & inlist(`dname1961', "dharwad", "dharwar")
     qui replace `dname1961' = "gulbarga" if `iso1961' == "KA" & inlist(`dname1961', "gulbarga")
     qui replace `dname1961' = "hassan" if `iso1961' == "KA" & inlist(`dname1961', "hassan")
@@ -1057,9 +1056,9 @@ local iso1971 `2'
 *===============================================================================
 
     * goa daman diu
-    qui replace `dname1971' = "daman" if `iso1971' == "DG" & inlist(`dname1971', "daman")
-    qui replace `dname1971' = "diu" if `iso1971' == "DG" & inlist(`dname1971', "diu")
-    qui replace `dname1971' = "goa" if `iso1971' == "DG" & inlist(`dname1971', "goa","goadamandiu")
+    qui replace `dname1971' = "daman" if `iso1971' == "GA" & inlist(`dname1971', "daman")
+    qui replace `dname1971' = "diu" if `iso1971' == "GA" & inlist(`dname1971', "diu")
+    qui replace `dname1971' = "goa" if `iso1971' == "GA" & inlist(`dname1971', "goa","goadamandiu")
 
 *===============================================================================
 
@@ -1591,7 +1590,7 @@ local iso1981 `2'
     qui replace `dname1981' = "jamnagar" if `iso1981' == "GJ" & inlist(`dname1981', "jamnagar")
     qui replace `dname1981' = "junagarh" if `iso1981' == "GJ" & inlist(`dname1981', "junagadh", "junagarh")
     qui replace `dname1981' = "kheda" if `iso1981' == "GJ" & inlist(`dname1981', "kaira", "khedakaira")
-    qui replace `dname1981' = "kachchh" if `iso1981' == "GJ" & inlist(`dname1981', "kutch", "kach", "kachh", "kachchh")
+    qui replace `dname1981' = "kachchh" if `iso1981' == "GJ" & inlist(`dname1981', "kutch", "kach", "kachh", "kachchh", "kachch")
     qui replace `dname1981' = "mehsana" if `iso1981' == "GJ" & inlist(`dname1981', "mehsana", "mahesana")
     qui replace `dname1981' = "panchmahals" if `iso1981' == "GJ" & inlist(`dname1981', "panchmahals")
     qui replace `dname1981' = "rajkot" if `iso1981' == "GJ" & inlist(`dname1981', "rajkot")
@@ -2037,15 +2036,15 @@ local iso1991 `2'
     qui replace `dname1991' = "anantapur" if `iso1991' == "AP" & inlist(`dname1991', "anantapur")
     qui replace `dname1991' = "chittoor" if `iso1991' == "AP" & inlist(`dname1991', "chittoor")
     qui replace `dname1991' = "cuddapah" if `iso1991' == "AP" & inlist(`dname1991', "cuddapah")
-    qui replace `dname1991' = "east godavari" if `iso1991' == "AP" & inlist(`dname1991', "eastgodavari")
+    qui replace `dname1991' = "east godavari" if `iso1991' == "AP" & inlist(`dname1991', "eastgodavari", "kakinada")
     qui replace `dname1991' = "guntur" if `iso1991' == "AP" & inlist(`dname1991', "guntur")
     qui replace `dname1991' = "hyderabad" if `iso1991' == "AP" & inlist(`dname1991', "hyderabad")
     qui replace `dname1991' = "karimnagar" if `iso1991' == "AP" & inlist(`dname1991', "karimnagar")
     qui replace `dname1991' = "khammam" if `iso1991' == "AP" & inlist(`dname1991', "khammam")
-    qui replace `dname1991' = "krishna" if `iso1991' == "AP" & inlist(`dname1991', "krishna")
+    qui replace `dname1991' = "krishna" if `iso1991' == "AP" & inlist(`dname1991', "krishna", "machilipatnam")
     qui replace `dname1991' = "kurnool" if `iso1991' == "AP" & inlist(`dname1991', "kurnool")
     qui replace `dname1991' = "mahbubnagar" if `iso1991' == "AP" & inlist(`dname1991', "mahbubnagar")
-    qui replace `dname1991' = "medak" if `iso1991' == "AP" & inlist(`dname1991', "medak")
+    qui replace `dname1991' = "medak" if `iso1991' == "AP" & inlist(`dname1991', "medak", "sangareddy", "sangareaddy")
     qui replace `dname1991' = "nalgonda" if `iso1991' == "AP" & inlist(`dname1991', "nalgonda")
     qui replace `dname1991' = "nellore" if `iso1991' == "AP" & inlist(`dname1991', "nellore", "nellohe")
     qui replace `dname1991' = "prakasam" if `iso1991' == "AP" & inlist(`dname1991', "ongole", "ongoleprakasam", "prakasam")
@@ -2053,7 +2052,7 @@ local iso1991 `2'
     qui replace `dname1991' = "srikakulam" if `iso1991' == "AP" & inlist(`dname1991', "srikakulam")
     qui replace `dname1991' = "visakhapatnam" if `iso1991' == "AP" & inlist(`dname1991', "visakhapatnam")
     qui replace `dname1991' = "warangal" if `iso1991' == "AP" & inlist(`dname1991', "warangal")
-    qui replace `dname1991' = "west godavari" if `iso1991' == "AP" & inlist(`dname1991', "westgodavari")
+    qui replace `dname1991' = "west godavari" if `iso1991' == "AP" & inlist(`dname1991', "westgodavari", "eluru")
     qui replace `dname1991' = "vizianagaram" if `iso1991' == "AP" & inlist(`dname1991', "vizianagaram")
     qui replace `dname1991' = "rangareddi" if `iso1991' == "AP" & inlist(`dname1991', "rangareddi")
 
@@ -2088,21 +2087,21 @@ local iso1991 `2'
 
     * bihar
     qui replace `dname1991' = "patna" if `iso1991' == "BR" & inlist(`dname1991', "patna")
-    qui replace `dname1991' = "nalanda" if `iso1991' == "BR" & inlist(`dname1991', "nalanda")
+    qui replace `dname1991' = "nalanda" if `iso1991' == "BR" & inlist(`dname1991', "nalanda", "bihar")
     qui replace `dname1991' = "gaya" if `iso1991' == "BR" & inlist(`dname1991', "gaya")
     qui replace `dname1991' = "jehanabad" if `iso1991' == "BR" & inlist(`dname1991', "jehanabad")
     qui replace `dname1991' = "nawada" if `iso1991' == "BR" & inlist(`dname1991', "nawada")
     qui replace `dname1991' = "aurangabad" if `iso1991' == "BR" & inlist(`dname1991', "aurangabad")
-    qui replace `dname1991' = "bhojpur" if `iso1991' == "BR" & inlist(`dname1991', "bhojpur")
-    qui replace `dname1991' = "rohtas" if `iso1991' == "BR" & inlist(`dname1991', "rohtas")
-    qui replace `dname1991' = "saran" if `iso1991' == "BR" & inlist(`dname1991', "saran")
+    qui replace `dname1991' = "bhojpur" if `iso1991' == "BR" & inlist(`dname1991', "bhojpur", "arrah")
+    qui replace `dname1991' = "rohtas" if `iso1991' == "BR" & inlist(`dname1991', "rohtas", "sasaram")
+    qui replace `dname1991' = "saran" if `iso1991' == "BR" & inlist(`dname1991', "saran", "chapra")
     qui replace `dname1991' = "siwan" if `iso1991' == "BR" & inlist(`dname1991', "siwan")
     qui replace `dname1991' = "gopalganj" if `iso1991' == "BR" & inlist(`dname1991', "gopalganj")
-    qui replace `dname1991' = "purba champaran" if `iso1991' == "BR" & inlist(`dname1991', "purbachamparan", "purbichamparan")
-    qui replace `dname1991' = "pashchim champaran" if `iso1991' == "BR" & inlist(`dname1991', "pashchimchamparan")
+    qui replace `dname1991' = "purba champaran" if `iso1991' == "BR" & inlist(`dname1991', "purbachamparan", "purbichamparan", "motihari")
+    qui replace `dname1991' = "pashchim champaran" if `iso1991' == "BR" & inlist(`dname1991', "pashchimchamparan", "bettiah", "betiah", "betia")
     qui replace `dname1991' = "muzaffarpur" if `iso1991' == "BR" & inlist(`dname1991', "muzaffarpur")
     qui replace `dname1991' = "sitamarhi" if `iso1991' == "BR" & inlist(`dname1991', "sitamarhi")
-    qui replace `dname1991' = "vaishali" if `iso1991' == "BR" & inlist(`dname1991', "vaishali")
+    qui replace `dname1991' = "vaishali" if `iso1991' == "BR" & inlist(`dname1991', "vaishali", "hajipur", "hazipur")
     qui replace `dname1991' = "darbhanga" if `iso1991' == "BR" & inlist(`dname1991', "darbhanga")
     qui replace `dname1991' = "samastipur" if `iso1991' == "BR" & inlist(`dname1991', "samastipur")
     qui replace `dname1991' = "madhubani" if `iso1991' == "BR" & inlist(`dname1991', "madhubani")
@@ -2121,14 +2120,14 @@ local iso1991 `2'
     qui replace `dname1991' = "godda" if `iso1991' == "BR" & inlist(`dname1991', "godda")
     qui replace `dname1991' = "sahibganj" if `iso1991' == "BR" & inlist(`dname1991', "sahibganj")
     qui replace `dname1991' = "deoghar" if `iso1991' == "BR" & inlist(`dname1991', "deoghar")
-    qui replace `dname1991' = "palamu" if `iso1991' == "BR" & inlist(`dname1991', "palamau", "palamu")
+    qui replace `dname1991' = "palamu" if `iso1991' == "BR" & inlist(`dname1991', "palamau", "palamu", "daltonganj")
     qui replace `dname1991' = "hazaribag" if `iso1991' == "BR" & inlist(`dname1991', "hazaribag", "hazaribagh")
     qui replace `dname1991' = "giridih" if `iso1991' == "BR" & inlist(`dname1991', "giridih")
     qui replace `dname1991' = "ranchi" if `iso1991' == "BR" & inlist(`dname1991', "ranchi")
     qui replace `dname1991' = "lohardaga" if `iso1991' == "BR" & inlist(`dname1991', "lohardarga", "lohardaga")
     qui replace `dname1991' = "gumla" if `iso1991' == "BR" & inlist(`dname1991', "gumla")
     qui replace `dname1991' = "dhanbad" if `iso1991' == "BR" & inlist(`dname1991', "dhanbad")
-    qui replace `dname1991' = "pashchimi singhbhum" if `iso1991' == "BR" & inlist(`dname1991', "pashchimisinghbhum")
+    qui replace `dname1991' = "pashchimi singhbhum" if `iso1991' == "BR" & inlist(`dname1991', "pashchimisinghbhum", "chaibasa", "jamshedpur")
     qui replace `dname1991' = "purbi singhbhum" if `iso1991' == "BR" & inlist(`dname1991', "purbisinghbhum")
 
 *===============================================================================
@@ -2144,7 +2143,7 @@ local iso1991 `2'
 *===============================================================================
 
     * delhi
-    qui replace `dname1991' = "delhi" if `iso1991' == "DL" & inlist(`dname1991', "delhi")
+    qui replace `dname1991' = "delhi" if `iso1991' == "DL" & inlist(`dname1991', "delhi", "tishazaridelhi")
 
 *===============================================================================
 
@@ -2164,19 +2163,19 @@ local iso1991 `2'
     qui replace `dname1991' = "ahmedabad" if `iso1991' == "GJ" & inlist(`dname1991', "ahmedabad", "ahmadabad")
     qui replace `dname1991' = "gandhinagar" if `iso1991' == "GJ" & inlist(`dname1991', "gandhinagar")
     qui replace `dname1991' = "amreli" if `iso1991' == "GJ" & inlist(`dname1991', "amreli")
-    qui replace `dname1991' = "banaskantha" if `iso1991' == "GJ" & inlist(`dname1991', "banaskantha")
+    qui replace `dname1991' = "banaskantha" if `iso1991' == "GJ" & inlist(`dname1991', "banaskantha", "palanpur")
     qui replace `dname1991' = "vadodara" if `iso1991' == "GJ" & inlist(`dname1991', "baroda", "vadodarabaroda", "vadodara")
     qui replace `dname1991' = "bhavnagar" if `iso1991' == "GJ" & inlist(`dname1991', "bhavnagar")
     qui replace `dname1991' = "bharuch" if `iso1991' == "GJ" & inlist(`dname1991', "broach", "bharuchbroach", "bharuch")
-    qui replace `dname1991' = "thedangs" if `iso1991' == "GJ" & inlist(`dname1991', "thedangs", "thedangsdangs")
+    qui replace `dname1991' = "thedangs" if `iso1991' == "GJ" & inlist(`dname1991', "thedangs", "thedangsdangs", "ahwa", "dangs")
     qui replace `dname1991' = "jamnagar" if `iso1991' == "GJ" & inlist(`dname1991', "jamnagar")
     qui replace `dname1991' = "junagarh" if `iso1991' == "GJ" & inlist(`dname1991', "junagadh", "junagarh")
-    qui replace `dname1991' = "kheda" if `iso1991' == "GJ" & inlist(`dname1991', "kaira", "khedakaira")
-    qui replace `dname1991' = "kachchh" if `iso1991' == "GJ" & inlist(`dname1991', "kutch", "kach", "kachh", "kachchh")
+    qui replace `dname1991' = "kheda" if `iso1991' == "GJ" & inlist(`dname1991', "kaira", "khedakaira", "nadiad")
+    qui replace `dname1991' = "kachchh" if `iso1991' == "GJ" & inlist(`dname1991', "kutch", "kach", "kachh", "kachchh", "bhuj")
     qui replace `dname1991' = "mehsana" if `iso1991' == "GJ" & inlist(`dname1991', "mehsana", "mahesana")
-    qui replace `dname1991' = "panchmahals" if `iso1991' == "GJ" & inlist(`dname1991', "panchmahals")
+    qui replace `dname1991' = "panchmahals" if `iso1991' == "GJ" & inlist(`dname1991', "panchmahals", "godhra")
     qui replace `dname1991' = "rajkot" if `iso1991' == "GJ" & inlist(`dname1991', "rajkot")
-    qui replace `dname1991' = "sabarkantha" if `iso1991' == "GJ" & inlist(`dname1991', "sabarkantha")
+    qui replace `dname1991' = "sabarkantha" if `iso1991' == "GJ" & inlist(`dname1991', "sabarkantha", "himatnagar")
     qui replace `dname1991' = "surat" if `iso1991' == "GJ" & inlist(`dname1991', "surat")
     qui replace `dname1991' = "valsad" if `iso1991' == "GJ" & inlist(`dname1991', "valsad", "valsadbulsar", "valsad(bulsar)")
     qui replace `dname1991' = "surendranagar" if `iso1991' == "GJ" & inlist(`dname1991', "surendranagar")
@@ -2195,7 +2194,7 @@ local iso1991 `2'
     qui replace `dname1991' = "panipat" if `iso1991' == "HR" & inlist(`dname1991', "panipat")
     qui replace `dname1991' = "kurukshetra" if `iso1991' == "HR" & inlist(`dname1991', "kurukshetra")
     qui replace `dname1991' = "kaithal" if `iso1991' == "HR" & inlist(`dname1991', "kaithal")
-    qui replace `dname1991' = "mahendragarh" if `iso1991' == "HR" & inlist(`dname1991', "mahendragarh")
+    qui replace `dname1991' = "mahendragarh" if `iso1991' == "HR" & inlist(`dname1991', "mahendragarh", "narnaul")
     qui replace `dname1991' = "rewari" if `iso1991' == "HR" & inlist(`dname1991', "rewari")
     qui replace `dname1991' = "rohtak" if `iso1991' == "HR" & inlist(`dname1991', "rohtak")
     qui replace `dname1991' = "sonipat" if `iso1991' == "HR" & inlist(`dname1991', "sonipat")
@@ -2205,7 +2204,7 @@ local iso1991 `2'
 
     * himachal pradesh
     qui replace `dname1991' = "chamba" if `iso1991' == "HP" & inlist(`dname1991', "champa", "chamba")
-    qui replace `dname1991' = "kangra" if `iso1991' == "HP" & inlist(`dname1991', "kangara", "kangra")
+    qui replace `dname1991' = "kangra" if `iso1991' == "HP" & inlist(`dname1991', "kangara", "kangra", "kangraatdharamsala")
     qui replace `dname1991' = "hamirpur" if `iso1991' == "HP" & inlist(`dname1991', "hamirpur")
     qui replace `dname1991' = "una" if `iso1991' == "HP" & inlist(`dname1991', "una")
     qui replace `dname1991' = "bilaspur" if `iso1991' == "HP" & inlist(`dname1991', "bilaspur")
@@ -2214,7 +2213,7 @@ local iso1991 `2'
     qui replace `dname1991' = "lahul and spiti" if `iso1991' == "HP" & inlist(`dname1991', "lahaulspiti", "lahulspiti", "lahul&spiti", "lahaul&spiti")
     qui replace `dname1991' = "shimla" if `iso1991' == "HP" & inlist(`dname1991', "shimla")
     qui replace `dname1991' = "solan" if `iso1991' == "HP" & inlist(`dname1991', "solan")
-    qui replace `dname1991' = "sirmaur" if `iso1991' == "HP" & inlist(`dname1991', "sirmur", "sirmaur")
+    qui replace `dname1991' = "sirmaur" if `iso1991' == "HP" & inlist(`dname1991', "sirmur", "sirmaur", "nahan")
     qui replace `dname1991' = "kinnaur" if `iso1991' == "HP" & inlist(`dname1991', "kinnaur")
 
 *===============================================================================
@@ -2237,17 +2236,17 @@ local iso1991 `2'
     qui replace `dname1991' = "alleppey" if `iso1991' == "KL" & inlist(`dname1991', "alleppey", "alappuzha")
     qui replace `dname1991' = "kannur" if `iso1991' == "KL" & inlist(`dname1991', "cannanore", "kannur")
     qui replace `dname1991' = "kasaragod" if `iso1991' == "KL" & inlist(`dname1991', "kasaragod")
-    qui replace `dname1991' = "wayanad" if `iso1991' == "KL" & inlist(`dname1991', "wayanad")
-    qui replace `dname1991' = "ernakulam" if `iso1991' == "KL" & inlist(`dname1991', "ernakulam")
+    qui replace `dname1991' = "wayanad" if `iso1991' == "KL" & inlist(`dname1991', "wayanad", "kalpetta")
+    qui replace `dname1991' = "ernakulam" if `iso1991' == "KL" & inlist(`dname1991', "ernakulam", "kochi")
     qui replace `dname1991' = "kottayam" if `iso1991' == "KL" & inlist(`dname1991', "kottayam")
-    qui replace `dname1991' = "idukki" if `iso1991' == "KL" & inlist(`dname1991', "idukki")
+    qui replace `dname1991' = "idukki" if `iso1991' == "KL" & inlist(`dname1991', "idukki", "idukkipainavu", "idukkits")
     qui replace `dname1991' = "kozhikode" if `iso1991' == "KL" & inlist(`dname1991', "kozhikode")
     qui replace `dname1991' = "malappuram" if `iso1991' == "KL" & inlist(`dname1991', "malappuram", "mallapuram")
     qui replace `dname1991' = "palghat" if `iso1991' == "KL" & inlist(`dname1991', "palghat", "palakkad")
     qui replace `dname1991' = "kollam" if `iso1991' == "KL" & inlist(`dname1991', "kollam")
     qui replace `dname1991' = "patthanamthitta" if `iso1991' == "KL" & inlist(`dname1991', "patthanamthitta", "pathanamthitta")
     qui replace `dname1991' = "trichur" if `iso1991' == "KL" & inlist(`dname1991', "richur", "trichur", "thrissur")
-    qui replace `dname1991' = "thiruvananthapuram" if `iso1991' == "KL" & inlist(`dname1991', "thiruvananthapuram")
+    qui replace `dname1991' = "thiruvananthapuram" if `iso1991' == "KL" & inlist(`dname1991', "thiruvananthapuram", "trivandrum", "thiruvandrum")
 
 *===============================================================================
 
@@ -2258,7 +2257,7 @@ local iso1991 `2'
 
     * madhya pradesh
     qui replace `dname1991' = "balaghat" if `iso1991' == "MP" & inlist(`dname1991', "balaghat")
-    qui replace `dname1991' = "bastar" if `iso1991' == "MP" & inlist(`dname1991', "bastar")
+    qui replace `dname1991' = "bastar" if `iso1991' == "MP" & inlist(`dname1991', "bastar", "jagdalpur")
     qui replace `dname1991' = "betul" if `iso1991' == "MP" & inlist(`dname1991', "betul")
     qui replace `dname1991' = "bhind" if `iso1991' == "MP" & inlist(`dname1991', "bhind")
     qui replace `dname1991' = "bilaspur" if `iso1991' == "MP" & inlist(`dname1991', "bilaspur")
@@ -2270,7 +2269,7 @@ local iso1991 `2'
     qui replace `dname1991' = "dhar" if `iso1991' == "MP" & inlist(`dname1991', "dhar")
     qui replace `dname1991' = "durg" if `iso1991' == "MP" & inlist(`dname1991', "durg")
     qui replace `dname1991' = "raj nandgaon" if `iso1991' == "MP" & inlist(`dname1991', "rajnandgaon")
-    qui replace `dname1991' = "east nimar" if `iso1991' == "MP" & inlist(`dname1991', "eastnimar", "khandwaeastnimar", "khandwa(eastnimar)", "sidh")
+    qui replace `dname1991' = "east nimar" if `iso1991' == "MP" & inlist(`dname1991', "eastnimar", "khandwaeastnimar", "khandwa(eastnimar)", "sidh", "khandwa", "eastnimarkhandwa")
     qui replace `dname1991' = "guna" if `iso1991' == "MP" & inlist(`dname1991', "guna")
     qui replace `dname1991' = "gwalior" if `iso1991' == "MP" & inlist(`dname1991', "gwalior")
     qui replace `dname1991' = "hoshangabad" if `iso1991' == "MP" & inlist(`dname1991', "hoshangabad")
@@ -2297,34 +2296,34 @@ local iso1991 `2'
     qui replace `dname1991' = "shajapur" if `iso1991' == "MP" & inlist(`dname1991', "shajapur")
     qui replace `dname1991' = "shivpuri" if `iso1991' == "MP" & inlist(`dname1991', "shivpuri")
     qui replace `dname1991' = "sidhi" if `iso1991' == "MP" & inlist(`dname1991', "sidhi", "sidh")
-    qui replace `dname1991' = "surguja" if `iso1991' == "MP" & inlist(`dname1991', "surguja")
+    qui replace `dname1991' = "surguja" if `iso1991' == "MP" & inlist(`dname1991', "surguja", "ambikapur")
     qui replace `dname1991' = "tikamgarh" if `iso1991' == "MP" & inlist(`dname1991', "tikamgarh")
     qui replace `dname1991' = "ujjain" if `iso1991' == "MP" & inlist(`dname1991', "ujjain")
     qui replace `dname1991' = "vidisha" if `iso1991' == "MP" & inlist(`dname1991', "vidishabhilsa", "vidisha")
-    qui replace `dname1991' = "west nimar" if `iso1991' == "MP" & inlist(`dname1991', "westnimar", "khargonewestnimar", "khargone(westnimar)", "khargone(westnimar)")
+    qui replace `dname1991' = "west nimar" if `iso1991' == "MP" & inlist(`dname1991', "westnimar", "khargonewestnimar", "khargone(westnimar)", "khargone(westnimar)", "khargone")
 
 *===============================================================================
 
     * tamil nadu
-    qui replace `dname1991' = "chingleput" if `iso1991' == "TN" & inlist(`dname1991', "chingleput", "chengaianna", "chengalpattu")
-    qui replace `dname1991' = "coimbatore" if `iso1991' == "TN" & inlist(`dname1991', "coimbatore")
+    qui replace `dname1991' = "chingleput" if `iso1991' == "TN" & inlist(`dname1991', "chingleput", "chengaianna", "chengalpattu", "kanchipuram", "chengalpattumgr")
+    qui replace `dname1991' = "coimbatore" if `iso1991' == "TN" & inlist(`dname1991', "coimbatore", "erode")
     qui replace `dname1991' = "periyar" if `iso1991' == "TN" & inlist(`dname1991', "periyar")
-    qui replace `dname1991' = "kanyakumari" if `iso1991' == "TN" & inlist(`dname1991', "kanyakumari", "kanniyakumari")
+    qui replace `dname1991' = "kanyakumari" if `iso1991' == "TN" & inlist(`dname1991', "kanyakumari", "kanniyakumari", "nagercoil")
     qui replace `dname1991' = "madras" if `iso1991' == "TN" & inlist(`dname1991', "madras")
-    qui replace `dname1991' = "madurai" if `iso1991' == "TN" & inlist(`dname1991', "madurai")
-    qui replace `dname1991' = "dindigul anna" if `iso1991' == "TN" & inlist(`dname1991', "dindigulanna")
-    qui replace `dname1991' = "nilgiri" if `iso1991' == "TN" & inlist(`dname1991', "nilgiri", "nilgiris")
-    qui replace `dname1991' = "northarcot" if `iso1991' == "TN" & inlist(`dname1991', "northarcot", "northarcotambedkar")
-    qui replace `dname1991' = "tiruvannamalai sambuvarayar" if `iso1991' == "TN" & inlist(`dname1991', "tiruvannamalaisambu", "tiruvannamalaisambuvarayar")
-    qui replace `dname1991' = "ramanathapuram" if `iso1991' == "TN" & inlist(`dname1991', "ramanathapuram")
-    qui replace `dname1991' = "pasumpon muthuramalinga thevar" if `iso1991' == "TN" & inlist(`dname1991', "pasumponthevarthir", "pasumponmuthuramalingathevar")
-    qui replace `dname1991' = "salem" if `iso1991' == "TN" & inlist(`dname1991', "salem")
+    qui replace `dname1991' = "madurai" if `iso1991' == "TN" & inlist(`dname1991', "madurai", "dindigul")
+    qui replace `dname1991' = "dindigul anna" if `iso1991' == "TN" & inlist(`dname1991', "dindigulanna", "dindigulquidemilleth")
+    qui replace `dname1991' = "nilgiri" if `iso1991' == "TN" & inlist(`dname1991', "nilgiri", "nilgiris", "udhagamandalam")
+    qui replace `dname1991' = "northarcot" if `iso1991' == "TN" & inlist(`dname1991', "northarcot", "northarcotambedkar", "vellore", "northarcotambedker")
+    qui replace `dname1991' = "tiruvannamalai sambuvarayar" if `iso1991' == "TN" & inlist(`dname1991', "tiruvannamalaisambu", "tiruvannamalaisambuvarayar", "tiruvannamalai")
+    qui replace `dname1991' = "ramanathapuram" if `iso1991' == "TN" & inlist(`dname1991', "ramanathapuram", "sivaganga", "virudunagar")
+    qui replace `dname1991' = "pasumpon muthuramalinga thevar" if `iso1991' == "TN" & inlist(`dname1991', "pasumponthevarthir", "pasumponmuthuramalingathevar", "pasumponthevarthirumagan")
+    qui replace `dname1991' = "salem" if `iso1991' == "TN" & inlist(`dname1991', "salem", "salam")
     qui replace `dname1991' = "dharmapuri" if `iso1991' == "TN" & inlist(`dname1991', "dharmapuri")
-    qui replace `dname1991' = "southarcot" if `iso1991' == "TN" & inlist(`dname1991', "southarcot")
+    qui replace `dname1991' = "southarcot" if `iso1991' == "TN" & inlist(`dname1991', "southarcot", "cuddalore", "cuddolore")
     qui replace `dname1991' = "thanjavur" if `iso1991' == "TN" & inlist(`dname1991', "thanjavur")
-    qui replace `dname1991' = "tiruchirapalli" if `iso1991' == "TN" & inlist(`dname1991', "tiruchirapalli", "tiruchchirappalli")
+    qui replace `dname1991' = "tiruchirapalli" if `iso1991' == "TN" & inlist(`dname1991', "tiruchirapalli", "tiruchchirappalli", "tiruchirappalli")
     qui replace `dname1991' = "pudukkottai" if `iso1991' == "TN" & inlist(`dname1991', "pudukkottai")
-    qui replace `dname1991' = "tirunelveli kattabomman" if `iso1991' == "TN" & inlist(`dname1991', "tirunelveli", "t", "tirunelvelikattabo", "tirunelvelikattabomman")
+    qui replace `dname1991' = "tirunelveli kattabomman" if `iso1991' == "TN" & inlist(`dname1991', "tirunelveli", "t", "tirunelvelikattabo", "tirunelvelikattabomman", "tuticorin")
     qui replace `dname1991' = "chidambaranar" if `iso1991' == "TN" & inlist(`dname1991', "chidambaranar", "chidambaranagar")
 
 *===============================================================================
@@ -2335,15 +2334,15 @@ local iso1991 `2'
     qui replace `dname1991' = "amravati" if `iso1991' == "MH" & inlist(`dname1991', "amravati")
     qui replace `dname1991' = "aurangabad" if `iso1991' == "MH" & inlist(`dname1991', "aurangabad")
     qui replace `dname1991' = "jalna" if `iso1991' == "MH" & inlist(`dname1991', "jalna")
-    qui replace `dname1991' = "bhandara" if `iso1991' == "MH" & inlist(`dname1991', "bhandara")
+    qui replace `dname1991' = "bhandara" if `iso1991' == "MH" & inlist(`dname1991', "bhandara", "bandara")
     qui replace `dname1991' = "bid" if `iso1991' == "MH" & inlist(`dname1991', "bhir", "bid")
     qui replace `dname1991' = "buldana" if `iso1991' == "MH" & inlist(`dname1991', "buldhana", "buldana")
     qui replace `dname1991' = "chandrapur" if `iso1991' == "MH" & inlist(`dname1991', "chandrapur", "chanda")
     qui replace `dname1991' = "gadchiroli" if `iso1991' == "MH" & inlist(`dname1991', "gadchiroli")
     qui replace `dname1991' = "dhule" if `iso1991' == "MH" & inlist(`dname1991', "dhulia", "dhule")
-    qui replace `dname1991' = "greaterbombay" if `iso1991' == "MH" & inlist(`dname1991', "greaterbombay")
+    qui replace `dname1991' = "greaterbombay" if `iso1991' == "MH" & inlist(`dname1991', "greaterbombay", "grbombay")
     qui replace `dname1991' = "jalgaon" if `iso1991' == "MH" & inlist(`dname1991', "jalgaon")
-    qui replace `dname1991' = "raigarh" if `iso1991' == "MH" & inlist(`dname1991', "kolaba", "raigarh")
+    qui replace `dname1991' = "raigarh" if `iso1991' == "MH" & inlist(`dname1991', "kolaba", "raigarh", "alibag")
     qui replace `dname1991' = "kolhapur" if `iso1991' == "MH" & inlist(`dname1991', "kolhapur")
     qui replace `dname1991' = "nagpur" if `iso1991' == "MH" & inlist(`dname1991', "nagpur")
     qui replace `dname1991' = "nanded" if `iso1991' == "MH" & inlist(`dname1991', "nanded")
@@ -2353,7 +2352,7 @@ local iso1991 `2'
     qui replace `dname1991' = "parbhani" if `iso1991' == "MH" & inlist(`dname1991', "parbhani")
     qui replace `dname1991' = "pune" if `iso1991' == "MH" & inlist(`dname1991', "poona", "pune")
     qui replace `dname1991' = "ratnagiri" if `iso1991' == "MH" & inlist(`dname1991', "ratnagiri")
-    qui replace `dname1991' = "sindhudurg" if `iso1991' == "MH" & inlist(`dname1991', "sindhudurg")
+    qui replace `dname1991' = "sindhudurg" if `iso1991' == "MH" & inlist(`dname1991', "sindhudurg", "kudal")
     qui replace `dname1991' = "sangli" if `iso1991' == "MH" & inlist(`dname1991', "sangli")
     qui replace `dname1991' = "satara" if `iso1991' == "MH" & inlist(`dname1991', "satara")
     qui replace `dname1991' = "solapur" if `iso1991' == "MH" & inlist(`dname1991', "sholapur", "solapur")
@@ -2370,13 +2369,13 @@ local iso1991 `2'
     qui replace `dname1991' = "chandel" if `iso1991' == "MN" & inlist(`dname1991', "chandel")
     qui replace `dname1991' = "ukhrul" if `iso1991' == "MN" & inlist(`dname1991', "ukhrul")
     qui replace `dname1991' = "senapati" if `iso1991' == "MN" & inlist(`dname1991', "senapati")
-    qui replace `dname1991' = "churachandpur" if `iso1991' == "MN" & inlist(`dname1991', "churachandpur")
+    qui replace `dname1991' = "churachandpur" if `iso1991' == "MN" & inlist(`dname1991', "churachandpur", "churachanpur")
     qui replace `dname1991' = "tamenglong" if `iso1991' == "MN" & inlist(`dname1991', "tamenglong")
 
 *===============================================================================
 
     * meghalaya
-    qui replace `dname1991' = "east garo hills" if `iso1991' == "ML" & inlist(`dname1991', "eastgarohills")
+    qui replace `dname1991' = "east garo hills" if `iso1991' == "ML" & inlist(`dname1991', "eastgarohills", "eastgorahills")
     qui replace `dname1991' = "west garo hills" if `iso1991' == "ML" & inlist(`dname1991', "westgarohills")
     qui replace `dname1991' = "jaintia hills" if `iso1991' == "ML" & inlist(`dname1991', "jaintiahills")
     qui replace `dname1991' = "east khasi hills" if `iso1991' == "ML" & inlist(`dname1991', "eastkhasihills")
@@ -2401,17 +2400,17 @@ local iso1991 `2'
     qui replace `dname1991' = "bijapur" if `iso1991' == "KA" & inlist(`dname1991', "bijapur")
     qui replace `dname1991' = "chikmagalur" if `iso1991' == "KA" & inlist(`dname1991', "chikmagalur")
     qui replace `dname1991' = "chitradurga" if `iso1991' == "KA" & inlist(`dname1991', "chitradurga")
-    qui replace `dname1991' = "kodagu" if `iso1991' == "KA" & inlist(`dname1991', "kodagu")
+    qui replace `dname1991' = "kodagu" if `iso1991' == "KA" & inlist(`dname1991', "kodagu", "coorg", "madikeri")
     qui replace `dname1991' = "dharwad" if `iso1991' == "KA" & inlist(`dname1991', "dharwad", "dharwar")
     qui replace `dname1991' = "gulbarga" if `iso1991' == "KA" & inlist(`dname1991', "gulbarga")
     qui replace `dname1991' = "hassan" if `iso1991' == "KA" & inlist(`dname1991', "hassan")
     qui replace `dname1991' = "kolar" if `iso1991' == "KA" & inlist(`dname1991', "kolar")
     qui replace `dname1991' = "mandya" if `iso1991' == "KA" & inlist(`dname1991', "mandya")
     qui replace `dname1991' = "mysore" if `iso1991' == "KA" & inlist(`dname1991', "mysore")
-    qui replace `dname1991' = "uttar kannada" if `iso1991' == "KA" & inlist(`dname1991', "northkanara", "northkannada", "uttarkannada", "uttarkannad")
+    qui replace `dname1991' = "uttar kannada" if `iso1991' == "KA" & inlist(`dname1991', "northkanara", "northkannada", "uttarkannada", "uttarkannad", "karwar", "uttarakannada")
     qui replace `dname1991' = "raichur" if `iso1991' == "KA" & inlist(`dname1991', "raichur")
     qui replace `dname1991' = "shimoga" if `iso1991' == "KA" & inlist(`dname1991', "shimoga", "moga")
-    qui replace `dname1991' = "dakshin kannada" if `iso1991' == "KA" & inlist(`dname1991', "southkanara", "dakshinkannada", "dakshinkannad")
+    qui replace `dname1991' = "dakshin kannada" if `iso1991' == "KA" & inlist(`dname1991', "southkanara", "dakshinkannada", "dakshinkannad", "mangalore", "dakshinakannada")
     qui replace `dname1991' = "tumkur" if `iso1991' == "KA" & inlist(`dname1991', "tumkur")
 
 *===============================================================================
@@ -2448,11 +2447,11 @@ local iso1991 `2'
     qui replace `dname1991' = "bolangir" if `iso1991' == "OR" & inlist(`dname1991', "bolangir", "balangir")
     qui replace `dname1991' = "cuttack" if `iso1991' == "OR" & inlist(`dname1991', "cuttack")
     qui replace `dname1991' = "dhenkanal" if `iso1991' == "OR" & inlist(`dname1991', "dhenkanal")
-    qui replace `dname1991' = "ganjam" if `iso1991' == "OR" & inlist(`dname1991', "ganjam")
-    qui replace `dname1991' = "kalahandi" if `iso1991' == "OR" & inlist(`dname1991', "kalahandi")
+    qui replace `dname1991' = "ganjam" if `iso1991' == "OR" & inlist(`dname1991', "ganjam", "chhatrapur")
+    qui replace `dname1991' = "kalahandi" if `iso1991' == "OR" & inlist(`dname1991', "kalahandi", "bhawanipatna")
     qui replace `dname1991' = "keonjhar" if `iso1991' == "OR" & inlist(`dname1991', "keonjhar", "kendujhar")
     qui replace `dname1991' = "koraput" if `iso1991' == "OR" & inlist(`dname1991', "koraput")
-    qui replace `dname1991' = "mayurbhanj" if `iso1991' == "OR" & inlist(`dname1991', "mayurbhanj")
+    qui replace `dname1991' = "mayurbhanj" if `iso1991' == "OR" & inlist(`dname1991', "mayurbhanj", "baripada")
     qui replace `dname1991' = "puri" if `iso1991' == "OR" & inlist(`dname1991', "puri", "purl")
     qui replace `dname1991' = "sambalpur" if `iso1991' == "OR" & inlist(`dname1991', "sambalpur")
     qui replace `dname1991' = "sundargarh" if `iso1991' == "OR" & inlist(`dname1991', "sundargarh")
@@ -2462,7 +2461,7 @@ local iso1991 `2'
     * pondicherry
     qui replace `dname1991' = "karaikal" if `iso1991' == "PY" & inlist(`dname1991', "karaikal")
     qui replace `dname1991' = "mahe" if `iso1991' == "PY" & inlist(`dname1991', "mahe")
-    qui replace `dname1991' = "pondicherry" if `iso1991' == "PY" & inlist(`dname1991', "pondicherry")
+    qui replace `dname1991' = "pondicherry" if `iso1991' == "PY" & inlist(`dname1991', "pondicherry", "puducherry")
     qui replace `dname1991' = "yanam" if `iso1991' == "PY" & inlist(`dname1991', "yanam")
 
 *===============================================================================
@@ -2470,7 +2469,7 @@ local iso1991 `2'
     * punjab
     qui replace `dname1991' = "amritsar" if `iso1991' == "PB" & inlist(`dname1991', "amritsar")
     qui replace `dname1991' = "bathinda" if `iso1991' == "PB" & inlist(`dname1991', "bathinda", "bhatinda")
-    qui replace `dname1991' = "firozpur" if `iso1991' == "PB" & inlist(`dname1991', "ferozepur", "firozpur")
+    qui replace `dname1991' = "firozpur" if `iso1991' == "PB" & inlist(`dname1991', "ferozepur", "firozpur", "firojpur")
     qui replace `dname1991' = "faridkot" if `iso1991' == "PB" & inlist(`dname1991', "faridkot")
     qui replace `dname1991' = "gurdaspur" if `iso1991' == "PB" & inlist(`dname1991', "gurdaspur")
     qui replace `dname1991' = "hoshiarpur" if `iso1991' == "PB" & inlist(`dname1991', "hoshiarpur")
@@ -2514,7 +2513,7 @@ local iso1991 `2'
 
 *===============================================================================
 
-    * sikkim
+    * sikkim, ""
     qui replace `dname1991' = "north district" if `iso1991' == "SK" & inlist(`dname1991', "north district", "northdistrict", "northsikkim", "north")
     qui replace `dname1991' = "south district" if `iso1991' == "SK" & inlist(`dname1991', "south district", "southdistrict", "southsikkim", "south")
     qui replace `dname1991' = "east district" if `iso1991' == "SK" & inlist(`dname1991', "east district", "eastdistrict", "eastsikkim", "east")
@@ -2534,7 +2533,7 @@ local iso1991 `2'
     qui replace `dname1991' = "aligarh" if `iso1991' == "UP" & inlist(`dname1991', "aligarh")
     qui replace `dname1991' = "allahabad" if `iso1991' == "UP" & inlist(`dname1991', "allahabad")
     qui replace `dname1991' = "almora" if `iso1991' == "UP" & inlist(`dname1991', "almora")
-    qui replace `dname1991' = "azamgarh" if `iso1991' == "UP" & inlist(`dname1991', "azamgarh")
+    qui replace `dname1991' = "azamgarh" if `iso1991' == "UP" & inlist(`dname1991', "azamgarh", "maunathbhanjan")
     qui replace `dname1991' = "mau" if `iso1991' == "UP" & inlist(`dname1991', "mau")
     qui replace `dname1991' = "bahraich" if `iso1991' == "UP" & inlist(`dname1991', "bahraich")
     qui replace `dname1991' = "ballia" if `iso1991' == "UP" & inlist(`dname1991', "ballia")
@@ -2545,30 +2544,30 @@ local iso1991 `2'
     qui replace `dname1991' = "sidhharthnagar" if `iso1991' == "UP" & inlist(`dname1991', "sidhharthnagar")
     qui replace `dname1991' = "bijnor" if `iso1991' == "UP" & inlist(`dname1991', "bijnor")
     qui replace `dname1991' = "moradabad" if `iso1991' == "UP" & inlist(`dname1991', "moradabad")
-    qui replace `dname1991' = "budaun" if `iso1991' == "UP" & inlist(`dname1991', "budaun")
-    qui replace `dname1991' = "bulandshahr" if `iso1991' == "UP" & inlist(`dname1991', "bulandshahr")
-    qui replace `dname1991' = "chamoli" if `iso1991' == "UP" & inlist(`dname1991', "chamoli")
+    qui replace `dname1991' = "budaun" if `iso1991' == "UP" & inlist(`dname1991', "budaun", "buaun")
+    qui replace `dname1991' = "bulandshahr" if `iso1991' == "UP" & inlist(`dname1991', "bulandshahr", "bulandshahar")
+    qui replace `dname1991' = "chamoli" if `iso1991' == "UP" & inlist(`dname1991', "chamoli", "chamoligopeshwar")
     qui replace `dname1991' = "dehradun" if `iso1991' == "UP" & inlist(`dname1991', "dehradun")
     qui replace `dname1991' = "deoria" if `iso1991' == "UP" & inlist(`dname1991', "deoria")
     qui replace `dname1991' = "etah" if `iso1991' == "UP" & inlist(`dname1991', "etah")
     qui replace `dname1991' = "etawah" if `iso1991' == "UP" & inlist(`dname1991', "etawah")
     qui replace `dname1991' = "faizabad" if `iso1991' == "UP" & inlist(`dname1991', "faizabad")
-    qui replace `dname1991' = "farrukhabad" if `iso1991' == "UP" & inlist(`dname1991', "farrukhabad", "farfukhabad")
+    qui replace `dname1991' = "farrukhabad" if `iso1991' == "UP" & inlist(`dname1991', "farrukhabad", "farfukhabad", "fatehgarh")
     qui replace `dname1991' = "fatehpur" if `iso1991' == "UP" & inlist(`dname1991', "fatehpur")
-    qui replace `dname1991' = "garhwal" if `iso1991' == "UP" & inlist(`dname1991', "garhwal")
+    qui replace `dname1991' = "garhwal" if `iso1991' == "UP" & inlist(`dname1991', "garhwal", "pauri")
     qui replace `dname1991' = "ghazipur" if `iso1991' == "UP" & inlist(`dname1991', "ghazipur")
     qui replace `dname1991' = "gonda" if `iso1991' == "UP" & inlist(`dname1991', "gonda")
     qui replace `dname1991' = "gorakhpur" if `iso1991' == "UP" & inlist(`dname1991', "gorakhpur")
-    qui replace `dname1991' = "maharajganj" if `iso1991' == "UP" & inlist(`dname1991', "maharajganj")
+    qui replace `dname1991' = "maharajganj" if `iso1991' == "UP" & inlist(`dname1991', "maharajganj", "mahrajganj")
     qui replace `dname1991' = "hamirpur" if `iso1991' == "UP" & inlist(`dname1991', "hamirpur")
     qui replace `dname1991' = "hardoi" if `iso1991' == "UP" & inlist(`dname1991', "hardoi")
-    qui replace `dname1991' = "jalaun" if `iso1991' == "UP" & inlist(`dname1991', "jalaun")
+    qui replace `dname1991' = "jalaun" if `iso1991' == "UP" & inlist(`dname1991', "jalaun", "orai")
     qui replace `dname1991' = "jaunpur" if `iso1991' == "UP" & inlist(`dname1991', "jaunpur")
     qui replace `dname1991' = "jhansi" if `iso1991' == "UP" & inlist(`dname1991', "jhansi")
     qui replace `dname1991' = "lalitpur" if `iso1991' == "UP" & inlist(`dname1991', "lalitpur")
     qui replace `dname1991' = "kanpur nagar" if `iso1991' == "UP" & inlist(`dname1991', "kanpurnagar")
     qui replace `dname1991' = "kanpur dehat" if `iso1991' == "UP" & inlist(`dname1991', "kanpurdehat")
-    qui replace `dname1991' = "kheri" if `iso1991' == "UP" & inlist(`dname1991', "kheri", "kherl")
+    qui replace `dname1991' = "kheri" if `iso1991' == "UP" & inlist(`dname1991', "kheri", "kherl", "lakhimpur")
     qui replace `dname1991' = "lucknow" if `iso1991' == "UP" & inlist(`dname1991', "lucknow")
     qui replace `dname1991' = "mainpuri" if `iso1991' == "UP" & inlist(`dname1991', "mainpuri")
     qui replace `dname1991' = "firozabad" if `iso1991' == "UP" & inlist(`dname1991', "firozabad")
@@ -2590,7 +2589,7 @@ local iso1991 `2'
     qui replace `dname1991' = "shahjahanpur" if `iso1991' == "UP" & inlist(`dname1991', "shahjahanpur")
     qui replace `dname1991' = "sitapur" if `iso1991' == "UP" & inlist(`dname1991', "sitapur")
     qui replace `dname1991' = "sultanpur" if `iso1991' == "UP" & inlist(`dname1991', "sultanpur")
-    qui replace `dname1991' = "tehrigarhwal" if `iso1991' == "UP" & inlist(`dname1991', "tehrigarhwal")
+    qui replace `dname1991' = "tehrigarhwal" if `iso1991' == "UP" & inlist(`dname1991', "tehrigarhwal", "newtehri")
     qui replace `dname1991' = "unnao" if `iso1991' == "UP" & inlist(`dname1991', "unnao")
     qui replace `dname1991' = "uttarkashi" if `iso1991' == "UP" & inlist(`dname1991', "uttarkashi")
     qui replace `dname1991' = "varanasi" if `iso1991' == "UP" & inlist(`dname1991', "varanasi")
@@ -2599,22 +2598,22 @@ local iso1991 `2'
 
     * west bengal
     qui replace `dname1991' = "bankura" if `iso1991' == "WB" & inlist(`dname1991', "bankura")
-    qui replace `dname1991' = "birbhum" if `iso1991' == "WB" & inlist(`dname1991', "birbhum")
+    qui replace `dname1991' = "birbhum" if `iso1991' == "WB" & inlist(`dname1991', "birbhum", "suri")
     qui replace `dname1991' = "barddhaman" if `iso1991' == "WB" & inlist(`dname1991', "burdwan", "barddhaman")
     qui replace `dname1991' = "calcutta" if `iso1991' == "WB" & inlist(`dname1991', "calcutta")
     qui replace `dname1991' = "koch bihar" if `iso1991' == "WB" & inlist(`dname1991', "coochbehar", "cooch", "kochbihar")
     qui replace `dname1991' = "darjiling" if `iso1991' == "WB" & inlist(`dname1991', "darjeeling", "darjiling")
-    qui replace `dname1991' = "hugli" if `iso1991' == "WB" & inlist(`dname1991', "hooghly", "googhly", "hugli")
+    qui replace `dname1991' = "hugli" if `iso1991' == "WB" & inlist(`dname1991', "hooghly", "googhly", "hugli", "chinsurah")
     qui replace `dname1991' = "haora" if `iso1991' == "WB" & inlist(`dname1991', "howrah", "haora")
     qui replace `dname1991' = "jalpaiguri" if `iso1991' == "WB" & inlist(`dname1991', "jalpaiguri")
-    qui replace `dname1991' = "maldah" if `iso1991' == "WB" & inlist(`dname1991', "malda", "maldah")
+    qui replace `dname1991' = "maldah" if `iso1991' == "WB" & inlist(`dname1991', "malda", "maldah", "englishbazar")
     qui replace `dname1991' = "medinipur" if `iso1991' == "WB" & inlist(`dname1991', "midnapore", "medinipur")
-    qui replace `dname1991' = "murshidabad" if `iso1991' == "WB" & inlist(`dname1991', "murshidabad")
-    qui replace `dname1991' = "nadia" if `iso1991' == "WB" & inlist(`dname1991', "nadia")
+    qui replace `dname1991' = "murshidabad" if `iso1991' == "WB" & inlist(`dname1991', "murshidabad", "baharampur", "berhampur")
+    qui replace `dname1991' = "nadia" if `iso1991' == "WB" & inlist(`dname1991', "nadia", "krishnanagar")
     qui replace `dname1991' = "puruliya" if `iso1991' == "WB" & inlist(`dname1991', "purulia", "puruliya")
-    qui replace `dname1991' = "north twenty four parganas" if `iso1991' == "WB" & inlist(`dname1991', "north", "north24parganas")
-    qui replace `dname1991' = "south twenty four parganas" if `iso1991' == "WB" & inlist(`dname1991', "south", "south24parganas")
-    qui replace `dname1991' = "westdinajpur" if `iso1991' == "WB" & inlist(`dname1991', "westdinajpur")
+    qui replace `dname1991' = "north twenty four parganas" if `iso1991' == "WB" & inlist(`dname1991', "north", "north24parganas", "barasat", "northparganas", "northtwentyfourparganas")
+    qui replace `dname1991' = "south twenty four parganas" if `iso1991' == "WB" & inlist(`dname1991', "south", "south24parganas", "alipore", "southparganas", "southtwentyfourparganas")
+    qui replace `dname1991' = "westdinajpur" if `iso1991' == "WB" & inlist(`dname1991', "westdinajpur", "balurghat")
 
 
 *===============================================================================
@@ -2949,7 +2948,7 @@ local iso2001 `2'
 
   * manipur
 
-    qui replace `dname2001' = "senapati" if `iso2001' == "MN" & inlist(`dname2001', "senapati")
+    qui replace `dname2001' = "senapati" if `iso2001' == "MN" & inlist(`dname2001', "senapati", "senapatiexclsubdivisions")
     qui replace `dname2001' = "tamenglong" if `iso2001' == "MN" & inlist(`dname2001', "tamenglong")
     qui replace `dname2001' = "churachandpur" if `iso2001' == "MN" & inlist(`dname2001', "churachandpur")
     qui replace `dname2001' = "bishnupur" if `iso2001' == "MN" & inlist(`dname2001', "bishnupur")
@@ -3038,13 +3037,13 @@ local iso2001 `2'
     qui replace `dname2001' = "birbhum" if `iso2001' == "WB" & inlist(`dname2001', "birbhum", "suri")
     qui replace `dname2001' = "barddhaman" if `iso2001' == "WB" & inlist(`dname2001', "barddhaman")
     qui replace `dname2001' = "nadia" if `iso2001' == "WB" & inlist(`dname2001', "nadia", "krishnanagar")
-    qui replace `dname2001' = "northtwentyfourparganas" if `iso2001' == "WB" & inlist(`dname2001', "northtwentyfourparganas", "north", "barasat")
+    qui replace `dname2001' = "northtwentyfourparganas" if `iso2001' == "WB" & inlist(`dname2001', "northtwentyfourparganas", "north", "barasat", "northparganas")
     qui replace `dname2001' = "hugli" if `iso2001' == "WB" & inlist(`dname2001', "hugli", "chinsurah", "chinsurah-sadar", "chunchura", "chinsurahsadar")
     qui replace `dname2001' = "bankura" if `iso2001' == "WB" & inlist(`dname2001', "bankura")
     qui replace `dname2001' = "puruliya" if `iso2001' == "WB" & inlist(`dname2001', "puruliya")
     qui replace `dname2001' = "haora" if `iso2001' == "WB" & inlist(`dname2001', "haora", "paniara", "haroa")
     qui replace `dname2001' = "kolkata" if `iso2001' == "WB" & inlist(`dname2001', "kolkata", "alipore")
-    qui replace `dname2001' = "southtwentyfourparganas" if `iso2001' == "WB" & inlist(`dname2001', "southtwentyfourparganas", "south", "aliporesadar")
+    qui replace `dname2001' = "southtwentyfourparganas" if `iso2001' == "WB" & inlist(`dname2001', "southtwentyfourparganas", "south", "aliporesadar", "southparganas")
     qui replace `dname2001' = "paschimmedinipur" if `iso2001' == "WB" & inlist(`dname2001', "paschimmedinipur")
     qui replace `dname2001' = "purbamedinipur" if `iso2001' == "WB" & inlist(`dname2001', "purbamedinipur")
 
@@ -3187,7 +3186,7 @@ local iso2001 `2'
     qui replace `dname2001' = "singrauli" if `iso2001' == "MP" & inlist(`dname2001', "singrauli")
     qui replace `dname2001' = "jhabua" if `iso2001' == "MP" & inlist(`dname2001', "jhabua")
     qui replace `dname2001' = "alirajpur" if `iso2001' == "MP" & inlist(`dname2001', "alirajpur")
-    qui replace `dname2001' = "khandwa(eastnimar)" if `iso2001' == "MP" & inlist(`dname2001', "khandwa(eastnimar)", "khandwaeastnimar")
+    qui replace `dname2001' = "khandwa(eastnimar)" if `iso2001' == "MP" & inlist(`dname2001', "khandwa(eastnimar)", "khandwaeastnimar", "eastnimarkhandwa")
     qui replace `dname2001' = "burhanpur" if `iso2001' == "MP" & inlist(`dname2001', "burhanpur")
 
 *===============================================================================
@@ -3215,7 +3214,7 @@ local iso2001 `2'
     qui replace `dname2001' = "vadodara" if `iso2001' == "GJ" & inlist(`dname2001', "vadodara")
     qui replace `dname2001' = "narmada" if `iso2001' == "GJ" & inlist(`dname2001', "narmada", "rajpipla")
     qui replace `dname2001' = "bharuch" if `iso2001' == "GJ" & inlist(`dname2001', "bharuch")
-    qui replace `dname2001' = "thedangs" if `iso2001' == "GJ" & inlist(`dname2001', "thedangs")
+    qui replace `dname2001' = "thedangs" if `iso2001' == "GJ" & inlist(`dname2001', "thedangs", "dangs")
     qui replace `dname2001' = "navsari" if `iso2001' == "GJ" & inlist(`dname2001', "navsari")
     qui replace `dname2001' = "valsad" if `iso2001' == "GJ" & inlist(`dname2001', "valsad")
     qui replace `dname2001' = "surat" if `iso2001' == "GJ" & inlist(`dname2001', "surat")
@@ -3561,7 +3560,7 @@ local iso2011 `2'
     qui replace `dname2011' = "northeastdelhi" if `iso2011' == "DL" & inlist(`dname2011', "northeastdelhi", "northeast")
     qui replace `dname2011' = "eastdelhi" if `iso2011' == "DL" & inlist(`dname2011', "eastdelhi", "east")
     qui replace `dname2011' = "newdelhi" if `iso2011' == "DL" & inlist(`dname2011', "newdelhi")
-    qui replace `dname2011' = "centraldelhi" if `iso2011' == "DL" & inlist(`dname2011', "centraldelhi")
+    qui replace `dname2011' = "centraldelhi" if `iso2011' == "DL" & inlist(`dname2011', "centraldelhi", "central")
     qui replace `dname2011' = "westdelhi" if `iso2011' == "DL" & inlist(`dname2011', "westdelhi", "west")
     qui replace `dname2011' = "southwestdelhi" if `iso2011' == "DL" & inlist(`dname2011', "southwestdelhi", "southwest")
     qui replace `dname2011' = "southdelhi" if `iso2011' == "DL" & inlist(`dname2011', "southdelhi", "south")
@@ -3861,13 +3860,13 @@ local iso2011 `2'
     qui replace `dname2011' = "birbhum" if `iso2011' == "WB" & inlist(`dname2011', "birbhum")
     qui replace `dname2011' = "barddhaman" if `iso2011' == "WB" & inlist(`dname2011', "barddhaman")
     qui replace `dname2011' = "nadia" if `iso2011' == "WB" & inlist(`dname2011', "nadia")
-    qui replace `dname2011' = "northtwentyfourparganas" if `iso2011' == "WB" & inlist(`dname2011', "northtwentyfourparganas")
+    qui replace `dname2011' = "northtwentyfourparganas" if `iso2011' == "WB" & inlist(`dname2011', "northtwentyfourparganas", "northparganas")
     qui replace `dname2011' = "hugli" if `iso2011' == "WB" & inlist(`dname2011', "hugli")
     qui replace `dname2011' = "bankura" if `iso2011' == "WB" & inlist(`dname2011', "bankura")
     qui replace `dname2011' = "puruliya" if `iso2011' == "WB" & inlist(`dname2011', "puruliya")
     qui replace `dname2011' = "haora" if `iso2011' == "WB" & inlist(`dname2011', "haora")
     qui replace `dname2011' = "kolkata" if `iso2011' == "WB" & inlist(`dname2011', "kolkata")
-    qui replace `dname2011' = "southtwentyfourparganas" if `iso2011' == "WB" & inlist(`dname2011', "southtwentyfourparganas")
+    qui replace `dname2011' = "southtwentyfourparganas" if `iso2011' == "WB" & inlist(`dname2011', "southtwentyfourparganas", "southparganas")
     qui replace `dname2011' = "paschimmedinipur" if `iso2011' == "WB" & inlist(`dname2011', "paschimmedinipur")
     qui replace `dname2011' = "purbamedinipur" if `iso2011' == "WB" & inlist(`dname2011', "purbamedinipur")
 
@@ -4055,7 +4054,7 @@ local iso2011 `2'
 
   * dadra & nagar haveli
 
-    qui replace `dname2011' = "dadra&nagarhaveli" if `iso2011' == "DN" & inlist(`dname2011', "dadra&nagarhaveli", "dadranagarhaveli")
+    qui replace `dname2011' = "dadranagarhaveli" if `iso2011' == "DH" & inlist(`dname2011', "dadra&nagarhaveli", "dadranagarhaveli")
 
 *===============================================================================
 
@@ -4082,7 +4081,7 @@ local iso2011 `2'
     qui replace `dname2011' = "aurangabad(maharashtra)" if `iso2011' == "MH" & inlist(`dname2011', "aurangabad(maharashtra)", "aurangabadmaharashtra", "aurangabad")
     qui replace `dname2011' = "nashik" if `iso2011' == "MH" & inlist(`dname2011', "nashik")
     qui replace `dname2011' = "thane" if `iso2011' == "MH" & inlist(`dname2011', "thane")
-    qui replace `dname2011' = "mumbaisuburban" if `iso2011' == "MH" & inlist(`dname2011', "mumbaisuburban")
+    qui replace `dname2011' = "mumbaisuburban" if `iso2011' == "MH" & inlist(`dname2011', "mumbaisuburban", "submumbai")
     qui replace `dname2011' = "mumbai" if `iso2011' == "MH" & inlist(`dname2011', "mumbai")
     qui replace `dname2011' = "raigarh(maharashtra)" if `iso2011' == "MH" & inlist(`dname2011', "raigarh(maharashtra)", "raigarhmaharashtra", "raigarh")
     qui replace `dname2011' = "pune" if `iso2011' == "MH" & inlist(`dname2011', "pune")
