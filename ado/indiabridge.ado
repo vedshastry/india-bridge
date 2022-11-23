@@ -8,8 +8,8 @@
 * define program
 capture program drop indiabridge
 program define indiabridge
-	* syntax: statename must be string, and year must be specified
-	syntax [if], Year(string) State(varlist string) District(varlist string)
+	* syntax: statename must be string, and year must be specified (district optional)
+	syntax [if], Year(string) State(varlist string) [District(varlist string)]
 
 	* confirm if dependency -egenmore- is available
 	capture findfile egenmore.sthlp, path(BASE;SITE;PERSONAL;PLUS)
