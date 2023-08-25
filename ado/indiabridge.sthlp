@@ -52,7 +52,7 @@ After standardising names, {cmd:indiabridge} also assigns unique state codes and
 
 {p 4 4 2}{bf:Vedarshi Shastry}{break}
 			vedarshis@gmail.com{break}
-			shastryved.github.io
+			vedshastry.github.io
 
 {bf:To-do}
 {hline}

@@ -3296,7 +3296,7 @@ local iso2001 `2'
     qui replace `dname2001' = "guntur" if `iso2001' == "AP" & inlist(`dname2001', "guntur")
     qui replace `dname2001' = "prakasam" if `iso2001' == "AP" & inlist(`dname2001', "prakasam", "ongole")
     qui replace `dname2001' = "nellore" if `iso2001' == "AP" & inlist(`dname2001', "nellore")
-    qui replace `dname2001' = "ysr" if `iso2001' == "AP" & inlist(`dname2001', "ysr",)
+    qui replace `dname2001' = "ysr" if `iso2001' == "AP" & inlist(`dname2001', "ysr")
     qui replace `dname2001' = "kurnool" if `iso2001' == "AP" & inlist(`dname2001', "kurnool")
     qui replace `dname2001' = "anantapur" if `iso2001' == "AP" & inlist(`dname2001', "anantapur")
     qui replace `dname2001' = "chittoor" if `iso2001' == "AP" & inlist(`dname2001', "chittoor")
@@ -3725,10 +3725,10 @@ local iso2011 `2'
 
   * sikkim
 
-    qui replace `dname2011' = "northsikkim" if `iso2011' == "SK" & inlist(`dname2011', "northsikkim", "northdistrict", "north")
-    qui replace `dname2011' = "westsikkim" if `iso2011' == "SK" & inlist(`dname2011', "westsikkim", "westdistrict", "west")
-    qui replace `dname2011' = "southsikkim" if `iso2011' == "SK" & inlist(`dname2011', "southsikkim", "southdistrict", "south")
-    qui replace `dname2011' = "eastsikkim" if `iso2011' == "SK" & inlist(`dname2011', "eastsikkim", "eastdistrict", "east")
+    qui replace `dname2011' = "northsikkim" if `iso2011' == "SK" & inlist(`dname2011', "northsikkim", "northdistrict", "north", "mangan")
+    qui replace `dname2011' = "westsikkim" if `iso2011' == "SK" & inlist(`dname2011', "westsikkim", "westdistrict", "west", "gyalshing")
+    qui replace `dname2011' = "southsikkim" if `iso2011' == "SK" & inlist(`dname2011', "southsikkim", "southdistrict", "south", "namchi")
+    qui replace `dname2011' = "eastsikkim" if `iso2011' == "SK" & inlist(`dname2011', "eastsikkim", "eastdistrict", "east", "gangtok")
 
 *===============================================================================
 
@@ -3823,7 +3823,7 @@ local iso2011 `2'
     qui replace `dname2011' = "goalpara" if `iso2011' == "AS" & inlist(`dname2011', "goalpara")
     qui replace `dname2011' = "barpeta" if `iso2011' == "AS" & inlist(`dname2011', "barpeta")
     qui replace `dname2011' = "morigaon" if `iso2011' == "AS" & inlist(`dname2011', "morigaon", "marigaon")
-    qui replace `dname2011' = "nagaon" if `iso2011' == "AS" & inlist(`dname2011', "nagaon", "nowgaon")
+    qui replace `dname2011' = "nagaon" if `iso2011' == "AS" & inlist(`dname2011', "nagaon", "nowgaon", "hojai")
     qui replace `dname2011' = "sonitpur" if `iso2011' == "AS" & inlist(`dname2011', "sonitpur")
     qui replace `dname2011' = "lakhimpur" if `iso2011' == "AS" & inlist(`dname2011', "lakhimpur")
     qui replace `dname2011' = "dhemaji" if `iso2011' == "AS" & inlist(`dname2011', "dhemaji")
@@ -3832,7 +3832,7 @@ local iso2011 `2'
     qui replace `dname2011' = "sivasagar" if `iso2011' == "AS" & inlist(`dname2011', "sivasagar", "sibsagar")
     qui replace `dname2011' = "jorhat" if `iso2011' == "AS" & inlist(`dname2011', "jorhat")
     qui replace `dname2011' = "golaghat" if `iso2011' == "AS" & inlist(`dname2011', "golaghat")
-    qui replace `dname2011' = "karbianglong" if `iso2011' == "AS" & inlist(`dname2011', "karbianglong")
+    qui replace `dname2011' = "karbianglong" if `iso2011' == "AS" & inlist(`dname2011', "karbianglong", "westkarbianglong")
     qui replace `dname2011' = "dimahasao" if `iso2011' == "AS" & inlist(`dname2011', "dimahasao")
     qui replace `dname2011' = "cachar" if `iso2011' == "AS" & inlist(`dname2011', "cachar")
     qui replace `dname2011' = "karimganj" if `iso2011' == "AS" & inlist(`dname2011', "karimganj")
@@ -4241,7 +4241,7 @@ local iso2011 `2'
   * andaman & nicobar islands
     qui replace `dname2011' = "nicobars" if `iso2011' == "AN" & inlist(`dname2011', "nicobars")
     qui replace `dname2011' = "northmiddleandaman" if `iso2011' == "AN" & inlist(`dname2011', "north&middleandaman", "northmiddleandaman")
-    qui replace `dname2011' = "southandaman" if `iso2011' == "AN" & inlist(`dname2011', "southandaman")
+    qui replace `dname2011' = "southandaman" if `iso2011' == "AN" & inlist(`dname2011', "southandaman", "southandamans")
 
 *===============================================================================
 end

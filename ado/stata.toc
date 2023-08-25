@@ -1,0 +1,25 @@
+* v indicates version—specify v 3, which is the current version of .toc files
+v 1
+
+* d lines display description text
+* the first d line is the title, and the remaining ones are text
+* blank d lines display a blank line
+d indiabridge
+d
+d V. Shastry
+d indiabridge assigns Census consistent identifiers to a list of Indian district and state names.
+
+* l lines display links
+* l word-to-show path-or-url [description]
+* l word-to-show path-or-url [description]
+
+* t lines display other directories within the site
+* t path [description]
+* t path [description]
+
+* p lines display packages
+p dclean Standardises a string vector of district names
+p dcode Assigns district codes to standardised names
+p sclean Standardises a string vector of state names
+p scode Assigns state codes to standardised names
+p indiabridge Wrapper for all modules

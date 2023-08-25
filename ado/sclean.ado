@@ -256,7 +256,7 @@ program define sclean2001
 local sname2001 `1'
 
 	* clean state names
-	qui replace `sname2001' = "jammukashmir" if inlist(`sname2001', "jammukashmir", "jmjammukashmir", "jammu", "jk")
+	qui replace `sname2001' = "jammukashmir" if inlist(`sname2001', "jammukashmir", "jmjammukashmir", "jammu", "jk", "jammuandkashmir")
 	qui replace `sname2001' = "himachalpradesh" if inlist(`sname2001', "himachalpradesh", "hphimachalpradesh", "himachal", "hp", "bilaspur")
 	qui replace `sname2001' = "punjab" if inlist(`sname2001', "punjab", "pjpunjab", "panjab", "pb")
 	qui replace `sname2001' = "chandigarh" if inlist(`sname2001', "chandigarh", "sahibzadaajitsinghnagar")
@@ -304,7 +304,7 @@ program define sclean2011
 local sname2011 `1'
 
 	* clean state names
-	qui replace `sname2011' = "jammukashmir" if inlist(`sname2011', "jammukashmir", "jmjammukashmir", "jammu", "jk")
+	qui replace `sname2011' = "jammukashmir" if inlist(`sname2011', "jammukashmir", "jmjammukashmir", "jammu", "jk", "jammuandkashmir", "ladakh")
 	qui replace `sname2011' = "himachalpradesh" if inlist(`sname2011', "himachalpradesh", "hphimachalpradesh", "himachal", "hp", "bilaspur")
 	qui replace `sname2011' = "punjab" if inlist(`sname2011', "punjab", "pjpunjab", "panjab", "pb")
 	qui replace `sname2011' = "chandigarh" if inlist(`sname2011', "chandigarh", "sahibzadaajitsinghnagar")
@@ -329,7 +329,7 @@ local sname2011 `1'
 	qui replace `sname2011' = "madhyapradesh" if inlist(`sname2011', "madhyapradesh", "madhypradesh", "mpmadhyapradesh", "mp")
 	qui replace `sname2011' = "gujarat" if inlist(`sname2011', "gujarat", "gjgujarat", "gujrat", "gj", "kutch", "saurashtra")
 	qui replace `sname2011' = "damandiu" if inlist(`sname2011', "damandiu","daman", "diu")
-	qui replace `sname2011' = "dadranagarhaveli" if inlist(`sname2011', "dadranagarhaveli", "dnhaveli")
+	qui replace `sname2011' = "dadranagarhaveli" if inlist(`sname2011', "dadranagarhaveli", "dnhaveli", "thedadraandnagarhavelianddamananddiu")
 	qui replace `sname2011' = "maharashtra" if inlist(`sname2011', "maharashtra", "mhmaharashtra", "mh", "ms")
 	qui replace `sname2011' = "andhrapradesh" if inlist(`sname2011', "andhrapradesh", "apandhrapradesh", "ap", "telangana")
 	qui replace `sname2011' = "karnataka" if inlist(`sname2011', "karnataka", "kakarnataka", "ka", "mysore")
@@ -338,6 +338,6 @@ local sname2011 `1'
 	qui replace `sname2011' = "kerala" if inlist(`sname2011', "kerala", "kekerala", "kerela", "kl", "travancorecochin", "ke")
 	qui replace `sname2011' = "tamilnadu" if inlist(`sname2011', "tamilnadu", "tntamilnadu", "tn", "madras")
 	qui replace `sname2011' = "pondicherry" if inlist(`sname2011', "puducherry", "pondicherry", "pondi", "py", "pondicherryfrench")
-	qui replace `sname2011' = "andamannicobarislands" if inlist(`sname2011', "andamannicobarislands", "andamannicobarisland", "anislands", "anisland", "andamannicobar", "an", "andamansnicobars")
+	qui replace `sname2011' = "andamannicobarislands" if inlist(`sname2011', "andamannicobarislands", "andamannicobarisland", "anislands", "andamannicobar", "an", "andamansnicobars", "andamanandnicobar", "andmanandnocobarislands", "andamanandnicobarislands")
 
 end
