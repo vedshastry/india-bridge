@@ -2,18 +2,117 @@
 * Objective: Standardise a list of state names with typos/variations
 *-------------------------------------------------------------------------------
 
-/*
-`listkeyval`
+* Read csv and input variable
+local stvals_csv "/home/ved/repos/india-bridge/ado/indiabridge2/dict/state/stvals_cen2011.csv"
+local id_indiabridge "id_cen2011"
 
-listkeyval takes a string variable as input, compares it against a list of values and assigns the relevant key
-*/
+* example data
 
-import delimited "/home/ved/repos/india-bridge/ado/indiabridge2/stkeyvals.csv", clear varnames(1) delimiter(",")
+	clear
+		input int id_cur str20 sname
+		1 "rjrajasthan"
+		2 "sksikkim"
+		3 "oddisha"
+		4 "balarampur"
+		5 "andhrunachalpradesh"
+		6 "andhyapradesh"
+	end
+
+tempfile current
+save `current', replace
+
+*-------------------------------------------------------------------------------
+* stkeyvals
+
+	import delimited "`stvals_csv'", clear varnames(1) delimiter(",")
+
+tempfile stvals
+save `stvals', replace
+
+*-------------------------------------------------------------------------------
+
+// use `current', clear
+// sclean2 , name(sname) id(id_cur)
+
+// rename id_cur id
+// sclean2 , name(sname)
 
 
-import delimited "/home/ved/repos/india-bridge/ado/indiabridge2/stkeyvals.txt", clear varnames(1) delimiter(";") stringcols(_all)
-tempfile stkeys
-save `stkeys', replace
+* define sclean
+cap prog drop sclean2
+prog sclean2
+
+	* accept string variable as input
+	syntax , name(varlist string max=1)  [id(varlist numeric max=1)]
+
+	if "`id'" == "" {
+		di "ID variable not specified. Generating unique ID to name variable: `name'"
+		egen id_cur = group(`name')
+		isid id_cur
+	}
+	else if "`id'" != "" {
+		di "Verifying ID on : `name'"
+		isid id_cur
+	}
+
+matchit id_cur sname using `stvals' , idu(id_key) txtu(stkey) override
+
+	* convert similarity score -> floating point matchscore
+	recast float 		similscore , force
+	rename similscore 	matchscore
+
+	* keep current data obs with its best match from keyvals
+	bys id_cur : egen 	maxscore = max(matchscore)
+
+				gsort 	id_cur -maxscore
+				drop 	if matchscore != maxscore
+
+			drop 	maxscore
+
+end
+
+
+* map onto possible values
+	** assert no id_stkey unmerged from master, keep merged values
+merge m:1 id_key using `stvals' , assert(2 3) keep(3) nogen keepusing(stvals)
+
+* map onto current data
+merge m:1 id_cur using `current' , assert(2 3) gen(_ibmerge)
+
+	** greate idkey to assign
+	** toggle if found in indiabridge list
+
+	gen 	`id_indiabridge' 	= .
+	gen 	indiabridge = 0
+
+	order `id_indiabridge' matchscore indiabridge , before(id_key)
+
+	* Split value list by comma
+	split stvals , parse(",")
+
+		* iterate over list values resulting from split
+		foreach value in `r(varlist)' {
+
+			* reference dataset name against these values. Assign score = 1 for replaced
+			replace indiabridge = 1 if sname == `value' & !mi(sname)
+			replace matchscore = 1 if indiabridge == 1
+
+		}
+
+		* assign id_indiabridge
+		replace `id_indiabridge' = id_key if indiabridge == 1
+		replace `id_indiabridge' = id_key if mi(`id_indiabridge') & !mi(matchscore)
+
+			* drop variables from key-value data checked against
+			drop id_key stkey stvals*
+
+
+* verify that nonmissing id_indiabridges are unique
+isid `id_indiabridge' , missok
+
+* map onto lgdcensus database using id
+
+
 
 local N = _N
 forval i = 1/`N' {
@@ -21,22 +120,6 @@ forval i = 1/`N' {
 		l(stvals[`i'])
 }
 di "`N'"
-
-cap prog drop listkeyval
-prog listkeyval
-
-	* input: var, key, value
-	syntax varlist(string max=1), Key(string) List(string)
-
-	* run quietly
-	qui {
-		local statevar `varlist'
-		inlist2 `statevar', val("`list'") name(_x)
-		replace `statevar' = "`key'" if _x
-		drop _x
-	}
-
-end
 
 * define sclean
 cap prog drop sclean2
@@ -252,7 +335,6 @@ version 12.1
 		}
 		lab var `name' "=1 if -`varlist'- equals the specified value(s); 0 otherwise"
 		note `name' : Specified values: `values'
-end
 
 * listkeyval with inbuilt inlist functionality
 
@@ -260,20 +342,27 @@ cap prog drop listkeyval
 prog listkeyval
 
 	* input: var, key, value
-	syntax varlist(string max=1), Key(string) List(string)
+	syntax varlist(string max=1), KEY(varlist string) VALS(varlist string)
 
-	local statevar `varlist'
+	* get value tokens from list [note: each even token is a comma]
+	// tokenize "`list'", parse(",")
 
-	* get value tokens from list [note: every 2nd token is the delimiter]
-	tokenize "`list'", parse(",")
+	* no. of values to lookup = (list length - no. of commas) + 1
+	// local nvals = length("`list'") - length(subinstr("`list'",",","", .)) + 1
 
-	* no. of values = (list length - no. of commas) + 1
+	// tokenize "`list'", parse(",")
+
+	* no. of values to lookup = (list length - no. of commas) + 1
 	local nvals = length("`list'") - length(subinstr("`list'",",","", .)) + 1
 
-	* go up in steps of 2 [all odd numbers are values]
+	* go up from 1 in steps of 2 [skipping even numbers]
 	local ntokens = (`nvals'*2) - 1
 	forval i = 1 (2) `ntokens' {
 		local str = "``i''"
-		replace `statevar' = "`key'" if state == "`str'"
+		replace `varlist' = "`key'" if state == "`str'"
 	}
+end
+
+	listkeyval sname , key(stkey) vals(stvals)
+
 end

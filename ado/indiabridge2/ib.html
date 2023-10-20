@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>State and District Selector</title>
+</head>
+<body>
+    <h1>State and District Selector</h1>
+    <form method="post" action="">
+        <p>
+            <input type="radio" name="selection" value="state" checked> State
+            <input type="radio" name="selection" value="district"> District
+        </p>
+        <p>
+            <label for="stateSelector">Select a State:</label>
+            <select name="stateSelector" id="stateSelector">
+                <?php
+                // Read values from the CSV file
+                if (($handle = fopen("file:///home/ved/repos/india-bridge/ado/indiabridge2/stkeyvals.csv", "r")) !== FALSE) {
+                    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                        echo '<option value="' . $data[0] . '">' . $data[0] . '</option>';
+                    }
+                    fclose($handle);
+                }
+                ?>
+            </select>
+        </p>
+        <p>
+            <label for="enterSpelling">Enter spelling:</label>
+            <input type="text" name="enterSpelling" id="enterSpelling">
+        </p>
+        <input type="submit" value="Submit">
+    </form>
+
+    <?php
+    // Handle form submission
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $selection = $_POST["selection"];
+        $stateOrDistrict = $_POST["stateSelector"];
+        $enterSpelling = $_POST["enterSpelling"];
+
+        // Process the selected option
+        if ($selection === "state") {
+            echo "<p>You selected State: $stateOrDistrict</p>";
+        } else {
+            echo "<p>You selected District: $stateOrDistrict</p>";
+        }
+        echo "<p>Entered Spelling: $enterSpelling</p>";
+    }
+    ?>
+</body>
+</html>
+

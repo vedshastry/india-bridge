@@ -1,0 +1,152 @@
+{
+    "stcode" : [
+           "10": {
+              "stkey": "bihar",
+              "stvals": "bihar,bhbihar,br,bh"
+           },
+           "11": {
+              "stkey": "sikkim",
+              "stvals": "sikkim,sksikkim,sk"
+           },
+           "12": {
+              "stkey": "arunachalpradesh",
+              "stvals": "arunachalpradesh,ararunachalpradesh,arunanchalpradesh,ar,arunancal predesh,arp"
+           },
+           "13": {
+              "stkey": "nagaland",
+              "stvals": "nagaland,nanagaland,nl"
+           },
+           "14": {
+              "stkey": "manipur",
+              "stvals": "manipur,mamanipur,mn,mnp"
+           },
+           "15": {
+              "stkey": "mizoram",
+              "stvals": "mizohills,mizoram,mz"
+           },
+           "16": {
+              "stkey": "tripura",
+              "stvals": "tripura,trtripura,tr,tp"
+           },
+           "17": {
+              "stkey": "meghalaya",
+              "stvals": "shillong,meghalay,meghalaya,mgh"
+           },
+           "18": {
+              "stkey": "assam",
+              "stvals": "assam,asassam,as"
+           },
+           "19": {
+              "stkey": "westbengal",
+              "stvals": "westbengal,wbwestbengal,wb"
+           },
+           "20": {
+              "stkey": "jharkhand",
+              "stvals": "jharkhand,jh"
+           },
+           "21": {
+              "stkey": "odisha",
+              "stvals": "orissa,ororissa,or,odisha"
+           },
+           "22": {
+              "stkey": "chhattisgarh",
+              "stvals": "chhattisgarh,ct,chhatisgarh,cg,chattisgarh"
+           },
+           "23": {
+              "stkey": "madhyapradesh",
+              "stvals": "madhyapradesh,madhypradesh,mpmadhyapradesh,mp"
+           },
+           "24": {
+              "stkey": "gujarat",
+              "stvals": "gujarat,gjgujarat,gujrat,gj,kutch,saurashtra"
+           },
+           "25": {
+              "stkey": "damandiu",
+              "stvals": "damandiu,daman,diu"
+           },
+           "26": {
+              "stkey": "dadranagarhaveli",
+              "stvals": "dadranagarhaveli,dnhaveli,thedadraandnagarhavelianddamananddiu"
+           },
+           "27": {
+              "stkey": "maharashtra",
+              "stvals": "maharashtra,mhmaharashtra,mh,ms"
+           },
+           "28": {
+              "stkey": "andhrapradesh",
+              "stvals": "andhrapradesh,apandhrapradesh,ap,telangana"
+           },
+           "29": {
+              "stkey": "karnataka",
+              "stvals": "karnataka,kakarnataka,ka,mysore"
+           },
+           "30": {
+              "stkey": "goa",
+              "stvals": "goa"
+           },
+           "31": {
+              "stkey": "lakshadweep",
+              "stvals": "lakshadweep,lakshadwep,ld"
+           },
+           "32": {
+              "stkey": "kerala",
+              "stvals": "kerala,kekerala,kerela,kl,travancorecochin,ke"
+           },
+           "33": {
+              "stkey": "tamilnadu",
+              "stvals": "tamilnadu,tntamilnadu,tn,madras"
+           },
+           "34": {
+              "stkey": "pondicherry",
+              "stvals": "puducherry,pondicherry,pondi,py,pondicherryfrench"
+           },
+           "35": {
+              "stkey": "andamannicobarislands",
+              "stvals": "andamannicobarislands,andamannicobarisland,anislands,andamannicobar,an,andamansnicobars,andamanandnicobar,andmanandnocobarislands,andamanandnicobarislands,andamansnicobars"
+           },
+           "36": {
+              "stkey": "telangana",
+              "stvals": "telangana,tg"
+           },
+           "37": {
+              "stkey": "ladakh",
+              "stvals": "ladakh"
+           },
+           "01": {
+              "stkey": "jammukashmir",
+              "stvals": "jammukashmir,jmjammukashmir,jammu,jk,jammuandkashmir,ladakh"
+           },
+           "02": {
+              "stkey": "himachalpradesh",
+              "stvals": "himachalpradesh,hphimachalpradesh,himachal,hp,bilaspur"
+           },
+           "03": {
+              "stkey": "punjab",
+              "stvals": "punjab,pjpunjab,panjab,pb"
+           },
+           "04": {
+              "stkey": "chandigarh",
+              "stvals": "chandigarh,sahibzadaajitsinghnagar"
+           },
+           "05": {
+              "stkey": "uttarakhand",
+              "stvals": "ut,uttaranchal,uttrakhand,uk,uttranchal"
+           },
+           "06": {
+              "stkey": "haryana",
+              "stvals": "haryana,hrharyana,hr"
+           },
+           "07": {
+              "stkey": "delhi",
+              "stvals": "delhincr,delhi,dldelhi,newdelhi,nationalcapitalterritorydelhi,nctdelhi,nct,dl,nctofdelhi"
+           },
+           "08": {
+              "stkey": "rajasthan",
+              "stvals": "rajasthan,rjrajasthan,rj"
+           },
+           "09": {
+              "stkey": "uttarpradesh",
+              "stvals": "uttarpradesh,uputtarpradesh,uttarapradesh,up"
+           }
+    ]
+}

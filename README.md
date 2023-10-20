@@ -10,6 +10,7 @@ All state and district codes are in sync with the administrative atlas (inside t
 - /data contains a bridge/crosswalk Stata .dta, and an Excel file that can be used to track these changes.
 - /docs contains relevant references and documentation used to build india-bridge.
 - /releases contains compressed archives of the Stata programs, which can be downloaded and placed in the user's ado directory.
+- /src/ contains source and files
 
 ## Usage
 Download the zip from the releases section and extract it to your Stata ado directory.

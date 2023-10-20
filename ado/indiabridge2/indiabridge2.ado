@@ -2,32 +2,72 @@
 `indiabridge2`
 ! Version 2.0
 Last updated: Vedarshi Shastry, 01 Dec 2022
-Dependencies: `strkeep`, `egenmore`, `ereplace`
 
 indiabridge2 takes a vector of state and district strings in India and assigns identifiers consistent with -
 	* Local Government Directory (LGD)  [suffix: _lgd]
 	* Administrative Atlas of India (Census 1951-2011)  [suffix: _cenYYYY]
+
+** Changelog
+
 */
 
 cap prog drop indiabridge2
 prog indiabridge2, sortpreserve
 version 14.0
 
-* syntax: statename must be string, and year must be specified (district optional)
-syntax , Fromyear(numlist integer) Toyear(numlist integer) Statevar(varname string) [Districtvar(varname string)]
+/*
+syntax
+- state/district names are strings
+- current year must be specified
+- from and to years for mapping
+*/
+// syntax , FROMyear(numlist integer) TOyear(numlist integer) Statevar(varname string) [Districtvar(varname string)] TIME
+
+	syntax , 	CURRENT(numlist integer) ///
+				FROMyear(numlist integer) TOyear(numlist integer) ///
+				STname(varname string) ///
+				[Districtname(varname string) ///
+				IDState(varlist numeric max=1) IDDistrict(varlist numeric max=1)]
 
 * dependencies
-local pkglist "strkeep ereplace inlist2"
-foreach pkg in `pkglist'{
-	* confirm package existence and install if required
-	cap which `pkg'
-	if _rc {
-		di "Dependency <`pkg'> not found. Attempting to install from ssc."
-		ssc install `pkg'
+	local pkglist "strkeep matchit gtools"
+	foreach pkg in `pkglist'{
+
+		* confirm package existence and install if required
+		cap which `pkg'
+		if _rc {
+
+			di "Dependency <`pkg'> not found. Attempting to install from ssc."
+			ssc install `pkg'
+
+		}
+
 	}
-}
+
+* Output
+		di "successful"
+		
+end
+
+indiabridge2 , current(2023) from(2011) to(2012) st(sname)
+
 
 di "`fromyear' `toyear' `statevar' `districtvar'"
+
+local sheetlist "57-C_PPP 57A-C_NC"
+
+
+local time "1951-2011"
+
+	* split time into to/from
+    local pos = strpos("`time'", "-")
+    local time1 = substr("`time'", 0,`pos'-1)
+    local time2 = substr("`time'", `pos'+1, .)
+
+display "`time1' `time2'"
+
+* years -> earliest - latest census
+
 
 sclean2 `statevar'
 // scode2 `statevar'

@@ -6,7 +6,7 @@ v 1
 * blank d lines display a blank line
 d indiabridge
 d
-d V. Shastry
+d Ved Shastry, Aaditya Dar
 d indiabridge assigns Census consistent identifiers to a list of Indian district and state names.
 
 * l lines display links
