@@ -125,8 +125,51 @@ gen id_st_cen2001 = string(id_st_cen01, "%02.0f") if !missing(id_st_cen01)
 gen id_st_cen2011 = string(id_st_cen11, "%02.0f") if !missing(id_st_cen11)
 
 rename state name_st_ib
-keep  id_st_ib name_st_ib names from_year to_year id_st_cen2001 id_st_cen2011 id_st_lgd
-order id_st_ib name_st_ib names from_year to_year id_st_cen2001 id_st_cen2011 id_st_lgd
+
+* 2-letter ISO-style state code per unit (from v1 scode.ado stateiso; time-invariant).
+* Used to scope district matching to a state.
+gen iso = ""
+replace iso = "JK" if name_st_ib == "jammukashmir"
+replace iso = "HP" if inlist(name_st_ib, "himachalpradesh", "bilaspur")
+replace iso = "PB" if inlist(name_st_ib, "punjab", "patialaeastpunjabstatesunion")
+replace iso = "CH" if name_st_ib == "chandigarh"
+replace iso = "UT" if name_st_ib == "uttarakhand"
+replace iso = "HR" if name_st_ib == "haryana"
+replace iso = "DL" if name_st_ib == "delhi"
+replace iso = "RJ" if inlist(name_st_ib, "rajasthan", "ajmer")
+replace iso = "UP" if name_st_ib == "uttarpradesh"
+replace iso = "BR" if name_st_ib == "bihar"
+replace iso = "SK" if name_st_ib == "sikkim"
+replace iso = "AR" if name_st_ib == "arunachalpradesh"
+replace iso = "NL" if name_st_ib == "nagaland"
+replace iso = "MN" if name_st_ib == "manipur"
+replace iso = "MZ" if name_st_ib == "mizoram"
+replace iso = "TR" if name_st_ib == "tripura"
+replace iso = "ML" if name_st_ib == "meghalaya"
+replace iso = "AS" if name_st_ib == "assam"
+replace iso = "WB" if name_st_ib == "westbengal"
+replace iso = "JH" if name_st_ib == "jharkhand"
+replace iso = "OR" if name_st_ib == "odisha"
+replace iso = "CT" if name_st_ib == "chhattisgarh"
+replace iso = "MP" if inlist(name_st_ib, "madhyapradesh", "bhopal", "madhyabharat", "vindhyapradesh")
+replace iso = "GJ" if inlist(name_st_ib, "gujarat", "saurashtra", "kutch")
+replace iso = "DD" if name_st_ib == "damandiu"
+replace iso = "DH" if name_st_ib == "dadranagarhaveli"
+replace iso = "MH" if inlist(name_st_ib, "maharashtra", "bombay")
+replace iso = "AP" if name_st_ib == "andhrapradesh"
+replace iso = "KA" if inlist(name_st_ib, "karnataka", "mysore", "coorg")
+replace iso = "GA" if inlist(name_st_ib, "goa", "goadamandiu")
+replace iso = "LD" if name_st_ib == "lakshadweep"
+replace iso = "KL" if name_st_ib == "kerala"
+replace iso = "TN" if name_st_ib == "tamilnadu"
+replace iso = "PY" if name_st_ib == "pondicherry"
+replace iso = "AN" if name_st_ib == "andamannicobarislands"
+replace iso = "TG" if inlist(name_st_ib, "telangana", "hyderabad")
+replace iso = "LA" if name_st_ib == "ladakh"
+assert iso != ""
+
+keep  id_st_ib name_st_ib iso names from_year to_year id_st_cen2001 id_st_cen2011 id_st_lgd
+order id_st_ib name_st_ib iso names from_year to_year id_st_cen2001 id_st_cen2011 id_st_lgd
 sort  id_st_ib
 tempfile cross
 save `cross'

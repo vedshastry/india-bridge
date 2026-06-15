@@ -3,7 +3,7 @@
 
 {p2col:{bf:indiabridge2}}
 
-Fuzzy ("closest match") assignment of stable india-bridge state identifiers
+Fuzzy ("closest match") assignment of stable india-bridge state and district identifiers
 
 {marker syntax}{...}
 
@@ -14,8 +14,8 @@ Fuzzy ("closest match") assignment of stable india-bridge state identifiers
 {opt CURRENT:year(num)}
 {opt FROM:year(num)}
 {opt TO:year(num)}
-{opt ST:atename(varname)}
-{opt IDS:tate(varname)}
+[{opt ST:atename(varname)} {opt IDS:tate(varname)}
+{opt DIST:rictname(varname)} {opt IDD:istrict(varname)}]
 
 {synoptset 24 tabbed}{...}
 {synopthdr}
@@ -23,12 +23,14 @@ Fuzzy ("closest match") assignment of stable india-bridge state identifiers
 {synopt:{opt CURRENT:year(num)}}data's reference year; picks the india-bridge round (census decade, or LGD for years after 2011){p_end}
 {synopt:{opt FROM:year(num)}}earliest year covered by the data{p_end}
 {synopt:{opt TO:year(num)}}latest year covered by the data{p_end}
-{synopt:{opt ST:atename(varname)}}string variable holding state names to match{p_end}
-{synopt:{opt IDS:tate(varname)}}numeric variable uniquely identifying each input row{p_end}
+{synopt:{opt ST:atename(varname)}}string variable holding state names{p_end}
+{synopt:{opt IDS:tate(varname)}}numeric row id (required with statename){p_end}
+{synopt:{opt DIST:rictname(varname)}}string variable holding district names{p_end}
+{synopt:{opt IDD:istrict(varname)}}numeric row id (required with districtname){p_end}
 {synoptline}
 
-{p 4 6 2}{opt DIST:rictname()} and {opt IDD:istrict()} are accepted but district
-matching is {bf:not yet implemented} (planned for a future release).{p_end}
+{p 4 6 2}State and district matching are independent and either may be used alone.
+If {bf:both} are given, the matched state's iso scopes the district match (see below).{p_end}
 
 {marker description}{...}
 
@@ -55,21 +57,45 @@ Units lost or transferred over the decades (Bombay State, Madhya Bharat, PEPSU, 
 receive a {cmd:999xxxx} stable id. Names reused across eras resolve by window: e.g.
 "Telangana" maps to Andhra Pradesh for a pre-2014 window but to Telangana later.
 
+{pstd}
+{bf:Districts} work the same way but are scoped by state, because district names
+repeat across states (there are two Aurangabads, two Hamirpurs, ...). If
+{opt statename()} is also given, the matched state's iso restricts each row's
+district candidates, so the right Aurangabad is chosen. With {opt districtname()}
+{bf:alone}, a repeated name cannot be resolved: such rows are flagged
+({cmd:_IBambig}==1), their id is left missing, and the competing units are listed
+in {cmd:__dt_candidates} for review.
+
 {marker outputs}{...}
 
 {title:Variables created}
 
+{p 4 4 2}{bf:State} ({opt statename()}):{p_end}
 {synoptset 24 tabbed}{...}
 {synopt:{cmd:__id_st_ib}}stable india-bridge state id (string; {cmd:999xxxx} = lost/transferred unit){p_end}
 {synopt:{cmd:__name_st_ib}}stable (current) canonical name of the matched unit{p_end}
+{synopt:{cmd:__iso_st}}2-letter state code (used to scope districts){p_end}
 {synopt:{cmd:__name_st_}{it:round}}standardized name for the primary round, e.g. {cmd:__name_st_cen2001}{p_end}
 {synopt:{cmd:__id_st_}{it:round}}matched round id, for round = {cmd:cen2001}, {cmd:cen2011} or {cmd:lgd}{p_end}
-{synopt:{cmd:_IBscore}}similarity score of the best match (1 = exact){p_end}
-{synopt:{cmd:_IBmatch}}1 if matched, 0 if no candidate cleared the similarity threshold{p_end}
 {synoptline}
 
-{p 4 6 2}{bf:Always inspect low {cmd:_IBscore} values and any {cmd:_IBmatch}==0
-rows by hand} - fuzzy matching can mis-rank very short or heavily misspelled names.{p_end}
+{p 4 4 2}{bf:District} ({opt districtname()}):{p_end}
+{synoptset 24 tabbed}{...}
+{synopt:{cmd:__id_dt_ib}}stable district id (string; {cmd:999xxxxx} = lost/renamed unit; missing if ambiguous){p_end}
+{synopt:{cmd:__name_dt_ib}}stable (current) canonical district name{p_end}
+{synopt:{cmd:__iso_dt}}state iso of the matched district{p_end}
+{synopt:{cmd:__name_dt_}{it:round}}standardized district name for the primary round{p_end}
+{synopt:{cmd:__id_dt_}{it:round}}matched round district id, for {cmd:cen2001}, {cmd:cen2011} or {cmd:lgd}{p_end}
+{synopt:{cmd:__dt_candidates}}competing "iso:id" units when a district name is ambiguous{p_end}
+{synopt:{cmd:_IBambig}}1 if the district name matched more than one state's unit{p_end}
+{synoptline}
+
+{p 4 4 2}Both report {cmd:_IBscore} (best similarity, 1 = exact) and {cmd:_IBmatch}
+(1 = matched).{p_end}
+
+{p 4 6 2}{bf:Always inspect low {cmd:_IBscore} values, {cmd:_IBmatch}==0, and
+{cmd:_IBambig}==1 rows by hand} - fuzzy matching can mis-rank very short or
+heavily misspelled names.{p_end}
 
 {marker examples}{...}
 
@@ -79,8 +105,11 @@ rows by hand} - fuzzy matching can mis-rank very short or heavily misspelled nam
 {pstd}Modern data (state names in {cmd:sname}, row id in {cmd:id}):{p_end}
 {phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id)}{p_end}
 
-{pstd}Recent (post-2011) data, matched against the Local Government Directory:{p_end}
-{phang2}{cmd:. indiabridge2, currentyear(2020) fromyear(2015) toyear(2020) statename(sname) idstate(id)}{p_end}
+{pstd}States and districts together (state scopes the district match):{p_end}
+{phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id) districtname(dname) iddistrict(id)}{p_end}
+
+{pstd}Districts alone (repeated names will be flagged in {cmd:_IBambig}):{p_end}
+{phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) districtname(dname) iddistrict(id)}{p_end}
 
 {hline}
 
@@ -94,12 +123,18 @@ The per-year name dictionaries {cmd:dict/state_names.csv} and
 ({cmd:ado/sclean.ado}, {cmd:ado/dclean.ado}) by {cmd:src/code/extract_dicts.do}.
 
 {pstd}
-The runtime files {cmd:dict/state/st_crosswalk.csv} (stable registry),
-{cmd:dict/state/st_year_dict.csv} (round-aware candidates) and the project-id
-registry {cmd:dict/id_st_indiabridge.csv} are then generated from
-{cmd:state_names.csv} + {cmd:state/st_lgd.csv} + {cmd:data/output/lgd_states.dta}
-by {cmd:src/code/prep_state_crosswalk.do}. Edit a source, re-run those two
-do-files to rebuild.
+The runtime files are generated from those dictionaries plus the LGD outputs:
+{cmd:src/code/prep_state_crosswalk.do} builds {cmd:dict/state/st_crosswalk.csv},
+{cmd:dict/state/st_year_dict.csv} and {cmd:dict/id_st_indiabridge.csv};
+{cmd:src/code/prep_district_crosswalk.do} builds the {cmd:dict/district/}
+equivalents. Edit a source, re-run the relevant do-files to rebuild.
+
+{pstd}
+{bf:Note (districts):} historical districts are anchored to LGD by name within
+state. A district that was renamed (allahabad{c -}>prayagraj) or moved to a new
+state (Telangana districts in 2014) currently lands as a {cmd:999xxxxx} historical
+unit rather than auto-linking to its modern LGD code; full cross-time district
+bridging is a planned refinement.
 
 {title:Maintainer(s)}
 

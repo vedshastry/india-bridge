@@ -68,15 +68,19 @@ version 14.0
 			exit 198
 	}
 
-	* Run matching program
+	* Run matching program(s). State first; if both are given, the matched state
+	* iso (__iso_st) scopes the district match to disambiguate repeated names.
 	if "`statename'" != "" {
 		ibmatch `statename' , state id(`idstate') ///
 			currentyear(`currentyear') fromyear(`fromyear') toyear(`toyear')
 	}
 
 	if "`districtname'" != "" {
-		di as text "Note: district matching is not yet implemented in indiabridge2 " ///
-			"(planned for a future release). Skipping `districtname'."
+		local scopeopt ""
+		capture confirm variable __iso_st
+		if !_rc local scopeopt "isovar(__iso_st)"
+		ibmatch_dist `districtname' , id(`iddistrict') ///
+			currentyear(`currentyear') fromyear(`fromyear') toyear(`toyear') `scopeopt'
 	}
 
 end
@@ -182,6 +186,7 @@ program define ibmatch
 
 		* clean name keeping only alphabets in lowercase
 		strkeep 	`name' , alpha lower gen(_IBtempname)
+		replace 	_IBtempname = ustrlower(_IBtempname)   // strkeep's lower doesn't lowercase; match lowercase dict
 
 		* Keep keys
 		keep 		`id' _IBtempid _IBtempname
@@ -225,13 +230,13 @@ program define ibmatch
 			exit 2000
 		}
 
-		* attach unit existence year (for tie-breaking)
-		merge m:1 id_st_ib using `cross' , keep(1 3) keepusing(from_year) nogen
-
 		* surrogate key per candidate row
 		gen _ibkey = _n
+		* lookup: key -> unit + existence year. from_year is merged HERE only, not
+		* into the matchit candidate file (merging there degrades matchit's scoring).
 		preserve
-			keep _ibkey id_st_ib from_year
+			keep _ibkey id_st_ib
+			merge m:1 id_st_ib using `cross' , keep(1 3) keepusing(from_year) nogen
 			rename from_year _ib_from
 			tempfile lookup
 			save `lookup'
@@ -289,11 +294,12 @@ program define ibmatch
 
 		* attach stable outputs + the primary round's code and name
 		merge m:1 id_st_ib using `cross' , ///
-			keep(1 3) keepusing(name_st_ib `roundcol') nogen
+			keep(1 3) keepusing(name_st_ib iso `roundcol') nogen
 		merge m:1 id_st_ib using `roundname' , keep(1 3) nogen
 
 		rename id_st_ib   __id_st_ib
 		rename name_st_ib __name_st_ib
+		rename iso        __iso_st
 		if "`roundcol'" != "" rename `roundcol' __`roundcol'
 
 		* recover the input id and flag matched vs unmatched
@@ -348,4 +354,232 @@ program define ibmatch
 	di as text _dup(80) "_"
 
 * end ibmatch
+end
+
+*-------------------------------------------------------------------------------
+*** ibmatch_dist : matches district strings, scoped by state iso where available
+*-------------------------------------------------------------------------------
+capture program drop ibmatch_dist
+program define ibmatch_dist
+
+	syntax varlist(string max=1), id(varlist numeric max=1) ///
+		[currentyear(numlist integer) fromyear(numlist integer) toyear(numlist integer) isovar(varname)]
+
+		isid `id'
+		local name "`1'"
+
+		if "`fromyear'" == "" local fromyear 1951
+		if "`toyear'"   == "" local toyear   9999
+
+		* round selection (identical scheme to the state matcher)
+		if "`currentyear'" != "" {
+			local IBDECADE = round(`currentyear',10) + 1
+			if !inrange(`IBDECADE',1951,2023) {
+				di as error "Syntax error: current year must be between 1951-present"
+				exit 198
+			}
+		}
+		else local IBDECADE = 2023
+
+		if inlist(`IBDECADE',1951,1961,1971,1981,1991,2001,2011) local IBROUND "cen`IBDECADE'"
+		else if `IBDECADE' > 2011                                local IBROUND "lgd"
+
+		local roundcol ""
+		if inlist("`IBROUND'","cen2001","cen2011","lgd") local roundcol "id_dt_`IBROUND'"
+
+		local candrounds `"`IBROUND'"'
+		foreach y of numlist 1951 1961 1971 1981 1991 2001 2011 {
+			if (`y' >= `fromyear') & (`y' <= `toyear') local candrounds `"`candrounds' cen`y'"'
+		}
+
+		findfile indiabridge2.ado
+		local pkgdir = substr("`r(fn)'", 1, strlen("`r(fn)'") - strlen("indiabridge2.ado"))
+		local crosswalk "`pkgdir'dict/district/dt_crosswalk.csv"
+		local yeardict  "`pkgdir'dict/district/dt_year_dict.csv"
+		capture confirm file "`crosswalk'"
+		local rc1 = _rc
+		capture confirm file "`yeardict'"
+		if `rc1' | _rc {
+			di as error "District dictionaries not found under `pkgdir'dict/district/"
+			di as error "Re-generate them with src/code/prep_district_crosswalk.do."
+			exit 601
+		}
+
+	quietly {
+
+	unab all_vars : *
+	tempfile current
+	save `current'
+
+		gen _IBtempid = `id'
+		isid _IBtempid
+
+		nois di as text _dup(80) "_"
+		nois di "Matching cleaned `name' to india-bridge district round (`IBROUND'), years `fromyear'-`toyear'"
+		if "`isovar'" != "" nois di as text "Scoping districts to matched state iso in `isovar'"
+
+		strkeep `name' , alpha lower gen(_IBtempname)
+		replace _IBtempname = ustrlower(_IBtempname)   // strkeep's lower doesn't lowercase; match lowercase dict
+		if "`isovar'" != "" gen _IBiso = `isovar'
+		else                gen _IBiso = ""
+		keep `id' _IBtempid _IBtempname _IBiso
+		tempfile input_names
+		save `input_names'
+
+		clear
+		tempfile match
+		save `match', emptyok
+
+		** stable registry
+		import delimited "`crosswalk'", varnames(1) stringcols(_all) clear
+		destring from_year to_year , replace
+		tempfile cross
+		save `cross'
+
+		** round-aware candidate dictionary
+		tempfile roundname
+		import delimited "`yeardict'", varnames(1) stringcols(_all) clear
+		preserve
+			keep if round == "`IBROUND'"
+			keep id_dt_ib name_dt_round
+			rename name_dt_round __name_dt_`IBROUND'
+			save `roundname'
+		restore
+
+		gen byte _keep = 0
+		foreach r of local candrounds {
+			replace _keep = 1 if round == "`r'"
+		}
+		keep if _keep
+		count
+		if `r(N)' == 0 {
+			nois di as error "No district dictionary entries for round(s): `candrounds'."
+			exit 2000
+		}
+
+		gen _ibkey = _n
+		* lookup: key -> unit, iso, existence year (from_year merged here, NOT into
+		* the matchit candidate file - merging there degrades matchit's scoring)
+		preserve
+			keep _ibkey id_dt_ib iso
+			merge m:1 id_dt_ib using `cross' , keep(1 3) keepusing(from_year) nogen
+			rename iso       _cand_iso
+			rename from_year _ib_from
+			tempfile lookup
+			save `lookup'
+		restore
+
+		split names , parse(",") gen(_nm)
+		drop names
+		unab namevars : _nm*
+		local n_values : word count `namevars'
+		keep _ibkey _nm*
+		tempfile ib_names
+		save `ib_names'
+
+	* match input against each variant column; keep only candidates in the row's iso
+	_dots 0
+	forval i = 1/`n_values' {
+
+		nois _dots `i' 0
+		use `input_names' , clear
+
+			matchit 	_IBtempid _IBtempname using `ib_names' , ///
+						idu(_ibkey) txtu(_nm`i') gen(_IBscore) sim(ngram_circ,2)
+			count
+			if `r(N)' == 0 continue
+			recast float _IBscore , force
+
+			merge m:1 _ibkey    using `lookup'      , keep(3) keepusing(id_dt_ib _cand_iso _ib_from) nogen
+			merge m:1 _IBtempid using `input_names'  , keep(3) keepusing(_IBiso) nogen
+
+			* scope: if the row has a known state iso, keep only that state's districts
+			keep if (_IBiso == "") | (_cand_iso == _IBiso)
+			count
+			if `r(N)' == 0 continue
+
+			keep _IBtempid _ibkey _IBscore id_dt_ib _cand_iso _ib_from
+
+		append using `match'
+		save `match', replace
+	}
+
+	use `match', clear
+
+		* keep each input's best-scoring candidates, then reduce to distinct units
+		bys _IBtempid (_IBscore) : keep if _IBscore == _IBscore[_N]
+		bys _IBtempid id_dt_ib (_ib_from _cand_iso) : keep if _n == 1
+
+		* ambiguity = a name that resolves to more than one (state) unit at top score
+		bys _IBtempid : gen _nu = _N
+
+		* candidate list "ISO:id, ISO:id" (only meaningful when ambiguous)
+		gen _candstr = _cand_iso + ":" + id_dt_ib
+		sort _IBtempid _candstr
+		by _IBtempid : gen _cum = _candstr if _n == 1
+		by _IBtempid : replace _cum = _cum[_n-1] + ", " + _candstr if _n > 1
+		by _IBtempid : gen __dt_candidates = _cum[_N]
+
+		* pick a representative row (newer unit, then lower id)
+		gsort _IBtempid -_ib_from id_dt_ib
+		by _IBtempid : keep if _n == 1
+		gen byte _IBambig = (_nu > 1)
+		replace __dt_candidates = "" if _IBambig == 0
+
+		* attach outputs
+		merge m:1 id_dt_ib using `cross' , keep(1 3) keepusing(name_dt_ib iso `roundcol') nogen
+		merge m:1 id_dt_ib using `roundname' , keep(1 3) nogen
+
+		rename id_dt_ib   __id_dt_ib
+		rename name_dt_ib __name_dt_ib
+		rename iso        __iso_dt
+		if "`roundcol'" != "" rename `roundcol' __`roundcol'
+
+		* blank the id on ambiguous rows (keep the candidate list for review)
+		foreach v of varlist __id_dt_ib __name_dt_ib __iso_dt __name_dt_`IBROUND' {
+			replace `v' = "" if _IBambig == 1
+		}
+		if "`roundcol'" != "" replace __`roundcol' = "" if _IBambig == 1
+
+		* recover input id (and other input cols); flag matched / unmatched / ambiguous
+		merge 1:1 _IBtempid using `input_names' , assert(2 3)
+		gen _IBmatch = (_merge == 3 & _IBambig != 1)
+		replace _IBambig = 0 if _merge == 2
+		drop _merge
+
+	drop _IBtempid _IBtempname _IBiso _ibkey _ib_from _cand_iso _candstr _cum _nu
+
+	isid `id' , missok
+	merge m:1 `id' using `current' , assert(2 3) nogen
+
+	order `all_vars' , first
+	order _IBmatch _IBambig _IBscore __* , last
+
+	/* end quietly */
+	}
+
+	* report
+	qui count
+	local TOT = r(N)
+	qui count if _IBmatch == 1
+	local M = r(N)
+	qui count if _IBambig == 1
+	local A = r(N)
+	local U = `TOT' - `M' - `A'
+
+	di as text _dup(80) " "
+	di as res "`M' of `TOT' district observation/s in <`name'> matched cleanly"
+	di as text "	Stable id __id_dt_ib (name __name_dt_ib, iso __iso_dt); round (`IBROUND') name __name_dt_`IBROUND'"
+	if `A' > 0 {
+		di as error "	`A' observation/s had an AMBIGUOUS district name (matches >1 state)."
+		di as error "	Their __id_dt_ib is left missing; candidate ids are listed in __dt_candidates."
+		di as error "	Provide statename()/idstate() so the matched state can disambiguate them."
+	}
+	if `U' > 0 {
+		di as text "	`U' observation/s did not match (see _IBmatch==0, _IBscore)."
+	}
+	di as text _dup(80) " "
+	di as res "ibmatch_dist complete"
+	di as text _dup(80) "_"
+
 end
