@@ -6,7 +6,7 @@ global rootdir "/home/ved/repos/india-bridge/"
 import excel "${rootdir}/data/input/lgd/lgd_utstates_export_20231020.xlsx" , clear
 
     * rename
-    rename  A sr_no
+    rename  A sr_no // Serial
     rename  B id_st_lgd
     rename  C name_st_lgd_en
     rename  D name_st_lgd_loc
@@ -35,3 +35,28 @@ import excel "${rootdir}/data/input/lgd/lgd_districts_export_20231020.xlsx" , cl
     rename  K
     rename  L
     rename  M
+
+"S No"
+"State LGD Code"
+"State Name (In English)"
+"State Name (In Local language)"
+"State or UT"
+"Census 2001 Code"
+"Census 2011 Code"
+"View Details"
+"View History"
+"View Government Order"
+"View Map"
+
+    rename  A sr_no // Serial
+    rename  B id_st_lgd
+    rename  C name_st_lgd_en
+    rename  D name_st_lgd_loc
+    rename  E is_ut
+    rename  F id_st_cen01
+    rename  G
+    rename  H
+    rename  I
+    rename  J
+    rename  K
+    rename  L
