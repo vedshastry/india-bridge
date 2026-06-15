@@ -74,8 +74,7 @@ the district-ambiguity (`_IB_ambig`) handling.
   `test_indiabridge*.do` end-to-end checks.
 - `data/` — bridge/crosswalk datasets and LGD inputs/outputs.
 - `docs/` — administrative atlas and district-change references.
-- `archive/` — superseded/legacy material (e.g. `indiabridge_legacy_dict/`).
-- `releases/` — older compressed snapshots of the v1/v2 Stata programs.
+- `_archive/` — superseded/legacy material (e.g. `indiabridge_legacy_dict/` and prior releases).
 
 ## How the dictionaries are built
 
@@ -92,10 +91,10 @@ Edit a source, then re-run the relevant do-file from the repository root to rebu
 
 ## Versioning
 
-`indiabridge` (v2) **replaces** the original program entirely and is invoked with
-the same `indiabridge` command. The v1 implementation is archived under
+`indiabridge` (v2, 2026) **replaces** the original program entirely and is invoked with
+the same `indiabridge` command. The v1 (2022) implementation is archived under
 `ado/indiabridge-v1/`; switching may change identifiers or break v1-specific
-scripts.
+scripts. 
 
 ## Maintainer
 
