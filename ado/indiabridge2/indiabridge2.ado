@@ -1,44 +1,27 @@
 /*
 `indiabridge2`
 ! Version 2.0
-Last updated: Vedarshi Shastry, 01 Dec 2022
+Last updated: Vedarshi Shastry
 
-indiabridge2 takes a vector of state and district strings in India and assigns identifiers consistent with -
-	* Local Government Directory (LGD)  [suffix: _lgd]
-	* Administrative Atlas of India (Census 1951-2011)  [suffix: _cenYYYY]
+indiabridge2 takes a vector of state strings in India and assigns identifiers by
+fuzzy ("closest") string matching against the india-bridge dictionary, rather
+than the hard-coded lookups of indiabridge v1.
 
-			* create lgdcensus database. find closest decade to current time
+Each matched unit carries:
+    * a stable india-bridge project id   [id_st_ib]   - constant across time;
+      units lost/transferred over time get a 999xxxx id
+    * the matched census/LGD round id     [id_st_<round>]
 
-			    1. lgdcensus_st : historical state mapping
-			    2. lgdcensus_dt : historical district mapping
-			        - id_lgdcen_st and id_lgdcen_dt always map onto indiabridge project ID
-			        - project ID starts with 999xxxx if unit was lost/transferred at some point of time
+	* use current year to pick the india-bridge round (census decade / LGD)
+	* use from and to years to trim the candidate set to units that existed
+	  within the data's time window (resolves names reused across eras)
 
-			* fuzzy string match with current time
-
-			* use current year to map onto lgdcensus database
-			* use from and to time variables to trim mapped set
-
-			* state names -> matchit with ib states
-			* district names ->
-			    - first match states
-			    - then match with ib districts
-			    - drop obs where
-			    - require state
-
+District matching is not yet implemented (planned for a future release).
 */
 
 cap prog drop indiabridge2
 prog indiabridge2, sortpreserve
 version 14.0
-
-		/*
-		syntax
-		- current data year required
-		- from and to years required
-		- state/district names are string vars. one must be specified
-
-		*/
 
 	syntax , 	CURRENTyear(numlist integer) ///
 				FROMyear(numlist integer) TOyear(numlist integer) ///
@@ -66,34 +49,34 @@ version 14.0
 	* 1. Check if either state/district name +ID variable specified
 	if "`statename'`districtname'" == "" {
 			di as error "Please specify at least 1 out of statename() or districtname() to continue."
-			exit
+			exit 198
 	}
 	else {
 		if "`statename'" != "" & "`idstate'" == "" {
-			di as error "Syntax error: the ID variable for states in`statename' must be specified using idstate()."
-			exit
+			di as error "Syntax error: the ID variable for states in `statename' must be specified using idstate()."
+			exit 198
 		}
 		if "`districtname'" != "" & "`iddistrict'" == "" {
-
 			di as error "Syntax error: the ID variable for districts in `districtname' must be specified using iddistrict()."
-			exit
+			exit 198
 		}
 	}
-
 
 	* 2. From/to years are valid
 	if `fromyear' > `toyear' {
 			di as error "From year (`fromyear') must be lesser than to year (`toyear')"
-			exit
+			exit 198
 	}
-
 
 	* Run matching program
 	if "`statename'" != "" {
-		ibmatch `statename' , state id(`idstate') currentyear(`currentyear')
+		ibmatch `statename' , state id(`idstate') ///
+			currentyear(`currentyear') fromyear(`fromyear') toyear(`toyear')
 	}
-	else if "`districtname'" != "" {
-		ibmatch `districtname' , district id(`iddistrict') currentyear(`currentyear')
+
+	if "`districtname'" != "" {
+		di as text "Note: district matching is not yet implemented in indiabridge2 " ///
+			"(planned for a future release). Skipping `districtname'."
 	}
 
 end
@@ -103,13 +86,14 @@ end
 *-------------------------------------------------------------------------------
 
 *-------------------------------------------------------------------------------
-*** ibmatch : matches specified strings against indiabridge database
+*** ibmatch : matches specified strings against the india-bridge dictionary
 *-------------------------------------------------------------------------------
 capture program drop ibmatch
 program define ibmatch
 
-	* input: name variable, round (census/LGD), id
-	syntax varlist(string max=1), id(varlist numeric max=1) [currentyear(numlist integer) state district]
+	* input: name variable, round (census/LGD), id, year window
+	syntax varlist(string max=1), id(varlist numeric max=1) ///
+		[currentyear(numlist integer) fromyear(numlist integer) toyear(numlist integer) state district]
 
 		* Assert ID variable
 		isid `id'
@@ -117,69 +101,90 @@ program define ibmatch
 		* Pull name variable
 		local name "`1'"
 
-		* Assert only one of state or district is specified, with the corresponding ID
-			if "`state'`district'" == "" {
+		* District matching is not yet available
+		if "`district'" != "" {
+			di as error "District matching is not yet implemented in indiabridge2."
+			exit 198
+		}
+		if "`state'" == "" {
+			di as error "Syntax error: must specify the state option with ibmatch."
+			exit 198
+		}
 
-				di as error "Syntax error: must specify either the state or district option with ibmatch."
-				exit
+		* Default the year window if called directly
+		if "`fromyear'" == "" local fromyear 1951
+		if "`toyear'"   == "" local toyear   9999
 
-			}
-			else if "`state'`district'" == "statedistrict" {
-
-				di as error "Syntax error: can specify only 1 of state or district with ibmatch, not both."
-				exit
-
-			}
-
-		* Map current year to closest indiabridge round. Set default as LGD
+		* Map current year to the closest india-bridge round. Default to LGD.
 		if "`currentyear'" != "" {
 			local IBDECADE = round(`currentyear',10) + 1
 
-			if !inrange(`IBDECADE',1961,2023) {
-				di as error "Syntax error: current year must be between 1960-present"
-				exit
+			if !inrange(`IBDECADE',1951,2023) {
+				di as error "Syntax error: current year must be between 1951-present"
+				exit 198
 			}
-
 		}
 		else {
 			di as text "Current year not specified. Defaulting to Local Government Directory (LGD) 2023"
 			local IBDECADE = 2023
 		}
 
+		** Assign the primary india-bridge round from currentyear
+		if inlist(`IBDECADE',1951,1961,1971,1981,1991,2001,2011) {
+			local IBROUND "cen`IBDECADE'"
+		}
+		else if `IBDECADE' > 2011 {
+			local IBROUND "lgd"
+		}
+
+		* Round-specific id column (only census 2001/2011 and LGD carry a numeric code)
+		local roundcol ""
+		if inlist("`IBROUND'","cen2001","cen2011","lgd") local roundcol "id_st_`IBROUND'"
+
+		* Candidate rounds = the primary round, plus any census round inside the
+		* data window (so multi-year data still matches era-specific spellings).
+		local candrounds `"`IBROUND'"'
+		foreach y of numlist 1951 1961 1971 1981 1991 2001 2011 {
+			if (`y' >= `fromyear') & (`y' <= `toyear') local candrounds `"`candrounds' cen`y'"'
+		}
+
+		* Locate the dictionaries alongside this ado (portable; no hard-coded path)
+		findfile indiabridge2.ado
+		local pkgdir = substr("`r(fn)'", 1, strlen("`r(fn)'") - strlen("indiabridge2.ado"))
+		local crosswalk "`pkgdir'dict/state/st_crosswalk.csv"
+		local yeardict  "`pkgdir'dict/state/st_year_dict.csv"
+
+		capture confirm file "`crosswalk'"
+		local rc1 = _rc
+		capture confirm file "`yeardict'"
+		if `rc1' | _rc {
+			di as error "State dictionaries not found under `pkgdir'dict/state/"
+			di as error "Re-generate them with src/code/prep_state_crosswalk.do, or reinstall indiabridge2."
+			exit 601
+		}
+
 	* run quietly
 	quietly {
 
-	* Store current variable arrangemen
+	* Store current variable arrangement
 	unab all_vars : *
 
 	* Save current data in memory
 	tempfile current
 	save `current' , replace
 
-		** Assign indiabridge round
-
-			if inlist(`IBDECADE',1961,1971,1981,1991,2001,2011) {
-				local IBROUND "cen`IBDECADE'"
-			}
-			else if `IBDECADE' > 2011 {
-				local IBROUND "lgd"
-			}
-
-
 		* Prepare list of names + ID from current data
-		use `current' , clear
-
 		gen 	_IBtempid = `id'
 		isid 	_IBtempid
 
 		nois di as text _dup(80) "_"
-		nois di "Matching cleaned `name' to indiabridge round (`IBROUND')"
+		nois di "Matching cleaned `name' to india-bridge round (`IBROUND'), years `fromyear'-`toyear'"
 
 		* clean name keeping only alphabets in lowercase
 		strkeep 	`name' , alpha lower gen(_IBtempname)
 
-		* Keep vars
-		keep 		`id' `name' _IBtempid _IBtempname
+		* Keep keys
+		keep 		`id' _IBtempid _IBtempname
 
 		* Save input data
 		tempfile input_names
@@ -190,53 +195,82 @@ program define ibmatch
 		tempfile match
 		save `match', emptyok
 
-		** Store parameters based on indiabridge round
-		// local ib_names_csv "https://raw.githubusercontent.com/vedshastry/india-bridge/refs/heads/testing/ado/indiabridge2/dict/state/stvals_cen2011.csv"
-		local ib_names_csv "/home/ved/repos/india-bridge/ado/indiabridge2/dict/state/st_`IBROUND'.csv"
-		local ib_idvar "id_st_`IBROUND'"
-		local ib_namevar "name_st_`IBROUND'"
+		** Stable registry: id_st_ib -> stable name, existence, round codes
+		import delimited "`crosswalk'", varnames(1) stringcols(_all) clear
+		destring from_year to_year , replace
+		tempfile cross
+		save `cross'
 
-		* Prepare list of names to match against (from indiabridge database)
+		** Round-aware candidate dictionary
+		tempfile roundname
+		import delimited "`yeardict'", varnames(1) stringcols(_all) clear
 
-		import delimited "`ib_names_csv'", clear varnames(1) delimiter(",")
+		* round-appropriate canonical name for the primary round
+		preserve
+			keep if round == "`IBROUND'"
+			keep id_st_ib name_st_round
+			rename name_st_round __name_st_`IBROUND'
+			save `roundname'
+		restore
 
-			split names, parse(",") gen(name)
-			local n_values = r(k_new)
+		** Candidate dictionary: rows for the primary + in-window census rounds
+		gen byte _keep = 0
+		foreach r of local candrounds {
+			replace _keep = 1 if round == "`r'"
+		}
+		keep if _keep
+		count
+		if `r(N)' == 0 {
+			nois di as error "No dictionary entries for round(s): `candrounds'."
+			exit 2000
+		}
 
+		* attach unit existence year (for tie-breaking)
+		merge m:1 id_st_ib using `cross' , keep(1 3) keepusing(from_year) nogen
+
+		* surrogate key per candidate row
+		gen _ibkey = _n
+		preserve
+			keep _ibkey id_st_ib from_year
+			rename from_year _ib_from
+			tempfile lookup
+			save `lookup'
+		restore
+
+		* explode the comma-separated variant names into columns
+		split names , parse(",") gen(_nm)
+		drop names
+		unab namevars : _nm*
+		local n_values : word count `namevars'
+
+		keep _ibkey _nm*
 		tempfile ib_names
 		save `ib_names', replace
 
-	** Display confirmation
-
-	* match against all values, display progress
+	* match input against every variant column, keeping the best score per obs
 	_dots 0
 	forval i = 1/`n_values' {
 
 		nois _dots `i' 0
 
-		** use data from memory
 		use `input_names' , clear
 
 			matchit 	_IBtempid _IBtempname using `ib_names' , ///
-						idu(`ib_idvar') txtu(name`i') ///
+						idu(_ibkey) txtu(_nm`i') ///
 						gen(_IBscore) sim(ngram_circ,2)
 
-			* Skip iteration if data is empty
+			* Skip iteration if no pair matched
 			count
 			if `r(N)' == 0 {
 				continue
 			}
 
-		* keep current data obs with its best match from ib_names (max _IBscore)
+		* keep each input obs's best match in this column
 			bys _IBtempid (_IBscore) : keep if _IBscore == _IBscore[_N]
-
 			recast 	float _IBscore , force
-
-			rename 	name`i' __`ib_namevar'
-			rename 	`ib_idvar' __`ib_idvar'
+			keep 	_IBtempid _ibkey _IBscore
 
 		* append and update match set
-
 		append 		using `match'
 		save 		`match', replace
 
@@ -244,28 +278,39 @@ program define ibmatch
 
 	use `match', clear
 
-		* keep current data obs with its best match from ib_names (max _IBscore)
-			bys _IBtempid (_IBscore): keep if _IBscore == _IBscore[_N]
+		* keep each input obs's best-scoring candidate row
+		bys _IBtempid (_IBscore) : keep if _IBscore == _IBscore[_N]
 
-		* map current ID to indiabridge database. assert only new unmerged keys are added
-		merge m:1 _IBtempid using `input_names' , assert(2 3)
+		* map row -> unit; break ties on the more recently formed unit
+		* (e.g. "telangana" -> telangana, not andhra pradesh, once it exists)
+		merge m:1 _ibkey using `lookup' , keep(1 3) nogen
+		gsort _IBtempid -_ib_from id_st_ib
+		by _IBtempid : keep if _n == 1
 
-		* Rearrange
-			gen 		_IBmatch = .
-				replace 	_IBmatch = 0 if _merge == 2
-				replace 	_IBmatch = 1 if _merge == 3
-			drop 		_merge
+		* attach stable outputs + the primary round's code and name
+		merge m:1 id_st_ib using `cross' , ///
+			keep(1 3) keepusing(name_st_ib `roundcol') nogen
+		merge m:1 id_st_ib using `roundname' , keep(1 3) nogen
 
-	** Drop temp ID/name
-	drop _IBtemp*
+		rename id_st_ib   __id_st_ib
+		rename name_st_ib __name_st_ib
+		if "`roundcol'" != "" rename `roundcol' __`roundcol'
+
+		* recover the input id and flag matched vs unmatched
+		merge 1:1 _IBtempid using `input_names' , assert(2 3)
+		gen 	_IBmatch = (_merge == 3)
+		drop 	_merge
+
+	** Drop temp keys
+	drop _IBtempid _IBtempname _ibkey _ib_from
 
 	* verify that original data is identified
 	isid `id' , missok
 
-		* Merge against original data
+		* Merge back against original data
 		merge m:1 `id' using `current' , assert(2 3) nogen
 
-	** Restore original variable order
+	** Restore original variable order, append new outputs
 	order `all_vars' , first
 	order _IBmatch _IBscore __* , last
 
@@ -285,12 +330,17 @@ program define ibmatch
 
 	di as text _dup(80) " "
 	di as res "`TOTAL_MERGE' out of `TOTAL_OBS' (`PCT_MERGE'%) observation/s in <`name'> matched"
-	di as text "	Matches for `name' stored in __`ib_namevar', identified by __`ib_idvar'"
+	di as text "	Stable id __id_st_ib (name __name_st_ib); round (`IBROUND') name __name_st_`IBROUND'" _continue
+	if "`roundcol'" != "" {
+		di as text ", id __`roundcol'"
+	}
+	else {
+		di as text ""
+	}
 
 	** if non perfect merge
-
 	if r(mean) != 1 {
-		di as error "		Warning: `TOTAL_NONMERGE' observation/s (`PCT_NONMERGE'%) did not match perfectly."
+		di as error "		Warning: `TOTAL_NONMERGE' observation/s (`PCT_NONMERGE'%) did not match."
 		di as error "		Please verify matches in _IBmatch, using similarity scores in _IBscore"
 	}
 	di as text _dup(80) " "
