@@ -1,0 +1,13 @@
+* stata.toc -- net-install catalogue for the india-bridge package
+* v indicates the .toc format version (3 is current)
+v 3
+
+* d lines: the first is the title, the rest are description text
+d india-bridge
+d
+d Vedarshi Shastry
+d Fuzzy ("closest match") assignment of stable india-bridge identifiers
+d to messy Indian state and district names (Census 1951-2011 + LGD).
+
+* p lines: packages installable from this location
+p indiabridge Stable id assignment for Indian state & district names (fuzzy matching)

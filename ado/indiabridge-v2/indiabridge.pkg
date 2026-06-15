@@ -1,0 +1,30 @@
+* indiabridge.pkg -- net-install manifest
+v 3
+
+d indiabridge: fuzzy assignment of stable india-bridge state & district ids
+d
+d {cmd:indiabridge} reconciles messy Indian state and district names against the
+d india-bridge dictionary by round-aware fuzzy string matching (matchit, n-gram
+d similarity) and returns stable, time-consistent identifiers (Census 1951-2011
+d and the Local Government Directory).
+d
+d Requires {cmd:matchit} (J. Raffo) and {cmd:strkeep} (R. Chu); both install from
+d SSC automatically on first run if missing.
+d
+d Distribution-Date: 20260615
+d Vedarshi Shastry, vedshastry.com
+
+* program files
+f indiabridge.ado
+f indiabridge.sthlp
+
+* dictionaries read at runtime (relative to the installed ado)
+f dict/state_names.csv
+f dict/dist_names.csv
+f dict/id_st_indiabridge.csv
+f dict/id_dt_indiabridge.csv
+f dict/state/st_crosswalk.csv
+f dict/state/st_lgd.csv
+f dict/state/st_year_dict.csv
+f dict/district/dt_crosswalk.csv
+f dict/district/dt_year_dict.csv

@@ -1,16 +1,16 @@
 *-------------------------------------------------------------------------------
-* test_indiabridge2.do
+* test_indiabridge.do
 *
-* End-to-end check for indiabridge2 round-aware state matching. Run from the
-* repository root:  stata-mp -b do src/code/test_indiabridge2.do
+* End-to-end check for indiabridge round-aware state matching. Run from the
+* repository root:  stata-mp -b do src/code/test_indiabridge.do
 *-------------------------------------------------------------------------------
 
 clear all
 version 14.0
 
 * make the package (and its dict/) discoverable via the ado path
-adopath + "ado/indiabridge2"
-which indiabridge2
+adopath ++ "ado/indiabridge-v2"   // prepend: test the in-repo package, not a stale global copy
+which indiabridge
 
 *-------------------------------------------------------------------------------
 * example data: misspelled / abbreviated / noisy state names
@@ -37,7 +37,7 @@ save `sample'
 *-------------------------------------------------------------------------------
 di as text _n "==== TEST 1: current(2011) from(2011) to(2011) ===="
 use `sample' , clear
-indiabridge2 , currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id_st)
+indiabridge , currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id_st)
 list id_st sname _IB_stid _IB_stname _IB_stname_cen2011 _IB_stid_cen2011 _IB_score, sepby(id_st) noobs
 
 assert _IB_match == 1
@@ -54,7 +54,7 @@ assert _IB_stid == "28" if sname == "Telangana"
 *-------------------------------------------------------------------------------
 di as text _n "==== TEST 2: current(2020) from(2015) to(2020) ===="
 use `sample' , clear
-indiabridge2 , currentyear(2020) fromyear(2015) toyear(2020) statename(sname) idstate(id_st)
+indiabridge , currentyear(2020) fromyear(2015) toyear(2020) statename(sname) idstate(id_st)
 list id_st sname _IB_stid _IB_stname _IB_stname_lgd _IB_stid_lgd _IB_match, sepby(id_st) noobs
 
 assert _IB_stid == "36" if sname == "Telangana"
@@ -70,7 +70,7 @@ input int id strL s
 	2 "Uttaranchal"
 	3 "Pondicherry"
 end
-indiabridge2 , currentyear(2001) fromyear(2001) toyear(2001) statename(s) idstate(id)
+indiabridge , currentyear(2001) fromyear(2001) toyear(2001) statename(s) idstate(id)
 list id s _IB_stname_cen2001 _IB_stname _IB_stid _IB_score, noobs
 
 * the 2001 census name differs from today's, but the stable id is the same unit
@@ -82,9 +82,9 @@ assert _IB_stname_cen2001 == "uttaranchal" & _IB_stname == "uttarakhand" & _IB_s
 *-------------------------------------------------------------------------------
 di as text _n "==== TEST 4: current(2011) from(1991) to(2011) ===="
 use `sample' , clear
-indiabridge2 , currentyear(2011) fromyear(1991) toyear(2011) statename(sname) idstate(id_st)
+indiabridge , currentyear(2011) fromyear(1991) toyear(2011) statename(sname) idstate(id_st)
 list id_st sname _IB_stid _IB_stname _IB_stname_cen2011 _IB_match, sepby(id_st) noobs
 * "Madras" (a 1971-and-earlier spelling) still resolves via the widened window
 assert _IB_stid == "33" if sname == "Madras"
 
-di as result _n "ALL indiabridge2 TESTS PASSED"
+di as result _n "ALL indiabridge TESTS PASSED"

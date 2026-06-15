@@ -1,11 +1,11 @@
 /*
-`indiabridge2`
+`indiabridge`
 ! Version 2.0
 Last updated: Vedarshi Shastry
 
-indiabridge2 takes a vector of state strings in India and assigns identifiers by
-fuzzy ("closest") string matching against the india-bridge dictionary, rather
-than the hard-coded lookups of indiabridge v1.
+indiabridge takes a vector of state (and/or district) strings in India and assigns
+identifiers by fuzzy ("closest") string matching against the india-bridge
+dictionary, rather than the hard-coded lookups of the legacy v1 program.
 
 All variables created by this program are prefixed _IB_. Each matched unit carries:
     * a stable india-bridge project id   [_IB_stid]   - constant across time;
@@ -16,11 +16,12 @@ All variables created by this program are prefixed _IB_. Each matched unit carri
 	* use from and to years to trim the candidate set to units that existed
 	  within the data's time window (resolves names reused across eras)
 
-District matching is not yet implemented (planned for a future release).
+District matching works the same way and is scoped by state (via the matched
+state iso) when both state and district names are supplied; see the help file.
 */
 
-cap prog drop indiabridge2
-prog indiabridge2, sortpreserve
+cap prog drop indiabridge
+prog indiabridge, sortpreserve
 version 14.0
 
 	syntax , 	CURRENTyear(numlist integer) ///
@@ -107,7 +108,7 @@ program define ibmatch
 
 		* District matching is not yet available
 		if "`district'" != "" {
-			di as error "District matching is not yet implemented in indiabridge2."
+			di as error "District matching is handled by ibmatch_dist, not ibmatch."
 			exit 198
 		}
 		if "`state'" == "" {
@@ -153,8 +154,8 @@ program define ibmatch
 		}
 
 		* Locate the dictionaries alongside this ado (portable; no hard-coded path)
-		findfile indiabridge2.ado
-		local pkgdir = substr("`r(fn)'", 1, strlen("`r(fn)'") - strlen("indiabridge2.ado"))
+		findfile indiabridge.ado
+		local pkgdir = substr("`r(fn)'", 1, strlen("`r(fn)'") - strlen("indiabridge.ado"))
 		local crosswalk "`pkgdir'dict/state/st_crosswalk.csv"
 		local yeardict  "`pkgdir'dict/state/st_year_dict.csv"
 
@@ -163,7 +164,7 @@ program define ibmatch
 		capture confirm file "`yeardict'"
 		if `rc1' | _rc {
 			di as error "State dictionaries not found under `pkgdir'dict/state/"
-			di as error "Re-generate them with src/code/prep_state_crosswalk.do, or reinstall indiabridge2."
+			di as error "Re-generate them with src/code/prep_state_crosswalk.do, or reinstall indiabridge."
 			exit 601
 		}
 
@@ -396,8 +397,8 @@ program define ibmatch_dist
 			if (`y' >= `fromyear') & (`y' <= `toyear') local candrounds `"`candrounds' cen`y'"'
 		}
 
-		findfile indiabridge2.ado
-		local pkgdir = substr("`r(fn)'", 1, strlen("`r(fn)'") - strlen("indiabridge2.ado"))
+		findfile indiabridge.ado
+		local pkgdir = substr("`r(fn)'", 1, strlen("`r(fn)'") - strlen("indiabridge.ado"))
 		local crosswalk "`pkgdir'dict/district/dt_crosswalk.csv"
 		local yeardict  "`pkgdir'dict/district/dt_year_dict.csv"
 		capture confirm file "`crosswalk'"

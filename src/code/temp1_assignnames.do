@@ -1,5 +1,5 @@
-include "/home/ved/repos/india-bridge/ado/indiabridge2/indiabridge2.ado"
-do "/home/ved/repos/india-bridge/ado/indiabridge2/indiabridge2.ado"
+include "/home/ved/repos/india-bridge/ado/indiabridge-v2/indiabridge.ado"
+do "/home/ved/repos/india-bridge/ado/indiabridge-v2/indiabridge.ado"
 
 *-------------------------------------------------------------------------------
 
@@ -27,15 +27,15 @@ save `current', replace
 
 *-------------------------------------------------------------------------------
 
-do "/home/ved/repos/india-bridge/ado/indiabridge2/indiabridge2.ado"
+do "/home/ved/repos/india-bridge/ado/indiabridge-v2/indiabridge.ado"
 // use `current', clear
-// indiabridge2 , current(1975) from(2010) to(2012) st(sname) idstate(id_st)
+// indiabridge , current(1975) from(2010) to(2012) st(sname) idstate(id_st)
 
-import delimited "/home/ved/repos/india-bridge/ado/indiabridge2/dict/dist_names.csv", clear
-import delimited "/home/ved/repos/india-bridge/ado/indiabridge2/dict/state_names.csv", clear
+import delimited "/home/ved/repos/india-bridge/ado/indiabridge-v2/dict/dist_names.csv", clear
+import delimited "/home/ved/repos/india-bridge/ado/indiabridge-v2/dict/state_names.csv", clear
 keep if year == 2001
 gen id = _n
-indiabridge2 , current(1975) from(2010) to(2012) st(state) idstate(id)
+indiabridge , current(1975) from(2010) to(2012) st(state) idstate(id)
 
 
 // replace id_cur = 1

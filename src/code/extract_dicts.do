@@ -1,7 +1,7 @@
 *-------------------------------------------------------------------------------
 * extract_dicts.do
 *
-* Regenerates the indiabridge2 name dictionaries directly from the curated v1
+* Regenerates the indiabridge name dictionaries directly from the curated v1
 * cleaning programs, so the dictionaries are a faithful, reproducible image of
 * the per-year spelling-variation sublists. Run from the repository root.
 *
@@ -10,9 +10,9 @@
 *   qui replace `dnameYYYY' = "canonical" if `isoYYYY' == "XX" & inlist(..., ...)
 * taking the year from the enclosing  program define {s|d}cleanYYYY.
 *
-* Inputs : ado/sclean.ado            ado/dclean.ado
-* Outputs: ado/indiabridge2/dict/state_names.csv   year, state, names
-*          ado/indiabridge2/dict/dist_names.csv     year, dist, iso, names
+* Inputs : ado/indiabridge-v1/sclean.ado            ado/indiabridge-v1/dclean.ado
+* Outputs: ado/indiabridge-v2/dict/state_names.csv   year, state, names
+*          ado/indiabridge-v2/dict/dist_names.csv     year, dist, iso, names
 *-------------------------------------------------------------------------------
 
 clear all
@@ -28,14 +28,14 @@ local TOK `"["]([^"]+)["]"'                     // regex for one "quoted" token
 foreach src in state district {
 
 	if "`src'" == "state" {
-		local infile  "ado/sclean.ado"
-		local outfile "ado/indiabridge2/dict/state_names.csv"
+		local infile  "ado/indiabridge-v1/sclean.ado"
+		local outfile "ado/indiabridge-v2/dict/state_names.csv"
 		local prog    "sclean"
 		local header  "year,state,names"
 	}
 	else {
-		local infile  "ado/dclean.ado"
-		local outfile "ado/indiabridge2/dict/dist_names.csv"
+		local infile  "ado/indiabridge-v1/dclean.ado"
+		local outfile "ado/indiabridge-v2/dict/dist_names.csv"
 		local prog    "dclean"
 		local header  "year,dist,iso,names"
 	}

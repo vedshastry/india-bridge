@@ -1,23 +1,23 @@
 *-------------------------------------------------------------------------------
 * prep_district_crosswalk.do
 *
-* Builds the runtime DISTRICT dictionaries for indiabridge2, mirroring
+* Builds the runtime DISTRICT dictionaries for indiabridge, mirroring
 * prep_state_crosswalk.do one level down (scoped by state iso). Run from repo root.
 *
 * Inputs:
-*   ado/indiabridge2/dict/dist_names.csv       year, dist, iso, names (period)
-*       (regenerate from ado/dclean.ado with src/code/extract_dicts.do)
+*   ado/indiabridge-v2/dict/dist_names.csv       year, dist, iso, names (period)
+*       (regenerate from ado/indiabridge-v1/dclean.ado with src/code/extract_dicts.do)
 *   data/output/lgd_districts.dta              id_dt_lgd, name_dt_lgd_en, hierarchy,
 *                                              id_dt_cen01, id_dt_cen11
-*   ado/indiabridge2/dict/state/st_crosswalk.csv   id_st_lgd <-> iso
+*   ado/indiabridge-v2/dict/state/st_crosswalk.csv   id_st_lgd <-> iso
 *   data/output/lgd_states.dta                 LGD state name <-> id_st_lgd
 *
 * Outputs:
-*   ado/indiabridge2/dict/district/dt_crosswalk.csv
+*   ado/indiabridge-v2/dict/district/dt_crosswalk.csv
 *       id_dt_ib name_dt_ib iso names from_year to_year id_dt_cen2001 id_dt_cen2011 id_dt_lgd
-*   ado/indiabridge2/dict/district/dt_year_dict.csv
+*   ado/indiabridge-v2/dict/district/dt_year_dict.csv
 *       round id_dt_ib iso name_dt_round names
-*   ado/indiabridge2/dict/id_dt_indiabridge.csv
+*   ado/indiabridge-v2/dict/id_dt_indiabridge.csv
 *       id_dt_ib name_dt_ib iso from_year to_year is_current
 *
 * Stable id: current districts keep their (globally-unique) LGD code; districts
@@ -31,12 +31,12 @@
 * unit (it still matches and returns its period name + a stable id, just not the
 * LGD code). Full cross-time bridging of these is the planned next refinement: a
 * `_fold_districts` rename map (mirroring `_fold_states`) and/or census-code-based
-* anchoring via an extracted ado/dcode.ado.
+* anchoring via an extracted ado/indiabridge-v1/dcode.ado.
 *-------------------------------------------------------------------------------
 
 clear all
 version 14.0
-local dict "ado/indiabridge2/dict"
+local dict "ado/indiabridge-v2/dict"
 
 *-------------------------------------------------------------------------------
 * 0. LGD state name -> iso  (via st_crosswalk id_st_lgd <-> iso)

@@ -1,15 +1,15 @@
 *-------------------------------------------------------------------------------
-* test_indiabridge2_districts.do
+* test_indiabridge_districts.do
 *
-* End-to-end check for indiabridge2 district matching: state-scoped vs district-
+* End-to-end check for indiabridge district matching: state-scoped vs district-
 * only (with repeat-name ambiguity handling). Run from the repository root:
-*   stata-mp -b do src/code/test_indiabridge2_districts.do
+*   stata-mp -b do src/code/test_indiabridge_districts.do
 *-------------------------------------------------------------------------------
 
 clear all
 version 14.0
-adopath + "ado/indiabridge2"
-which indiabridge2
+adopath ++ "ado/indiabridge-v2"   // prepend: test the in-repo package, not a stale global copy
+which indiabridge
 
 *-------------------------------------------------------------------------------
 * 1. District-only: unique names resolve; repeated names are flagged ambiguous
@@ -22,7 +22,7 @@ input int id strL d
 3 "Hamirpur"
 4 "Bangalore"
 end
-indiabridge2 , currentyear(2011) fromyear(2011) toyear(2011) districtname(d) iddistrict(id)
+indiabridge , currentyear(2011) fromyear(2011) toyear(2011) districtname(d) iddistrict(id)
 list id d _IB_dtid _IB_dtname _IB_dtiso _IB_score _IB_match _IB_ambig _IB_dtcandidates, sepby(id) noobs
 
 * unique name resolves cleanly
@@ -41,7 +41,7 @@ input int id strL s strL d
 2 "Bihar"       "Aurangabad"
 3 "Himachal"    "Hamirpur"
 end
-indiabridge2 , currentyear(2011) fromyear(2011) toyear(2011) ///
+indiabridge , currentyear(2011) fromyear(2011) toyear(2011) ///
 	statename(s) idstate(id) districtname(d) iddistrict(id)
 list id s d _IB_stiso _IB_dtid _IB_dtname _IB_dtiso _IB_match _IB_ambig, sepby(id) noobs
 
@@ -51,4 +51,4 @@ assert _IB_dtid == "0189" & _IB_dtiso == "BR" if id == 2
 * hamirpur scoped to Himachal (HP), not UP
 assert _IB_dtiso == "HP" if id == 3
 
-di as result _n "ALL indiabridge2 DISTRICT TESTS PASSED"
+di as result _n "ALL indiabridge DISTRICT TESTS PASSED"

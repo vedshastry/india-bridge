@@ -1,7 +1,7 @@
 {smcl}
 {* *! version 2.0}{...}
 
-{p2col:{bf:indiabridge2}}
+{p2col:{bf:indiabridge}}
 
 Fuzzy ("closest match") assignment of stable india-bridge state and district identifiers
 
@@ -10,7 +10,7 @@ Fuzzy ("closest match") assignment of stable india-bridge state and district ide
 {title:Syntax}
 
 {p 8 17 2}
-{cmd:indiabridge2}{cmd:,}
+{cmd:indiabridge}{cmd:,}
 {opt CURRENT:year(num)}
 {opt FROM:year(num)}
 {opt TO:year(num)}
@@ -37,9 +37,10 @@ If {bf:both} are given, the matched state's iso scopes the district match (see b
 {title:Description}
 
 {pstd}
-{cmd:indiabridge2} reconciles messy Indian state names against the india-bridge
+{cmd:indiabridge} reconciles messy Indian state names against the india-bridge
 dictionary by fuzzy string matching ({cmd:matchit}, n-gram similarity), rather
-than the exhaustive hard-coded lookups of {cmd:indiabridge} (v1).
+than the exhaustive hard-coded lookups of the legacy v1 program (archived under
+{cmd:ado/indiabridge-v1/}).
 
 {pstd}
 Matching is {bf:round-aware}. {opt CURRENTyear()} selects the primary round - a
@@ -104,13 +105,13 @@ heavily misspelled names.{p_end}
 {hline}
 
 {pstd}Modern data (state names in {cmd:sname}, row id in {cmd:id}):{p_end}
-{phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id)}{p_end}
+{phang2}{cmd:. indiabridge, currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id)}{p_end}
 
 {pstd}States and districts together (state scopes the district match):{p_end}
-{phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id) districtname(dname) iddistrict(id)}{p_end}
+{phang2}{cmd:. indiabridge, currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id) districtname(dname) iddistrict(id)}{p_end}
 
 {pstd}Districts alone (repeated names will be flagged in {cmd:_IB_ambig}):{p_end}
-{phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) districtname(dname) iddistrict(id)}{p_end}
+{phang2}{cmd:. indiabridge, currentyear(2011) fromyear(2011) toyear(2011) districtname(dname) iddistrict(id)}{p_end}
 
 {hline}
 

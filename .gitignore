@@ -1,0 +1,3 @@
+# Stata batch/run logs
+*.log
+*.smcl

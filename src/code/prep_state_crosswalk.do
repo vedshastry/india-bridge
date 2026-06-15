@@ -1,23 +1,23 @@
 *-------------------------------------------------------------------------------
 * prep_state_crosswalk.do
 *
-* Builds the runtime state dictionaries for indiabridge2 from the human-editable
+* Builds the runtime state dictionaries for indiabridge from the human-editable
 * sources. Run from the repository root.
 *
 * Inputs  (sources):
-*   ado/indiabridge2/dict/state_names.csv     year, state (canonical), names
-*       (regenerate from ado/sclean.ado with src/code/extract_dicts.do)
-*   ado/indiabridge2/dict/state/st_lgd.csv    id_st_lgd, names (current LGD names)
+*   ado/indiabridge-v2/dict/state_names.csv     year, state (canonical), names
+*       (regenerate from ado/indiabridge-v1/sclean.ado with src/code/extract_dicts.do)
+*   ado/indiabridge-v2/dict/state/st_lgd.csv    id_st_lgd, names (current LGD names)
 *   data/output/lgd_states.dta                id_st_lgd <-> id_st_cen01 <-> id_st_cen11
 *
 * Outputs (generated, committed, read at runtime):
-*   ado/indiabridge2/dict/state/st_crosswalk.csv
+*   ado/indiabridge-v2/dict/state/st_crosswalk.csv
 *       one row per stable UNIT (registry + name union):
 *       id_st_ib name_st_ib names from_year to_year id_st_cen2001 id_st_cen2011 id_st_lgd
-*   ado/indiabridge2/dict/state/st_year_dict.csv
+*   ado/indiabridge-v2/dict/state/st_year_dict.csv
 *       one row per (round, unit) - the round-aware matching dictionary:
 *       round id_st_ib name_st_round names
-*   ado/indiabridge2/dict/id_st_indiabridge.csv
+*   ado/indiabridge-v2/dict/id_st_indiabridge.csv
 *       the stable project-id registry: id_st_ib name_st_ib from_year to_year is_current
 *
 * Stable id scheme: current units keep their LGD code ("01".."37"); units lost or
@@ -27,7 +27,7 @@
 clear all
 version 14.0
 
-local dict "ado/indiabridge2/dict"
+local dict "ado/indiabridge-v2/dict"
 
 *-------------------------------------------------------------------------------
 * Reusable rename-fold: maps a historical state name to its modern successor so
