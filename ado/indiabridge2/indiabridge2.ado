@@ -7,7 +7,24 @@ indiabridge2 takes a vector of state and district strings in India and assigns i
 	* Local Government Directory (LGD)  [suffix: _lgd]
 	* Administrative Atlas of India (Census 1951-2011)  [suffix: _cenYYYY]
 
-** Changelog
+			* create lgdcensus database. find closest decade to current time
+
+			    1. lgdcensus_st : historical state mapping
+			    2. lgdcensus_dt : historical district mapping
+			        - id_lgdcen_st and id_lgdcen_dt always map onto indiabridge project ID
+			        - project ID starts with 999xxxx if unit was lost/transferred at some point of time
+
+			* fuzzy string match with current time
+
+			* use current year to map onto lgdcensus database
+			* use from and to time variables to trim mapped set
+
+			* state names -> matchit with ib states
+			* district names ->
+			    - first match states
+			    - then match with ib districts
+			    - drop obs where
+			    - require state
 
 */
 
@@ -15,202 +32,270 @@ cap prog drop indiabridge2
 prog indiabridge2, sortpreserve
 version 14.0
 
-/*
-syntax
-- state/district names are strings
-- current year must be specified
-- from and to years for mapping
-*/
-// syntax , FROMyear(numlist integer) TOyear(numlist integer) Statevar(varname string) [Districtvar(varname string)] TIME
+		/*
+		syntax
+		- current data year required
+		- from and to years required
+		- state/district names are string vars. one must be specified
 
-	syntax , 	CURRENT(numlist integer) ///
+		*/
+
+	syntax , 	CURRENTyear(numlist integer) ///
 				FROMyear(numlist integer) TOyear(numlist integer) ///
-				STname(varname string) ///
-				[Districtname(varname string) ///
+				[STatename(varname string) ///
+				DISTrictname(varname string) ///
 				IDState(varlist numeric max=1) IDDistrict(varlist numeric max=1)]
 
-* dependencies
-	local pkglist "strkeep matchit gtools"
-	foreach pkg in `pkglist'{
+	* Dependencies
+		local pkglist "strkeep matchit"
+		foreach pkg in `pkglist'{
 
-		* confirm package existence and install if required
-		cap which `pkg'
-		if _rc {
+			* confirm package existence and install if required
+			cap which `pkg'
+			if _rc {
 
-			di "Dependency <`pkg'> not found. Attempting to install from ssc."
-			ssc install `pkg'
+				di as text "Dependency <`pkg'> not found. Attempting to install from ssc."
+				ssc install `pkg'
 
-		}
-
-	}
-
-* Output
-		di "successful"
-		
-end
-
-indiabridge2 , current(2023) from(2011) to(2012) st(sname)
-
-
-di "`fromyear' `toyear' `statevar' `districtvar'"
-
-local sheetlist "57-C_PPP 57A-C_NC"
-
-
-local time "1951-2011"
-
-	* split time into to/from
-    local pos = strpos("`time'", "-")
-    local time1 = substr("`time'", 0,`pos'-1)
-    local time2 = substr("`time'", `pos'+1, .)
-
-display "`time1' `time2'"
-
-* years -> earliest - latest census
-
-
-sclean2 `statevar'
-// scode2 `statevar'
-/*
-* call name cleanup programs
-dclean `districtvar'
-
-* assign identifiers
-scode `statevar'
-dcode `districtvar'
-*/
-
-end
-
-use `cen', clear
-indiabridge2, f(1971) t(2011) s(state_name) d(district_name)
-append using `stkeys'
-
-local statevar "state_name"
-strkeep `statevar', alpha strlower gen(_state_std)
-* pass arguments to state and district programs on variables specified
-// ibrstate2 `statevar'
-// ibrdist2 `districtvar'
-
-*-------------------------------------------------------------------------------
-* Objective: Assign india_bridge consistent identifiers
-*-------------------------------------------------------------------------------
-
-* Input: year, state, district (year must be in YYYY entered directly or as a numeric var)
-* indiabridge, y() s() d()
-
-* define program
-capture program drop indiabridge
-program define indiabridge
-	* syntax: statename must be string, and year must be specified (district optional)
-	syntax [if], Year(string) State(varlist string) [District(varlist string)]
-
-	* confirm if dependency -egenmore- is available
-	capture findfile egenmore.sthlp, path(BASE;SITE;PERSONAL;PLUS)
-		* return error if not available
-		if "`r(fn)'" == "" {
-		  di as error "User-written package -egenmore- needs to be installed first;"
-		  di as error "Ensure the dependency is available by running -ssc install egenmore- before indiabridge"
-		  exit 498
-		}
-
-	* display progress
-	di as text _dup(99) "_"
-	di as text "Running india-bridge for year (`year') on state variable/s (`state') and district variable/s (`district')"
-	di as text _dup(99) "_"
-
-	* pass arguments to state and district programs individually over varlist specified
-
-	* for each statename variable,
-	di as text "Applying (`year') identification on states: `state'"
-
-	foreach sv in `state'{
-
-		* run state programs for the given year
-		ibrstate, y(`year') s(`sv')
-
-		* for each district variable,
-		di as text "Applying (`year') identification on districts: `district'"
-		foreach dv in `district'{
-				* store isocode from above
-				local iso iso_`sv'
-				* run district programs for the given year
-				ibrdist, y(`year') d(`dv') i(iso_`sv')
-				* concatenate state & district identifiers to generate unique identifier
-					if `year' != 2011{
-					qui replace dcode_`dv' = scode_`sv' + dcode_`dv'
-				* labels
-					label var `dv' "`year' census district name"
-					label var dcode_`dv' "`year' census district identifier"
 			}
 
-			* labels
-			label var `sv' "`year' census state name"
-			label var scode_`sv' "`year' census state identifier"
-			label var iso_`sv' "ISO code for state"
-			label var ut_`sv' "`year' union territory status"
+		}
 
-			* display progress
-			di as text _dup(99) "-"
-			di as text "State identifiers assigned in variables: iso_`sv' scode_`sv' ut_`sv'"
-			di as text _dup(99) "-"
-			di as text "District codes assigned in variable: dcode_`dv'"
-			qui count if strlen(dcode_`dv') != 4
-			di as text _dup(99) "-"
-			di as text "`r(N)' districts did not get a 4 digit identifier"
-			di as text _dup(99) "-"
+	* Assert syntax
+
+	* 1. Check if either state/district name +ID variable specified
+	if "`statename'`districtname'" == "" {
+			di as error "Please specify at least 1 out of statename() or districtname() to continue."
+			exit
+	}
+	else {
+		if "`statename'" != "" & "`idstate'" == "" {
+			di as error "Syntax error: the ID variable for states in`statename' must be specified using idstate()."
+			exit
+		}
+		if "`districtname'" != "" & "`iddistrict'" == "" {
+
+			di as error "Syntax error: the ID variable for districts in `districtname' must be specified using iddistrict()."
+			exit
 		}
 	}
 
-di as text _dup(99) "_"
 
-* end indiabridge
-end
+	* 2. From/to years are valid
+	if `fromyear' > `toyear' {
+			di as error "From year (`fromyear') must be lesser than to year (`toyear')"
+			exit
+	}
 
 
-*-------------------------------------------------------------------------------
-* subprograms
-*-------------------------------------------------------------------------------
-* States
-* Objective: Assign india_bridge consistent identifiers to a list of state names
-*-------------------------------------------------------------------------------
+	* Run matching program
+	if "`statename'" != "" {
+		ibmatch `statename' , state id(`idstate') currentyear(`currentyear')
+	}
+	else if "`districtname'" != "" {
+		ibmatch `districtname' , district id(`iddistrict') currentyear(`currentyear')
+	}
 
-* define ibrstate (india_bridge state)
-capture program drop ibrstate
-program define ibrstate
-
-	* syntax: statename must be string, and year must be specified
-	syntax [if], Year(string) Statevar(varlist string)
-
-	* call state clean + assign programs
-	sclean `statevar' `year'
-	scode `statevar' `year'
-
-* end ibrstate
 end
 
 *-------------------------------------------------------------------------------
-* Districts
-* Objective: Assign india_bridge consistent identifiers to a column of district names
+* Subprograms
 *-------------------------------------------------------------------------------
 
-* define ibrdist (india_bridge district)
-capture program drop ibrdist
-program define ibrdist
+*-------------------------------------------------------------------------------
+*** ibmatch : matches specified strings against indiabridge database
+*-------------------------------------------------------------------------------
+capture program drop ibmatch
+program define ibmatch
 
-	* syntax: distname must be string, and year must be specified along with iso code
-	syntax [if], Year(string) Distvar(varlist string) Isocode(varlist string)
+	* input: name variable, round (census/LGD), id
+	syntax varlist(string max=1), id(varlist numeric max=1) [currentyear(numlist integer) state district]
 
-	* backup original state name, and generate new sieved name
-		qui rename `distvar' `distvar'_raw
-		qui egen `distvar' = sieve(`distvar'_raw), keep(a)
-	* trim spaces and standardise to lowercase
-		qui replace `distvar' = ustrtrim(strlower(`distvar'))
-		qui replace `distvar' = subinstr(`distvar'," ","",.)
+		* Assert ID variable
+		isid `id'
 
-	* call district clean + assign programs
-		dclean `distvar' `isocode' `year'
-		dcode `distvar' `isocode' `year'
+		* Pull name variable
+		local name "`1'"
 
-* end ibrdist
+		* Assert only one of state or district is specified, with the corresponding ID
+			if "`state'`district'" == "" {
+
+				di as error "Syntax error: must specify either the state or district option with ibmatch."
+				exit
+
+			}
+			else if "`state'`district'" == "statedistrict" {
+
+				di as error "Syntax error: can specify only 1 of state or district with ibmatch, not both."
+				exit
+
+			}
+
+		* Map current year to closest indiabridge round. Set default as LGD
+		if "`currentyear'" != "" {
+			local IBDECADE = round(`currentyear',10) + 1
+
+			if !inrange(`IBDECADE',1961,2023) {
+				di as error "Syntax error: current year must be between 1960-present"
+				exit
+			}
+
+		}
+		else {
+			di as text "Current year not specified. Defaulting to Local Government Directory (LGD) 2023"
+			local IBDECADE = 2023
+		}
+
+	* run quietly
+	quietly {
+
+	* Store current variable arrangemen
+	unab all_vars : *
+
+	* Save current data in memory
+	tempfile current
+	save `current' , replace
+
+		** Assign indiabridge round
+
+			if inlist(`IBDECADE',1961,1971,1981,1991,2001,2011) {
+				local IBROUND "cen`IBDECADE'"
+			}
+			else if `IBDECADE' > 2011 {
+				local IBROUND "lgd"
+			}
+
+
+		* Prepare list of names + ID from current data
+		use `current' , clear
+
+		gen 	_IBtempid = `id'
+		isid 	_IBtempid
+
+		nois di as text _dup(80) "_"
+		nois di "Matching cleaned `name' to indiabridge round (`IBROUND')"
+
+		* clean name keeping only alphabets in lowercase
+		strkeep 	`name' , alpha lower gen(_IBtempname)
+
+		* Keep vars
+		keep 		`id' `name' _IBtempid _IBtempname
+
+		* Save input data
+		tempfile input_names
+		save `input_names' , replace
+
+		* initiate new tempfile to store matches
+		clear
+		tempfile match
+		save `match', emptyok
+
+		** Store parameters based on indiabridge round
+		// local ib_names_csv "https://raw.githubusercontent.com/vedshastry/india-bridge/refs/heads/testing/ado/indiabridge2/dict/state/stvals_cen2011.csv"
+		local ib_names_csv "/home/ved/repos/india-bridge/ado/indiabridge2/dict/state/st_`IBROUND'.csv"
+		local ib_idvar "id_st_`IBROUND'"
+		local ib_namevar "name_st_`IBROUND'"
+
+		* Prepare list of names to match against (from indiabridge database)
+
+		import delimited "`ib_names_csv'", clear varnames(1) delimiter(",")
+
+			split names, parse(",") gen(name)
+			local n_values = r(k_new)
+
+		tempfile ib_names
+		save `ib_names', replace
+
+	** Display confirmation
+
+	* match against all values, display progress
+	_dots 0
+	forval i = 1/`n_values' {
+
+		nois _dots `i' 0
+
+		** use data from memory
+		use `input_names' , clear
+
+			matchit 	_IBtempid _IBtempname using `ib_names' , ///
+						idu(`ib_idvar') txtu(name`i') ///
+						gen(_IBscore) sim(ngram_circ,2)
+
+			* Skip iteration if data is empty
+			count
+			if `r(N)' == 0 {
+				continue
+			}
+
+		* keep current data obs with its best match from ib_names (max _IBscore)
+			bys _IBtempid (_IBscore) : keep if _IBscore == _IBscore[_N]
+
+			recast 	float _IBscore , force
+
+			rename 	name`i' __`ib_namevar'
+			rename 	`ib_idvar' __`ib_idvar'
+
+		* append and update match set
+
+		append 		using `match'
+		save 		`match', replace
+
+	}
+
+	use `match', clear
+
+		* keep current data obs with its best match from ib_names (max _IBscore)
+			bys _IBtempid (_IBscore): keep if _IBscore == _IBscore[_N]
+
+		* map current ID to indiabridge database. assert only new unmerged keys are added
+		merge m:1 _IBtempid using `input_names' , assert(2 3)
+
+		* Rearrange
+			gen 		_IBmatch = .
+				replace 	_IBmatch = 0 if _merge == 2
+				replace 	_IBmatch = 1 if _merge == 3
+			drop 		_merge
+
+	** Drop temp ID/name
+	drop _IBtemp*
+
+	* verify that original data is identified
+	isid `id' , missok
+
+		* Merge against original data
+		merge m:1 `id' using `current' , assert(2 3) nogen
+
+	** Restore original variable order
+	order `all_vars' , first
+	order _IBmatch _IBscore __* , last
+
+	/* end quietly */
+	}
+
+	* Display final output
+	qui count
+	local TOTAL_OBS = r(N)
+
+	qui 	 sum _IBmatch
+	local 	 TOTAL_MERGE 	= r(sum)
+	local 	 PCT_MERGE 		= round(100 * r(mean),0.01)
+
+	local 	 TOTAL_NONMERGE = `TOTAL_OBS' - `TOTAL_MERGE'
+	local 	 PCT_NONMERGE 	= 100 - `PCT_MERGE'
+
+	di as text _dup(80) " "
+	di as res "`TOTAL_MERGE' out of `TOTAL_OBS' (`PCT_MERGE'%) observation/s in <`name'> matched"
+	di as text "	Matches for `name' stored in __`ib_namevar', identified by __`ib_idvar'"
+
+	** if non perfect merge
+
+	if r(mean) != 1 {
+		di as error "		Warning: `TOTAL_NONMERGE' observation/s (`PCT_NONMERGE'%) did not match perfectly."
+		di as error "		Please verify matches in _IBmatch, using similarity scores in _IBscore"
+	}
+	di as text _dup(80) " "
+	di as res "ibmatch complete"
+	di as text _dup(80) "_"
+
+* end ibmatch
 end
