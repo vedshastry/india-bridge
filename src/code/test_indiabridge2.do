@@ -38,16 +38,16 @@ save `sample'
 di as text _n "==== TEST 1: current(2011) from(2011) to(2011) ===="
 use `sample' , clear
 indiabridge2 , currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id_st)
-list id_st sname __id_st_ib __name_st_ib __name_st_cen2011 __id_st_cen2011 _IBscore, sepby(id_st) noobs
+list id_st sname _IB_stid _IB_stname _IB_stname_cen2011 _IB_stid_cen2011 _IB_score, sepby(id_st) noobs
 
-assert _IBmatch == 1
-assert __id_st_ib == "08" if sname == "Rjrajasthan"
-assert __id_st_ib == "21" if sname == "Oddisha"
+assert _IB_match == 1
+assert _IB_stid == "08" if sname == "Rjrajasthan"
+assert _IB_stid == "21" if sname == "Oddisha"
 * 2011 round returns the 2011 canonical
-assert __name_st_cen2011 == "odisha"    if sname == "Oddisha"
-assert __name_st_cen2011 == "tamilnadu" if sname == "Madras"
+assert _IB_stname_cen2011 == "odisha"    if sname == "Oddisha"
+assert _IB_stname_cen2011 == "tamilnadu" if sname == "Madras"
 * Telangana did not exist in 2011 -> Andhra Pradesh
-assert __id_st_ib == "28" if sname == "Telangana"
+assert _IB_stid == "28" if sname == "Telangana"
 
 *-------------------------------------------------------------------------------
 * 2. LGD round (recent data): Telangana now resolves to its own unit
@@ -55,10 +55,10 @@ assert __id_st_ib == "28" if sname == "Telangana"
 di as text _n "==== TEST 2: current(2020) from(2015) to(2020) ===="
 use `sample' , clear
 indiabridge2 , currentyear(2020) fromyear(2015) toyear(2020) statename(sname) idstate(id_st)
-list id_st sname __id_st_ib __name_st_ib __name_st_lgd __id_st_lgd _IBmatch, sepby(id_st) noobs
+list id_st sname _IB_stid _IB_stname _IB_stname_lgd _IB_stid_lgd _IB_match, sepby(id_st) noobs
 
-assert __id_st_ib == "36" if sname == "Telangana"
-assert __name_st_lgd == "telangana" if sname == "Telangana"
+assert _IB_stid == "36" if sname == "Telangana"
+assert _IB_stname_lgd == "telangana" if sname == "Telangana"
 
 *-------------------------------------------------------------------------------
 * 3. Period names: 2001 round returns era-specific canonical, stable id is constant
@@ -71,11 +71,11 @@ input int id strL s
 	3 "Pondicherry"
 end
 indiabridge2 , currentyear(2001) fromyear(2001) toyear(2001) statename(s) idstate(id)
-list id s __name_st_cen2001 __name_st_ib __id_st_ib _IBscore, noobs
+list id s _IB_stname_cen2001 _IB_stname _IB_stid _IB_score, noobs
 
 * the 2001 census name differs from today's, but the stable id is the same unit
-assert __name_st_cen2001 == "orissa"      & __name_st_ib == "odisha"      & __id_st_ib == "21" if s == "Orissa"
-assert __name_st_cen2001 == "uttaranchal" & __name_st_ib == "uttarakhand" & __id_st_ib == "05" if s == "Uttaranchal"
+assert _IB_stname_cen2001 == "orissa"      & _IB_stname == "odisha"      & _IB_stid == "21" if s == "Orissa"
+assert _IB_stname_cen2001 == "uttaranchal" & _IB_stname == "uttarakhand" & _IB_stid == "05" if s == "Uttaranchal"
 
 *-------------------------------------------------------------------------------
 * 4. from/to trimming across a multi-year window (1991-2011)
@@ -83,8 +83,8 @@ assert __name_st_cen2001 == "uttaranchal" & __name_st_ib == "uttarakhand" & __id
 di as text _n "==== TEST 4: current(2011) from(1991) to(2011) ===="
 use `sample' , clear
 indiabridge2 , currentyear(2011) fromyear(1991) toyear(2011) statename(sname) idstate(id_st)
-list id_st sname __id_st_ib __name_st_ib __name_st_cen2011 _IBmatch, sepby(id_st) noobs
+list id_st sname _IB_stid _IB_stname _IB_stname_cen2011 _IB_match, sepby(id_st) noobs
 * "Madras" (a 1971-and-earlier spelling) still resolves via the widened window
-assert __id_st_ib == "33" if sname == "Madras"
+assert _IB_stid == "33" if sname == "Madras"
 
 di as result _n "ALL indiabridge2 TESTS PASSED"

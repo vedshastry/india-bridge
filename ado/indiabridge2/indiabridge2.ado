@@ -7,10 +7,10 @@ indiabridge2 takes a vector of state strings in India and assigns identifiers by
 fuzzy ("closest") string matching against the india-bridge dictionary, rather
 than the hard-coded lookups of indiabridge v1.
 
-Each matched unit carries:
-    * a stable india-bridge project id   [id_st_ib]   - constant across time;
+All variables created by this program are prefixed _IB_. Each matched unit carries:
+    * a stable india-bridge project id   [_IB_stid]   - constant across time;
       units lost/transferred over time get a 999xxxx id
-    * the matched census/LGD round id     [id_st_<round>]
+    * the matched census/LGD round id     [_IB_stid_<round>]
 
 	* use current year to pick the india-bridge round (census decade / LGD)
 	* use from and to years to trim the candidate set to units that existed
@@ -69,7 +69,7 @@ version 14.0
 	}
 
 	* Run matching program(s). State first; if both are given, the matched state
-	* iso (__iso_st) scopes the district match to disambiguate repeated names.
+	* iso (_IB_stiso) scopes the district match to disambiguate repeated names.
 	if "`statename'" != "" {
 		ibmatch `statename' , state id(`idstate') ///
 			currentyear(`currentyear') fromyear(`fromyear') toyear(`toyear')
@@ -77,8 +77,8 @@ version 14.0
 
 	if "`districtname'" != "" {
 		local scopeopt ""
-		capture confirm variable __iso_st
-		if !_rc local scopeopt "isovar(__iso_st)"
+		capture confirm variable _IB_stiso
+		if !_rc local scopeopt "isovar(_IB_stiso)"
 		ibmatch_dist `districtname' , id(`iddistrict') ///
 			currentyear(`currentyear') fromyear(`fromyear') toyear(`toyear') `scopeopt'
 	}
@@ -214,7 +214,7 @@ program define ibmatch
 		preserve
 			keep if round == "`IBROUND'"
 			keep id_st_ib name_st_round
-			rename name_st_round __name_st_`IBROUND'
+			rename name_st_round _IB_stname_`IBROUND'
 			save `roundname'
 		restore
 
@@ -297,14 +297,14 @@ program define ibmatch
 			keep(1 3) keepusing(name_st_ib iso `roundcol') nogen
 		merge m:1 id_st_ib using `roundname' , keep(1 3) nogen
 
-		rename id_st_ib   __id_st_ib
-		rename name_st_ib __name_st_ib
-		rename iso        __iso_st
-		if "`roundcol'" != "" rename `roundcol' __`roundcol'
+		rename id_st_ib   _IB_stid
+		rename name_st_ib _IB_stname
+		rename iso        _IB_stiso
+		if "`roundcol'" != "" rename `roundcol' _IB_stid_`IBROUND'
 
 		* recover the input id and flag matched vs unmatched
 		merge 1:1 _IBtempid using `input_names' , assert(2 3)
-		gen 	_IBmatch = (_merge == 3)
+		gen 	_IB_match = (_merge == 3)
 		drop 	_merge
 
 	** Drop temp keys
@@ -316,9 +316,13 @@ program define ibmatch
 		* Merge back against original data
 		merge m:1 `id' using `current' , assert(2 3) nogen
 
-	** Restore original variable order, append new outputs
+	** Standardize remaining match-quality var name, then restore order
+	rename _IBscore _IB_score
+
 	order `all_vars' , first
-	order _IBmatch _IBscore __* , last
+	local _IBout "_IB_match _IB_score _IB_stid _IB_stname _IB_stiso _IB_stname_`IBROUND'"
+	if "`roundcol'" != "" local _IBout "`_IBout' _IB_stid_`IBROUND'"
+	order `_IBout' , last
 
 	/* end quietly */
 	}
@@ -327,7 +331,7 @@ program define ibmatch
 	qui count
 	local TOTAL_OBS = r(N)
 
-	qui 	 sum _IBmatch
+	qui 	 sum _IB_match
 	local 	 TOTAL_MERGE 	= r(sum)
 	local 	 PCT_MERGE 		= round(100 * r(mean),0.01)
 
@@ -336,9 +340,9 @@ program define ibmatch
 
 	di as text _dup(80) " "
 	di as res "`TOTAL_MERGE' out of `TOTAL_OBS' (`PCT_MERGE'%) observation/s in <`name'> matched"
-	di as text "	Stable id __id_st_ib (name __name_st_ib); round (`IBROUND') name __name_st_`IBROUND'" _continue
+	di as text "	Stable id _IB_stid (name _IB_stname); round (`IBROUND') name _IB_stname_`IBROUND'" _continue
 	if "`roundcol'" != "" {
-		di as text ", id __`roundcol'"
+		di as text ", id _IB_stid_`IBROUND'"
 	}
 	else {
 		di as text ""
@@ -347,7 +351,7 @@ program define ibmatch
 	** if non perfect merge
 	if r(mean) != 1 {
 		di as error "		Warning: `TOTAL_NONMERGE' observation/s (`PCT_NONMERGE'%) did not match."
-		di as error "		Please verify matches in _IBmatch, using similarity scores in _IBscore"
+		di as error "		Please verify matches in _IB_match, using similarity scores in _IB_score"
 	}
 	di as text _dup(80) " "
 	di as res "ibmatch complete"
@@ -442,7 +446,7 @@ program define ibmatch_dist
 		preserve
 			keep if round == "`IBROUND'"
 			keep id_dt_ib name_dt_round
-			rename name_dt_round __name_dt_`IBROUND'
+			rename name_dt_round _IB_dtname_`IBROUND'
 			save `roundname'
 		restore
 
@@ -518,42 +522,45 @@ program define ibmatch_dist
 		sort _IBtempid _candstr
 		by _IBtempid : gen _cum = _candstr if _n == 1
 		by _IBtempid : replace _cum = _cum[_n-1] + ", " + _candstr if _n > 1
-		by _IBtempid : gen __dt_candidates = _cum[_N]
+		by _IBtempid : gen _IB_dtcandidates = _cum[_N]
 
 		* pick a representative row (newer unit, then lower id)
 		gsort _IBtempid -_ib_from id_dt_ib
 		by _IBtempid : keep if _n == 1
-		gen byte _IBambig = (_nu > 1)
-		replace __dt_candidates = "" if _IBambig == 0
+		gen byte _IB_ambig = (_nu > 1)
+		replace _IB_dtcandidates = "" if _IB_ambig == 0
 
 		* attach outputs
 		merge m:1 id_dt_ib using `cross' , keep(1 3) keepusing(name_dt_ib iso `roundcol') nogen
 		merge m:1 id_dt_ib using `roundname' , keep(1 3) nogen
 
-		rename id_dt_ib   __id_dt_ib
-		rename name_dt_ib __name_dt_ib
-		rename iso        __iso_dt
-		if "`roundcol'" != "" rename `roundcol' __`roundcol'
+		rename id_dt_ib   _IB_dtid
+		rename name_dt_ib _IB_dtname
+		rename iso        _IB_dtiso
+		if "`roundcol'" != "" rename `roundcol' _IB_dtid_`IBROUND'
 
 		* blank the id on ambiguous rows (keep the candidate list for review)
-		foreach v of varlist __id_dt_ib __name_dt_ib __iso_dt __name_dt_`IBROUND' {
-			replace `v' = "" if _IBambig == 1
+		foreach v of varlist _IB_dtid _IB_dtname _IB_dtiso _IB_dtname_`IBROUND' {
+			replace `v' = "" if _IB_ambig == 1
 		}
-		if "`roundcol'" != "" replace __`roundcol' = "" if _IBambig == 1
+		if "`roundcol'" != "" replace _IB_dtid_`IBROUND' = "" if _IB_ambig == 1
 
 		* recover input id (and other input cols); flag matched / unmatched / ambiguous
 		merge 1:1 _IBtempid using `input_names' , assert(2 3)
-		gen _IBmatch = (_merge == 3 & _IBambig != 1)
-		replace _IBambig = 0 if _merge == 2
+		gen _IB_match = (_merge == 3 & _IB_ambig != 1)
+		replace _IB_ambig = 0 if _merge == 2
 		drop _merge
 
 	drop _IBtempid _IBtempname _IBiso _ibkey _ib_from _cand_iso _candstr _cum _nu
+	rename _IBscore _IB_score
 
 	isid `id' , missok
 	merge m:1 `id' using `current' , assert(2 3) nogen
 
 	order `all_vars' , first
-	order _IBmatch _IBambig _IBscore __* , last
+	local _IBout "_IB_match _IB_ambig _IB_score _IB_dtid _IB_dtname _IB_dtiso _IB_dtname_`IBROUND' _IB_dtcandidates"
+	if "`roundcol'" != "" local _IBout "`_IBout' _IB_dtid_`IBROUND'"
+	order `_IBout' , last
 
 	/* end quietly */
 	}
@@ -561,22 +568,22 @@ program define ibmatch_dist
 	* report
 	qui count
 	local TOT = r(N)
-	qui count if _IBmatch == 1
+	qui count if _IB_match == 1
 	local M = r(N)
-	qui count if _IBambig == 1
+	qui count if _IB_ambig == 1
 	local A = r(N)
 	local U = `TOT' - `M' - `A'
 
 	di as text _dup(80) " "
 	di as res "`M' of `TOT' district observation/s in <`name'> matched cleanly"
-	di as text "	Stable id __id_dt_ib (name __name_dt_ib, iso __iso_dt); round (`IBROUND') name __name_dt_`IBROUND'"
+	di as text "	Stable id _IB_dtid (name _IB_dtname, iso _IB_dtiso); round (`IBROUND') name _IB_dtname_`IBROUND'"
 	if `A' > 0 {
 		di as error "	`A' observation/s had an AMBIGUOUS district name (matches >1 state)."
-		di as error "	Their __id_dt_ib is left missing; candidate ids are listed in __dt_candidates."
+		di as error "	Their _IB_dtid is left missing; candidate ids are listed in _IB_dtcandidates."
 		di as error "	Provide statename()/idstate() so the matched state can disambiguate them."
 	}
 	if `U' > 0 {
-		di as text "	`U' observation/s did not match (see _IBmatch==0, _IBscore)."
+		di as text "	`U' observation/s did not match (see _IB_match==0, _IB_score)."
 	}
 	di as text _dup(80) " "
 	di as res "ibmatch_dist complete"

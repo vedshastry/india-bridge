@@ -50,9 +50,10 @@ per-year spelling dictionary (extracted from {cmd:sclean.ado}). {opt FROMyear()}
 window, so multi-year data still matches era-specific spellings.
 
 {pstd}
-Each input row is tagged with a {bf:stable project id} ({cmd:__id_st_ib}) that is
-constant across time, plus the {bf:round-appropriate standardized name}
-({cmd:__name_st_}{it:round}) - reproducing what {cmd:sclean}{it:YYYY} would output.
+Every variable the program creates is prefixed {cmd:_IB_}. Each input row is tagged
+with a {bf:stable project id} ({cmd:_IB_stid}) that is constant across time, plus the
+{bf:round-appropriate standardized name} ({cmd:_IB_stname_}{it:round}) - reproducing
+what {cmd:sclean}{it:YYYY} would output.
 Units lost or transferred over the decades (Bombay State, Madhya Bharat, PEPSU, ...)
 receive a {cmd:999xxxx} stable id. Names reused across eras resolve by window: e.g.
 "Telangana" maps to Andhra Pradesh for a pre-2014 window but to Telangana later.
@@ -63,8 +64,8 @@ repeat across states (there are two Aurangabads, two Hamirpurs, ...). If
 {opt statename()} is also given, the matched state's iso restricts each row's
 district candidates, so the right Aurangabad is chosen. With {opt districtname()}
 {bf:alone}, a repeated name cannot be resolved: such rows are flagged
-({cmd:_IBambig}==1), their id is left missing, and the competing units are listed
-in {cmd:__dt_candidates} for review.
+({cmd:_IB_ambig}==1), their id is left missing, and the competing units are listed
+in {cmd:_IB_dtcandidates} for review.
 
 {marker outputs}{...}
 
@@ -72,29 +73,29 @@ in {cmd:__dt_candidates} for review.
 
 {p 4 4 2}{bf:State} ({opt statename()}):{p_end}
 {synoptset 24 tabbed}{...}
-{synopt:{cmd:__id_st_ib}}stable india-bridge state id (string; {cmd:999xxxx} = lost/transferred unit){p_end}
-{synopt:{cmd:__name_st_ib}}stable (current) canonical name of the matched unit{p_end}
-{synopt:{cmd:__iso_st}}2-letter state code (used to scope districts){p_end}
-{synopt:{cmd:__name_st_}{it:round}}standardized name for the primary round, e.g. {cmd:__name_st_cen2001}{p_end}
-{synopt:{cmd:__id_st_}{it:round}}matched round id, for round = {cmd:cen2001}, {cmd:cen2011} or {cmd:lgd}{p_end}
+{synopt:{cmd:_IB_stid}}stable india-bridge state id (string; {cmd:999xxxx} = lost/transferred unit){p_end}
+{synopt:{cmd:_IB_stname}}stable (current) canonical name of the matched unit{p_end}
+{synopt:{cmd:_IB_stiso}}2-letter state code (used to scope districts){p_end}
+{synopt:{cmd:_IB_stname_}{it:round}}standardized name for the primary round, e.g. {cmd:_IB_stname_cen2001}{p_end}
+{synopt:{cmd:_IB_stid_}{it:round}}matched round id, for round = {cmd:cen2001}, {cmd:cen2011} or {cmd:lgd}, e.g. {cmd:_IB_stid_cen2011}{p_end}
 {synoptline}
 
 {p 4 4 2}{bf:District} ({opt districtname()}):{p_end}
 {synoptset 24 tabbed}{...}
-{synopt:{cmd:__id_dt_ib}}stable district id (string; {cmd:999xxxxx} = lost/renamed unit; missing if ambiguous){p_end}
-{synopt:{cmd:__name_dt_ib}}stable (current) canonical district name{p_end}
-{synopt:{cmd:__iso_dt}}state iso of the matched district{p_end}
-{synopt:{cmd:__name_dt_}{it:round}}standardized district name for the primary round{p_end}
-{synopt:{cmd:__id_dt_}{it:round}}matched round district id, for {cmd:cen2001}, {cmd:cen2011} or {cmd:lgd}{p_end}
-{synopt:{cmd:__dt_candidates}}competing "iso:id" units when a district name is ambiguous{p_end}
-{synopt:{cmd:_IBambig}}1 if the district name matched more than one state's unit{p_end}
+{synopt:{cmd:_IB_dtid}}stable district id (string; {cmd:999xxxxx} = lost/renamed unit; missing if ambiguous){p_end}
+{synopt:{cmd:_IB_dtname}}stable (current) canonical district name{p_end}
+{synopt:{cmd:_IB_dtiso}}state iso of the matched district{p_end}
+{synopt:{cmd:_IB_dtname_}{it:round}}standardized district name for the primary round{p_end}
+{synopt:{cmd:_IB_dtid_}{it:round}}matched round district id, for {cmd:cen2001}, {cmd:cen2011} or {cmd:lgd}{p_end}
+{synopt:{cmd:_IB_dtcandidates}}competing "iso:id" units when a district name is ambiguous{p_end}
+{synopt:{cmd:_IB_ambig}}1 if the district name matched more than one state's unit{p_end}
 {synoptline}
 
-{p 4 4 2}Both report {cmd:_IBscore} (best similarity, 1 = exact) and {cmd:_IBmatch}
+{p 4 4 2}Both report {cmd:_IB_score} (best similarity, 1 = exact) and {cmd:_IB_match}
 (1 = matched).{p_end}
 
-{p 4 6 2}{bf:Always inspect low {cmd:_IBscore} values, {cmd:_IBmatch}==0, and
-{cmd:_IBambig}==1 rows by hand} - fuzzy matching can mis-rank very short or
+{p 4 6 2}{bf:Always inspect low {cmd:_IB_score} values, {cmd:_IB_match}==0, and
+{cmd:_IB_ambig}==1 rows by hand} - fuzzy matching can mis-rank very short or
 heavily misspelled names.{p_end}
 
 {marker examples}{...}
@@ -108,7 +109,7 @@ heavily misspelled names.{p_end}
 {pstd}States and districts together (state scopes the district match):{p_end}
 {phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) statename(sname) idstate(id) districtname(dname) iddistrict(id)}{p_end}
 
-{pstd}Districts alone (repeated names will be flagged in {cmd:_IBambig}):{p_end}
+{pstd}Districts alone (repeated names will be flagged in {cmd:_IB_ambig}):{p_end}
 {phang2}{cmd:. indiabridge2, currentyear(2011) fromyear(2011) toyear(2011) districtname(dname) iddistrict(id)}{p_end}
 
 {hline}
@@ -139,11 +140,8 @@ bridging is a planned refinement.
 {title:Maintainer(s)}
 
 {p 4 4 2}{bf:Vedarshi Shastry}{break}
-			vedarshis@gmail.com{break}
-			vedshastry.github.io{break}
-		{bf:Aaditya Dar}{break}
-			aadityadar@gmail.com{break}
-			aadityadar.com
+			veshastr@ucsc.edu{break}
+			vedshastry.com
 
 {title:Dependencies}
 
